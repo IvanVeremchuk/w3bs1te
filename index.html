@@ -315,7 +315,7 @@
       text-align: center;
       color: #fff;
       font-size: 36px;
-      margin: 60px 0 40px;
+      margin: 60px 0 20px;
       text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
       animation: fadeInUp 0.8s ease;
     }
@@ -372,7 +372,7 @@
       gap: 30px;
       max-width: 1200px;
       margin: 0 auto 60px;
-      padding: 20px;
+      padding: 0 20px 20px 20px;
     }
 
     .project {
@@ -397,7 +397,7 @@
     .project-arch {
       grid-column: 1 / -1;
       width: 100%;
-      margin-bottom: 20px;
+      align-self: start;
     }
 
     .project-arch .project-image-container {
@@ -405,6 +405,21 @@
       padding: 0;
       background: #000;
       border-radius: 16px;
+    }
+
+    /* Tall Project Tile - 2 Rows */
+    .project-tall {
+      grid-row: span 2;
+    }
+
+    .project-tall .project-image-container {
+      aspect-ratio: auto;
+      height: 100%;
+    }
+
+    .project-tall img {
+      height: 100%;
+      object-fit: cover;
     }
 
     .project-arch .arch-slider {
@@ -1047,6 +1062,51 @@
       transform: translateY(0);
     }
 
+    /* Physical Construction Background Section */
+    .construction-section {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .construction-intro {
+      max-width: 860px;
+      margin: 0 auto 40px;
+      padding: 30px 40px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    .construction-intro p {
+      color: #4a5568;
+      font-size: 16px;
+      line-height: 1.8;
+      margin: 0;
+    }
+
+    .construction-grid {
+      margin-top: 0;
+    }
+
+    @media (max-width: 768px) {
+      .construction-section {
+        margin: 40px auto;
+        padding: 0 15px;
+      }
+
+      .construction-intro {
+        padding: 25px 20px;
+        margin-bottom: 30px;
+      }
+
+      .construction-intro p {
+        font-size: 15px;
+      }
+    }
+
     /* Mobile Responsive */
     @media (max-width: 968px) {
       .project-arch .project-image-container {
@@ -1316,6 +1376,19 @@
       </div>
     </div>
 
+    <!-- Jackson Pollock -->
+    <div class="project fade-in" onclick="openImageModal('./images/jackson-pollock-1.jpg')">
+      <div class="project-image-container">
+        <img src="./images/jackson-pollock-1.jpg" alt="Jackson Pollock">
+        <div class="project-overlay">
+          <span class="overlay-text">Click to View Full Size →</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <h3>Art Living Room Render V-Ray</h3>
+      </div>
+    </div>
+
     <!-- 3. Apartment Rendering -->
     <div class="project fade-in" onclick="openImageModal('./images/apartment-1.jpg')">
       <div class="project-image-container">
@@ -1329,20 +1402,7 @@
       </div>
     </div>
 
-    <!-- 4. Kitchen Rendering -->
-    <div class="project fade-in" onclick="openImageModal('./images/kitchen-1.jpg')">
-      <div class="project-image-container">
-        <img src="./images/kitchen-1.jpg" alt="Kitchen Rendering">
-        <div class="project-overlay">
-          <span class="overlay-text">Click to View Full Size →</span>
-        </div>
-      </div>
-      <div class="project-content">
-        <h3>Kitchen Rendering</h3>
-      </div>
-    </div>
-
-    <!-- 5. Interior Rendering -->
+    <!-- 4. Interior Rendering -->
     <div class="project fade-in" onclick="openImageModal('./images/interior-1.jpg')">
       <div class="project-image-container">
         <img src="./images/interior-1.jpg" alt="Interior Rendering">
@@ -1352,6 +1412,32 @@
       </div>
       <div class="project-content">
         <h3>Interior Rendering</h3>
+      </div>
+    </div>
+
+    <!-- Vertical Image Tile - 2 Rows -->
+    <div class="project project-tall fade-in" onclick="openImageModal('./images/level-change-1.jpg')">
+      <div class="project-image-container">
+        <img src="./images/level-change-1.jpg" alt="Level Change Rendering">
+        <div class="project-overlay">
+          <span class="overlay-text">Click to View Full Size →</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <h3>Level Change Rendering</h3>
+      </div>
+    </div>
+
+    <!-- 5. Kitchen Rendering -->
+    <div class="project fade-in" onclick="openImageModal('./images/kitchen-1.jpg')">
+      <div class="project-image-container">
+        <img src="./images/kitchen-1.jpg" alt="Kitchen Rendering">
+        <div class="project-overlay">
+          <span class="overlay-text">Click to View Full Size →</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <h3>Kitchen Rendering</h3>
       </div>
     </div>
 
@@ -1430,6 +1516,71 @@
       </div>
     </div>
 
+  </section>
+
+  <!-- Physical Construction Background Section -->
+  <section class="construction-section fade-in">
+    <h2 class="section-title">Physical Construction Background</h2>
+    
+    <div class="construction-intro">
+      <p>Before becoming a 3D Artist, I worked in residential construction in Canada. This hands-on experience allows me to understand structural details and read blueprints accurately.</p>
+    </div>
+
+    <div class="projects-grid construction-grid">
+      <div class="project fade-in" onclick="openImageModal('./images/project-1.jpg')">
+        <div class="project-image-container">
+          <img src="./images/project-1.jpg" alt="Construction Project 1">
+          <div class="project-overlay">
+            <span class="overlay-text">Click to View Full Size →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project fade-in" onclick="openImageModal('./images/project-2.jpg')">
+        <div class="project-image-container">
+          <img src="./images/project-2.jpg" alt="Construction Project 2">
+          <div class="project-overlay">
+            <span class="overlay-text">Click to View Full Size →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project fade-in" onclick="openImageModal('./images/project-3.jpg')">
+        <div class="project-image-container">
+          <img src="./images/project-3.jpg" alt="Construction Project 3">
+          <div class="project-overlay">
+            <span class="overlay-text">Click to View Full Size →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project fade-in" onclick="openImageModal('./images/project-4.jpg')">
+        <div class="project-image-container">
+          <img src="./images/project-4.jpg" alt="Construction Project 4">
+          <div class="project-overlay">
+            <span class="overlay-text">Click to View Full Size →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project fade-in" onclick="openImageModal('./images/project-5.jpg')">
+        <div class="project-image-container">
+          <img src="./images/project-5.jpg" alt="Construction Project 5">
+          <div class="project-overlay">
+            <span class="overlay-text">Click to View Full Size →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project fade-in" onclick="openImageModal('./images/project-6.jpg')">
+        <div class="project-image-container">
+          <img src="./images/project-6.jpg" alt="Construction Project 6">
+          <div class="project-overlay">
+            <span class="overlay-text">Click to View Full Size →</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Contact Form Section - Elite Version -->
