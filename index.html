@@ -158,31 +158,31 @@
 
     /* Architectural Stills Showcase */
     .arch-showcase {
-      max-width: 1200px;
-      margin: 60px auto;
-      padding: 0 20px;
+      max-width: 100%;
+      margin: 60px 0;
+      padding: 0;
     }
 
     .arch-showcase h2 {
       color: #fff;
       font-size: 36px;
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
       text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+      padding: 0 20px;
     }
 
     .arch-slider {
       position: relative;
       width: 100%;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      background: #000;
     }
 
     .arch-slides {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 9;
+      max-height: 80vh;
+      overflow: hidden;
     }
 
     .arch-slide {
@@ -193,22 +193,26 @@
       height: 100%;
       opacity: 0;
       transition: opacity 1s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .arch-slide.active {
       opacity: 1;
+      position: relative;
     }
 
     .arch-slide img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
       display: block;
+      object-fit: contain;
     }
 
     .arch-nav {
       position: absolute;
-      bottom: 20px;
+      bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -267,13 +271,16 @@
 
     @media (max-width: 768px) {
       .arch-showcase {
-        margin: 40px auto;
-        padding: 0 15px;
+        margin: 40px 0;
       }
 
       .arch-showcase h2 {
         font-size: 28px;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
+      }
+
+      .arch-slides {
+        max-height: 60vh;
       }
 
       .arch-arrow {
@@ -290,8 +297,8 @@
         right: 10px;
       }
 
-      .arch-slides {
-        aspect-ratio: 4 / 3;
+      .arch-nav {
+        bottom: 20px;
       }
     }
 
@@ -979,7 +986,7 @@
   </section>
 
   <!-- Architectural Stills Showcase -->
-  <section class="arch-showcase fade-in">
+  <section class="arch-showcase fade-in" id="arch-stills">
     <h2>Architectural Stills</h2>
     <div class="arch-slider">
       <div class="arch-slides">
@@ -1001,7 +1008,7 @@
     </div>
   </section>
 
-  <h2 class="section-title fade-in" id="projects">Recent Projects</h2>
+  <h2 class="section-title fade-in" id="projects">Projects Portfolio</h2>
 
   <!-- Projects Grid -->
   <section class="projects-grid">
