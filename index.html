@@ -156,6 +156,145 @@
       margin-bottom: 20px;
     }
 
+    /* Architectural Stills Showcase */
+    .arch-showcase {
+      max-width: 1200px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    .arch-showcase h2 {
+      color: #fff;
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .arch-slider {
+      position: relative;
+      width: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .arch-slides {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+    }
+
+    .arch-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .arch-slide.active {
+      opacity: 1;
+    }
+
+    .arch-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .arch-nav {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .arch-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .arch-dot.active {
+      background: #fff;
+      width: 32px;
+      border-radius: 6px;
+    }
+
+    .arch-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      color: #2d3748;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 24px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      z-index: 10;
+      user-select: none;
+    }
+
+    .arch-arrow:hover {
+      background: #fff;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .arch-arrow.prev {
+      left: 20px;
+    }
+
+    .arch-arrow.next {
+      right: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .arch-showcase {
+        margin: 40px auto;
+        padding: 0 15px;
+      }
+
+      .arch-showcase h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+
+      .arch-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+
+      .arch-arrow.prev {
+        left: 10px;
+      }
+
+      .arch-arrow.next {
+        right: 10px;
+      }
+
+      .arch-slides {
+        aspect-ratio: 4 / 3;
+      }
+    }
+
     /* Section Title */
     .section-title {
       text-align: center;
@@ -432,6 +571,12 @@
       color: #4299e1;
       border-bottom: 2px solid #4299e1;
       padding-bottom: 8px;
+    }
+
+    .footer-info p {
+      margin: 8px 0;
+      font-size: 15px;
+      line-height: 1.8;
     }
 
     .footer-logo {
@@ -804,7 +949,7 @@
 <!-- Sticky Navigation -->
 <nav>
   <ul>
-    <li><a href="#home">About</a></li>
+    <li><a href="#home">Home</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#contact-form">Contact</a></li>
   </ul>
@@ -815,7 +960,7 @@
   <!-- Header -->
   <header id="home">
     <div class="header-content">
-      <a href="https://player.vimeo.com/video/1143626088?playsinline=1" target="_blank">
+      <a href="https://vimeo.com/showcase/11881382" target="_blank">
         <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/headerphoto.png" 
              alt="Portfolio Header" />
       </a>
@@ -826,28 +971,40 @@
   <section class="intro">
     <h2>Hello!</h2>
     <p>
-      I'm a 3D Artist creating high-quality assets for games, animation, design, and interactive media. Explore my <strong>latest work</strong> below — click any preview to view. I'm available for remote projects and freelance collaborations.
+      I am a 3D Artist specializing in <strong>Architectural Visualization</strong> and <strong>Photorealistic Rendering</strong>. Combining a background in construction with high-end digital skills, I create technically accurate and artistically compelling spaces.
     </p>
+    <p>
+      My workflow includes <strong>3ds Max, Corona, and V-Ray</strong>. Based in Bucharest & available for studio or freelance collaborations.
+    </p>
+  </section>
+
+  <!-- Architectural Stills Showcase -->
+  <section class="arch-showcase fade-in">
+    <h2>Architectural Stills</h2>
+    <div class="arch-slider">
+      <div class="arch-slides">
+        <div class="arch-slide active">
+          <img src="./images/living-room-1.jpg" alt="Architectural Interior Rendering 1">
+        </div>
+        <div class="arch-slide">
+          <img src="./images/living-room-2.jpg" alt="Architectural Interior Rendering 2">
+        </div>
+      </div>
+      
+      <div class="arch-arrow prev" onclick="changeArchSlide(-1)">‹</div>
+      <div class="arch-arrow next" onclick="changeArchSlide(1)">›</div>
+      
+      <div class="arch-nav">
+        <span class="arch-dot active" onclick="setArchSlide(0)"></span>
+        <span class="arch-dot" onclick="setArchSlide(1)"></span>
+      </div>
+    </div>
   </section>
 
   <h2 class="section-title fade-in" id="projects">Recent Projects</h2>
 
   <!-- Projects Grid -->
   <section class="projects-grid">
-
-    <div class="project fade-in">
-      <div class="project-image-container">
-        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/interior.gif" 
-             alt="Architecture & Interior">
-        <div class="project-overlay">
-          <span class="overlay-text">View Full Project →</span>
-        </div>
-      </div>
-      <div class="project-content">
-        <h3>Architecture & Interior</h3>
-        <a href="https://player.vimeo.com/video/1143626088?playsinline=1" target="_blank" class="btn">VIEW PROJECTS →</a>
-      </div>
-    </div>
 
     <div class="project fade-in">
       <div class="project-image-container">
@@ -860,6 +1017,20 @@
       <div class="project-content">
         <h3>3D Character Modeling</h3>
         <a href="https://player.vimeo.com/video/1134329057?playsinline=1" target="_blank" class="btn">VIEW PROJECTS →</a>
+      </div>
+    </div>
+
+    <div class="project fade-in">
+      <div class="project-image-container">
+        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/interior.gif" 
+             alt="Architecture & Interior">
+        <div class="project-overlay">
+          <span class="overlay-text">View Full Project →</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <h3>Architecture & Interior</h3>
+        <a href="https://vimeo.com/showcase/11881382" target="_blank" class="btn">VIEW PROJECTS →</a>
       </div>
     </div>
 
@@ -887,7 +1058,7 @@
       </div>
       <div class="project-content">
         <h3>Automotive & Product</h3>
-        <a href="https://player.vimeo.com/video/1143636359?playsinline=1" target="_blank" class="btn">VIEW PROJECTS →</a>
+        <a href="https://vimeo.com/showcase/11882035" target="_blank" class="btn">VIEW PROJECTS →</a>
       </div>
     </div>
 
@@ -901,7 +1072,7 @@
       </div>
       <div class="project-content">
         <h3>Motion Graphics<br>& Cinematic FX</h3>
-        <a href="https://player.vimeo.com/video/1118935515?playsinline=1" target="_blank" class="btn">VIEW PROJECTS →</a>
+        <a href="https://vimeo.com/showcase/11882039" target="_blank" class="btn">VIEW PROJECTS →</a>
       </div>
     </div>
 
@@ -1000,16 +1171,17 @@
 
       <div class="footer-contact">
         <p><strong>Ivan Veremchuk</strong></p>
-        <p><a href="./Job seeker.pdf" download>📄 Download CV pdf</a></p>
-        <p><a href="https://artstation.com/ivan-826326" target="_blank">📑 ArtStation page</a></p>
+        <p><a href="./resume.pdf" download>📄 Download Portfolio PDF</a></p>
+        <p><a href="https://artstation.com/ivan-826326" target="_blank">artstation.com/ivan-826326</a></p>
       </div>
     </div>
 
     <div class="footer-info">
-      <p>Experience:</p>
-      <p>3D Modeling</p>
-      <p>AI Tools</p>
-      <p>Texturing & Materials</p>
+      <p>Software & Skills:</p>
+      <p>3ds Max</p>
+      <p>Corona Renderer</p>
+      <p>V-Ray</p>
+      <p>Photoshop</p>
     </div>
 
     <div class="footer-logo">
@@ -1108,6 +1280,53 @@ const observer = new IntersectionObserver((entries) => {
 document.addEventListener('DOMContentLoaded', () => {
   const fadeElements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right');
   fadeElements.forEach(el => observer.observe(el));
+});
+
+// Architectural Stills Slider
+let currentArchSlide = 0;
+const archSlides = document.querySelectorAll('.arch-slide');
+const archDots = document.querySelectorAll('.arch-dot');
+let archAutoSlide;
+
+function showArchSlide(n) {
+  // Wrap around
+  if (n >= archSlides.length) currentArchSlide = 0;
+  if (n < 0) currentArchSlide = archSlides.length - 1;
+  
+  // Remove active class from all
+  archSlides.forEach(slide => slide.classList.remove('active'));
+  archDots.forEach(dot => dot.classList.remove('active'));
+  
+  // Add active class to current
+  archSlides[currentArchSlide].classList.add('active');
+  archDots[currentArchSlide].classList.add('active');
+}
+
+function changeArchSlide(direction) {
+  currentArchSlide += direction;
+  showArchSlide(currentArchSlide);
+  resetArchAutoSlide();
+}
+
+function setArchSlide(n) {
+  currentArchSlide = n;
+  showArchSlide(currentArchSlide);
+  resetArchAutoSlide();
+}
+
+function autoPlayArchSlides() {
+  currentArchSlide++;
+  showArchSlide(currentArchSlide);
+}
+
+function resetArchAutoSlide() {
+  clearInterval(archAutoSlide);
+  archAutoSlide = setInterval(autoPlayArchSlides, 5000);
+}
+
+// Start auto-play on page load
+document.addEventListener('DOMContentLoaded', () => {
+  archAutoSlide = setInterval(autoPlayArchSlides, 5000);
 });
 </script>
 
