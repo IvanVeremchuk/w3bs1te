@@ -1264,6 +1264,17 @@
         padding: 15px;
       }
 
+      /* Reset project-tall-wide to regular square tile on mobile */
+      .project-tall-wide {
+        grid-column: span 1;
+        grid-row: span 1;
+      }
+
+      .project-tall-wide .project-image-container {
+        aspect-ratio: 1 / 1;
+        height: auto;
+      }
+
       .project-arch .project-image-container {
         aspect-ratio: 16 / 5;
       }
