@@ -400,6 +400,25 @@
       align-self: start;
     }
 
+    .project-wide {
+      grid-column: span 2;
+    }
+
+    .project-tall-wide {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .project-tall-wide .project-image-container {
+      aspect-ratio: auto;
+      height: 100%;
+    }
+
+    .project-tall-wide img {
+      object-fit: cover;
+      object-position: left center;
+    }
+
     .project-arch .project-image-container {
       aspect-ratio: 16 / 5;
       padding: 0;
@@ -1335,184 +1354,63 @@
   <!-- Projects Grid -->
   <section class="projects-grid">
 
-    <!-- Architectural Stills - Full Width Hero Tile -->
-    <div class="project project-arch fade-in">
+    <!-- 1. The Beige Living Room -->
+    <div class="project fade-in" onclick="openImageModal('./images/The-Beige-Living-Room-1.jpg')">
       <div class="project-image-container">
-        <div class="arch-slider" onclick="openActiveArchImage(event)">
-          <div class="arch-slides">
-            <div class="arch-slide active">
-              <img src="./images/living-room-1.jpg" alt="Architectural Interior Rendering 1">
-            </div>
-            <div class="arch-slide">
-              <img src="./images/living-room-2.jpg" alt="Architectural Interior Rendering 2">
-            </div>
-          </div>
-          
-          <div class="arch-arrow prev" onclick="changeArchSlide(-1)">‹</div>
-          <div class="arch-arrow next" onclick="changeArchSlide(1)">›</div>
-          
-          <div class="arch-nav">
-            <span class="arch-dot active" onclick="setArchSlide(0)"></span>
-            <span class="arch-dot" onclick="setArchSlide(1)"></span>
-          </div>
-          
-          <div class="arch-click-hint">Click image to view full size</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2. Architecture & Interior -->
-    <div class="project fade-in">
-      <div class="project-image-container">
-        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/interior.gif" 
-             alt="Architecture & Interior">
-        <div class="project-overlay">
-          <span class="overlay-text">View Full Project →</span>
-        </div>
-      </div>
-      <div class="project-content">
-        <h3>Architecture & Interior</h3>
-        <a href="https://player.vimeo.com/video/1143626088?playsinline=1" target="_blank" class="btn">VIEW SHORT VIDEO →</a>
-      </div>
-    </div>
-
-    <!-- Jackson Pollock -->
-    <div class="project fade-in" onclick="openImageModal('./images/jackson-pollock-1.jpg')">
-      <div class="project-image-container">
-        <img src="./images/jackson-pollock-1.jpg" alt="Jackson Pollock">
+        <img src="./images/The-Beige-Living-Room-1.jpg" alt="The Beige Living Room">
         <div class="project-overlay">
           <span class="overlay-text">Click to View Full Size →</span>
         </div>
       </div>
-      <div class="project-content">
-        <h3>Art Living Room Render V-Ray</h3>
-      </div>
     </div>
 
-    <!-- 3. Apartment Rendering -->
-    <div class="project fade-in" onclick="openImageModal('./images/apartment-1.jpg')">
+    <!-- 3. The Art Room -->
+    <div class="project fade-in" onclick="openImageModal('./images/The-Art-Room-2.jpg')">
       <div class="project-image-container">
-        <img src="./images/apartment-1.jpg" alt="Apartment Rendering">
+        <img src="./images/The-Art-Room-2.jpg" alt="The Art Room">
         <div class="project-overlay">
           <span class="overlay-text">Click to View Full Size →</span>
         </div>
       </div>
-      <div class="project-content">
-        <h3>Apartment Rendering</h3>
-      </div>
     </div>
 
-    <!-- 4. Interior Rendering -->
-    <div class="project fade-in" onclick="openImageModal('./images/interior-1.jpg')">
+    <!-- 4. The Dark Living Room -->
+    <div class="project fade-in" onclick="openImageModal('./images/The-Dark-Living-Room-3.jpg')">
       <div class="project-image-container">
-        <img src="./images/interior-1.jpg" alt="Interior Rendering">
+        <img src="./images/The-Dark-Living-Room-3.jpg" alt="The Dark Living Room">
         <div class="project-overlay">
           <span class="overlay-text">Click to View Full Size →</span>
         </div>
       </div>
-      <div class="project-content">
-        <h3>Interior Rendering</h3>
-      </div>
     </div>
 
-    <!-- Vertical Image Tile - 2 Rows -->
-    <div class="project project-tall fade-in" onclick="openImageModal('./images/level-change-1.jpg')">
+    <!-- 4.5. The Kitchen Top Down View -->
+    <div class="project fade-in" onclick="openImageModal('./images/The-Kitchen-Top-Down-View-4.jpg')">
       <div class="project-image-container">
-        <img src="./images/level-change-1.jpg" alt="Level Change Rendering">
+        <img src="./images/The-Kitchen-Top-Down-View-4.jpg" alt="The Kitchen Top Down View">
         <div class="project-overlay">
           <span class="overlay-text">Click to View Full Size →</span>
         </div>
       </div>
-      <div class="project-content">
-        <h3>Level Change Rendering</h3>
-      </div>
     </div>
 
-    <!-- 5. Kitchen Rendering -->
-    <div class="project fade-in" onclick="openImageModal('./images/kitchen-1.jpg')">
+    <!-- 5. The Beige Room with Steps (Wide & Tall - 2 rows, 2 columns) -->
+    <div class="project project-tall-wide fade-in" onclick="openImageModal('./images/The-Beige-Room-with-Steps-5.jpg')">
       <div class="project-image-container">
-        <img src="./images/kitchen-1.jpg" alt="Kitchen Rendering">
+        <img src="./images/The-Beige-Room-with-Steps-5.jpg" alt="The Beige Room with Steps">
         <div class="project-overlay">
           <span class="overlay-text">Click to View Full Size →</span>
         </div>
       </div>
-      <div class="project-content">
-        <h3>Kitchen Rendering</h3>
-      </div>
     </div>
 
-    <!-- 6. Automotive & Product -->
-    <div class="project fade-in">
+    <!-- 6. The Dark Dining Room -->
+    <div class="project fade-in" onclick="openImageModal('./images/The-Dark-Dining-Room-6.jpg')">
       <div class="project-image-container">
-        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/product.gif" 
-             alt="Automotive & Product">
+        <img src="./images/The-Dark-Dining-Room-6.jpg" alt="The Dark Dining Room">
         <div class="project-overlay">
-          <span class="overlay-text">View Full Project →</span>
+          <span class="overlay-text">Click to View Full Size →</span>
         </div>
-      </div>
-      <div class="project-content">
-        <h3>Automotive & Product</h3>
-        <a href="https://player.vimeo.com/video/1143636359?playsinline=1" target="_blank" class="btn">VIEW SHORT VIDEO →</a>
-      </div>
-    </div>
-
-    <!-- 7. 3D Character Modeling -->
-    <div class="project fade-in">
-      <div class="project-image-container">
-        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/modeling.gif" 
-             alt="3D Character Modeling">
-        <div class="project-overlay">
-          <span class="overlay-text">View Full Project →</span>
-        </div>
-      </div>
-      <div class="project-content">
-        <h3>3D Character Modeling</h3>
-        <a href="https://player.vimeo.com/video/1134329057?playsinline=1" target="_blank" class="btn">VIEW SHORT VIDEO →</a>
-      </div>
-    </div>
-
-    <!-- 8. Motion Graphics & Cinematic FX -->
-    <div class="project fade-in">
-      <div class="project-image-container">
-        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/cinematic_sAK.gif" 
-             alt="Motion Graphics & Cinematic FX">
-        <div class="project-overlay">
-          <span class="overlay-text">View Full Project →</span>
-        </div>
-      </div>
-      <div class="project-content">
-        <h3>Motion Graphics<br>& Cinematic FX</h3>
-        <a href="https://player.vimeo.com/video/1118935515?playsinline=1" target="_blank" class="btn">VIEW SHORT VIDEO →</a>
-      </div>
-    </div>
-
-    <!-- 9. Digital Sculpting -->
-    <div class="project fade-in">
-      <div class="project-image-container">
-        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/zbrush.gif" 
-             alt="Digital Sculpting">
-        <div class="project-overlay">
-          <span class="overlay-text">Coming Soon</span>
-        </div>
-      </div>
-      <div class="project-content">
-        <h3>Digital Sculpting</h3>
-        <span class="btn disabled">IN PROGRESS</span>
-      </div>
-    </div>
-
-    <!-- 10. AI-Driven Illustrations & Graphic Design -->
-    <div class="project fade-in">
-      <div class="project-image-container">
-        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/illustration.gif" 
-             alt="AI-Driven Illustrations & Graphic Design">
-        <div class="project-overlay">
-          <span class="overlay-text">View Full Project →</span>
-        </div>
-      </div>
-      <div class="project-content">
-        <h3>AI-Driven Illustrations & Graphic Design</h3>
-        <a href="https://player.vimeo.com/video/1118935853?playsinline=1" target="_blank" class="btn">VIEW SHORT VIDEO →</a>
       </div>
     </div>
 
@@ -1581,6 +1479,103 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <h2 class="section-title fade-in">Motion Design & 3D Assets</h2>
+
+  <!-- Motion Design & 3D Assets Section -->
+  <section class="projects-grid fade-in">
+
+    <!-- Architecture & Interior -->
+    <div class="project fade-in">
+      <div class="project-image-container">
+        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/interior.gif" 
+             alt="Architecture & Interior">
+        <div class="project-overlay">
+          <span class="overlay-text">View Full Project →</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <h3>Architecture & Interior</h3>
+        <a href="https://player.vimeo.com/video/1143626088?playsinline=1" target="_blank" class="btn">VIEW SHORT VIDEO →</a>
+      </div>
+    </div>
+
+    <!-- Automotive & Product -->
+    <div class="project fade-in">
+      <div class="project-image-container">
+        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/product.gif" 
+             alt="Automotive & Product">
+        <div class="project-overlay">
+          <span class="overlay-text">View Full Project →</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <h3>Automotive & Product</h3>
+        <a href="https://player.vimeo.com/video/1143636359?playsinline=1" target="_blank" class="btn">VIEW SHORT VIDEO →</a>
+      </div>
+    </div>
+
+    <!-- 3D Character Modeling -->
+    <div class="project fade-in">
+      <div class="project-image-container">
+        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/modeling.gif" 
+             alt="3D Character Modeling">
+        <div class="project-overlay">
+          <span class="overlay-text">View Full Project →</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <h3>3D Character Modeling</h3>
+        <a href="https://player.vimeo.com/video/1134329057?playsinline=1" target="_blank" class="btn">VIEW SHORT VIDEO →</a>
+      </div>
+    </div>
+
+    <!-- Motion Graphics & Cinematic FX -->
+    <div class="project fade-in">
+      <div class="project-image-container">
+        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/cinematic_sAK.gif" 
+             alt="Motion Graphics & Cinematic FX">
+        <div class="project-overlay">
+          <span class="overlay-text">View Full Project →</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <h3>Motion Graphics<br>& Cinematic FX</h3>
+        <a href="https://player.vimeo.com/video/1118935515?playsinline=1" target="_blank" class="btn">VIEW SHORT VIDEO →</a>
+      </div>
+    </div>
+
+    <!-- Digital Sculpting -->
+    <div class="project fade-in">
+      <div class="project-image-container">
+        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/zbrush.gif" 
+             alt="Digital Sculpting">
+        <div class="project-overlay">
+          <span class="overlay-text">Coming Soon</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <h3>Digital Sculpting</h3>
+        <span class="btn disabled">IN PROGRESS</span>
+      </div>
+    </div>
+
+    <!-- AI-Driven Illustrations & Graphic Design -->
+    <div class="project fade-in">
+      <div class="project-image-container">
+        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/illustration.gif" 
+             alt="AI-Driven Illustrations & Graphic Design">
+        <div class="project-overlay">
+          <span class="overlay-text">View Full Project →</span>
+        </div>
+      </div>
+      <div class="project-content">
+        <h3>AI-Driven Illustrations & Graphic Design</h3>
+        <a href="https://player.vimeo.com/video/1118935853?playsinline=1" target="_blank" class="btn">VIEW SHORT VIDEO →</a>
+      </div>
+    </div>
+
   </section>
 
   <!-- Contact Form Section - Elite Version -->
@@ -1871,4 +1866,6 @@ document.addEventListener('keydown', function(event) {
 </div>
 
 </body>
+</html>
+</html>
 </html>
