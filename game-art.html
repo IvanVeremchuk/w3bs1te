@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>Game Art - Sci-Fi Heavy Infantry | Ivan Veremchuk</title>
+  <meta name="description" content="Technical breakdown of Sci-Fi Heavy Infantry game-ready 3D asset by Ivan Veremchuk. Wireframe topology, texture maps, and 360° turntable.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sci-Fi Heavy Infantry - Game Art Portfolio | Ivan Veremchuk">
+  <meta property="og:description" content="Technical breakdown: wireframe topology, texture maps, and 360° turntable of game-ready 3D asset.">
+  <meta property="og:url" content="https://ivanveremchuk.com/game-art">
+  <meta property="og:image" content="https://ivanveremchuk.com/images/Top_6.1.2.jpg">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #2d3748;
+      overflow-x: hidden;
+    }
+
+    /* Sticky Navigation */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(26, 32, 44, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-bottom: 2px solid #4299e1;
+    }
+
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 16px;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #4299e1;
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #4299e1;
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    h1, h2, h3 {
+      font-family: Oswald, sans-serif;
+      margin: 10px 0;
+    }
+
+    /* Hero Block */
+    .hero-block {
+      margin: 60px 0;
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .hero-image-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+    }
+
+    .hero-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.4s ease;
+    }
+
+    .hero-image-container:hover img {
+      transform: scale(1.05);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+      padding: 60px 40px 40px;
+      color: #fff;
+    }
+
+    .hero-overlay h1 {
+      font-size: 42px;
+      color: #fff;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+      margin: 0;
+    }
+
+    /* Content Block Styling */
+    .content-block {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 50px;
+      margin: 60px 0;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      animation: fadeInUp 0.8s ease;
+    }
+
+    .content-block h2 {
+      color: #4299e1;
+      font-size: 36px;
+      margin-bottom: 30px;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Turntable Block - using inline styles in HTML */
+
+    /* Technical Proof Block */
+    .technical-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin: 30px 0;
+    }
+
+    .technical-item {
+      text-align: center;
+    }
+
+    .technical-image-container {
+      position: relative;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: #f7fafc;
+    }
+
+    .technical-image-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .technical-image-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .technical-caption {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #4a5568;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    /* Details Block */
+    .details-image-container {
+      position: relative;
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: #f7fafc;
+    }
+
+    .details-image-container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .details-image-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .details-caption {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #4a5568;
+      font-weight: 500;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* Image Modal/Lightbox */
+    .image-modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .image-modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-modal-content {
+      max-width: 95%;
+      max-height: 95vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      animation: zoomIn 0.3s ease;
+    }
+
+    .image-modal-close {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      backdrop-filter: blur(10px);
+    }
+
+    .image-modal-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(90deg);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes zoomIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      nav ul {
+        gap: 20px;
+        font-size: 14px;
+      }
+
+      .main-container {
+        padding: 0 15px;
+      }
+
+      .hero-block {
+        margin: 40px 0;
+      }
+
+      .hero-overlay {
+        padding: 40px 20px 30px;
+      }
+
+      .hero-overlay h1 {
+        font-size: 28px;
+      }
+
+      .content-block {
+        padding: 30px 20px;
+        margin: 40px 0;
+      }
+
+      .content-block h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+
+      .technical-grid {
+        gap: 30px;
+      }
+
+      .technical-caption,
+      .details-caption {
+        font-size: 16px;
+        margin-top: 15px;
+      }
+
+      .image-modal-close {
+        top: 20px;
+        right: 20px;
+        font-size: 30px;
+        width: 40px;
+        height: 40px;
+      }
+
+      .image-modal-content {
+        max-width: 98%;
+        max-height: 90vh;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sticky Navigation -->
+<nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="game-art.html" class="active">Game Art</a></li>
+    <li><a href="index.html#contact-form">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="main-container">
+
+  <!-- Block 1: Hero Shot -->
+  <section class="hero-block">
+    <div class="hero-image-container" onclick="openImageModal('./images/Top_6.1.2.jpg')">
+      <img src="./images/Top_6.1.2.jpg" alt="Sci-Fi Heavy Infantry - Game Ready Asset">
+      <div class="hero-overlay">
+        <h1>Sci-Fi Heavy Infantry - Game Ready Asset</h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- Block 2: 360 Turntable -->
+  <section class="content-block">
+    <h2>360° Turntable</h2>
+    <div style="padding:62.5% 0 0 0;position:relative;border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.3);margin:30px 0;">
+      <iframe src="https://player.vimeo.com/video/1146364819?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Turntable"></iframe>
+    </div>
+    <script src="https://player.vimeo.com/api/player.js"></script>
+  </section>
+
+  <!-- Block 3: Technical Proof -->
+  <section class="content-block">
+    <h2>Technical Proof</h2>
+    <div class="technical-grid">
+      <div class="technical-item">
+        <div class="technical-image-container" onclick="openImageModal('./images/Wireframe.png')">
+          <img src="./images/Wireframe.png" alt="Wireframe Topology">
+        </div>
+        <p class="technical-caption">Clean Quad Topology for Deformation.</p>
+      </div>
+      <div class="technical-item">
+        <div class="technical-image-container" onclick="openImageModal('./images/Texture-Map-D.png')">
+          <img src="./images/Texture-Map-D.png" alt="Albedo Map & UV Layout">
+        </div>
+        <p class="technical-caption">Albedo Map & UV Layout</p>
+      </div>
+      <div class="technical-item">
+        <div class="technical-image-container" onclick="openImageModal('./images/Texture-Map-R.png')">
+          <img src="./images/Texture-Map-R.png" alt="Roughness Map">
+        </div>
+        <p class="technical-caption">Roughness Map</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Block 4: The Details -->
+  <section class="content-block">
+    <h2>The Details</h2>
+    <div class="details-image-container" onclick="openImageModal('./images/The-Details.png')">
+      <img src="./images/The-Details.png" alt="Detail Close-ups - Texture Quality">
+    </div>
+    <p class="details-caption">Detail Close-ups - Texture Quality</p>
+  </section>
+
+</div>
+
+<script>
+// Image Modal Functions
+function openImageModal(imageSrc) {
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImage');
+  modalImg.src = imageSrc;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+function closeImageModal(event) {
+  // Only close if clicking the backdrop or close button, not the image itself
+  if (event.target.id === 'imageModal' || event.target.classList.contains('image-modal-close')) {
+    const modal = document.getElementById('imageModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = ''; // Restore scrolling
+  }
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape') {
+    const modal = document.getElementById('imageModal');
+    if (modal.classList.contains('active')) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+});
+</script>
+
+<!-- Image Modal/Lightbox -->
+<div id="imageModal" class="image-modal" onclick="closeImageModal(event)">
+  <span class="image-modal-close" onclick="closeImageModal(event)">&times;</span>
+  <img id="modalImage" class="image-modal-content" src="" alt="Full size image">
+</div>
+
+</body>
+</html>
+
