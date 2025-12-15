@@ -16,6 +16,11 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i" rel="stylesheet">
+  
+  <!-- Preconnect to Vimeo for faster loading -->
+  <link rel="preconnect" href="https://player.vimeo.com">
+  <link rel="preconnect" href="https://i.vimeocdn.com">
+  <link rel="dns-prefetch" href="https://f.vimeocdn.com">
 
   <style>
     * {
@@ -366,6 +371,160 @@
         max-height: 90vh;
       }
     }
+
+    /* Footer Styling */
+    footer {
+      background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+      color: #fff;
+      padding: 60px 20px 30px;
+      border-top: 4px solid #4299e1;
+      position: relative;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #4299e1, #667eea, #764ba2);
+      animation: gradientShift 3s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 40px;
+    }
+
+    .footer-left {
+      flex: 2 1 400px;
+      display: flex;
+      flex-direction: column;
+      margin: 10px;
+    }
+
+    .footer-social {
+      margin-bottom: 25px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-social a {
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .footer-social img {
+      filter: brightness(0) invert(1);
+      transition: all 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      transform: translateY(-5px);
+    }
+
+    .footer-social a:hover img {
+      filter: brightness(0) invert(1) drop-shadow(0 0 10px #4299e1);
+    }
+
+    .footer-contact p,
+    .footer-info p {
+      margin: 8px 0;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .footer-contact a {
+      color: #4299e1;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-contact a:hover {
+      color: #63b3ed;
+      text-decoration: underline;
+    }
+
+    .footer-info {
+      flex: 1 1 300px;
+      margin: 10px;
+    }
+
+    .footer-info p:first-child {
+      margin-bottom: 15px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #4299e1;
+      border-bottom: 2px solid #4299e1;
+      padding-bottom: 8px;
+    }
+
+    .footer-info p {
+      margin: 8px 0;
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .footer-logo {
+      flex: 1 1 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 10px;
+    }
+
+    .footer-logo img {
+      height: 150px;
+      max-width: 100%;
+      filter: drop-shadow(0 0 20px rgba(66, 153, 225, 0.3));
+      transition: transform 0.3s ease;
+    }
+
+    .footer-logo img:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #a0aec0;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .footer-left,
+      .footer-info,
+      .footer-logo {
+        flex: none;
+        width: 100%;
+        margin: 0;
+        padding: 10px 0;
+        text-align: center;
+      }
+
+      .footer-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+      }
+
+      .footer-social {
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -393,17 +552,26 @@
   </section>
 
   <!-- Block 2: 360 Turntable -->
-  <section class="content-block">
-    <h2>360° Turntable</h2>
+  <section>
     <div style="padding:62.5% 0 0 0;position:relative;border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.3);margin:30px 0;">
-      <iframe src="https://player.vimeo.com/video/1146364819?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;autoplay=1&amp;loop=1&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Turntable"></iframe>
+      <!-- Poster/thumbnail placeholder -->
+      <img src="./images/Top_6.1.2.jpg" alt="360° Turntable Preview" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity 0.5s;z-index:1;pointer-events:none;" id="turntablePoster">
+      <iframe 
+        src="https://player.vimeo.com/video/1146669872?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;background=1&amp;dnt=1" 
+        frameborder="0" 
+        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+        referrerpolicy="strict-origin-when-cross-origin" 
+        style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;" 
+        title="Turntable"
+        loading="eager"
+        allowfullscreen>
+      </iframe>
     </div>
-    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script src="https://player.vimeo.com/api/player.js" defer></script>
   </section>
 
   <!-- Block 3: Technical Proof -->
   <section class="content-block">
-    <h2>Technical Proof</h2>
     <div class="technical-grid">
       <div class="technical-item">
         <div class="technical-image-container" onclick="openImageModal('./images/Wireframe.png')">
@@ -428,7 +596,6 @@
 
   <!-- Block 4: The Details -->
   <section class="content-block">
-    <h2>The Details</h2>
     <div class="details-image-container" onclick="openImageModal('./images/The-Details.png')">
       <img src="./images/The-Details.png" alt="Detail Close-ups - Texture Quality">
     </div>
@@ -437,7 +604,70 @@
 
 </div>
 
+<!-- Footer -->
+<footer id="contact">
+  <div class="footer-container">
+
+    <div class="footer-left">
+      <div class="footer-social">
+        <a href="https://www.instagram.com/ivan_motion/" target="_blank" title="Instagram">
+          <img src="https://ejkdltz.stripocdn.email/content/assets/img/social-icons/circle-white/instagram-circle-white.png" alt="Instagram" width="32" height="32">
+        </a>
+        <a href="https://www.linkedin.com/in/ivan-ver/" target="_blank" title="LinkedIn">
+          <img src="https://ejkdltz.stripocdn.email/content/assets/img/social-icons/circle-white/linkedin-circle-white.png" alt="LinkedIn" width="32" height="32">
+        </a>
+        <a href="https://www.behance.net/ivanveremchuk" target="_blank" title="Behance">
+          <img src="https://ejkdltz.stripocdn.email/content/assets/img/social-icons/circle-white/behance-circle-white.png" alt="Behance" width="32" height="32">
+        </a>
+      </div>
+
+      <div class="footer-contact">
+        <p><strong>Ivan Veremchuk</strong></p>
+        <p><a href="./Job seeker.pdf" download>📄 Download Portfolio PDF</a></p>
+        <p><a href="https://artstation.com/ivan-826326" target="_blank">artstation.com/ivan-826326</a></p>
+      </div>
+    </div>
+
+    <div class="footer-info">
+      <p>Software & Skills:</p>
+      <p>3ds Max</p>
+      <p>Corona Renderer</p>
+      <p>V-Ray</p>
+      <p>Photoshop</p>
+    </div>
+
+    <div class="footer-logo">
+      <a href="https://www.instagram.com/ivan_motion/" target="_blank">
+        <img src="https://ejkdltz.stripocdn.email/content/guids/CABINET_982915552b409104655a22fe5ef56e5f895282ab22773475292bb79a77ba873a/images/logo_im.png" 
+             alt="Ivan Veremchuk Logo">
+      </a>
+    </div>
+
+  </div>
+  
+  <div class="copyright">
+    <p>© 2025 Ivan Veremchuk. All rights reserved.</p>
+  </div>
+</footer>
+
 <script>
+// Hide poster when Vimeo player is ready
+document.addEventListener('DOMContentLoaded', function() {
+  const iframe = document.querySelector('iframe[src*="vimeo"]');
+  const poster = document.getElementById('turntablePoster');
+  
+  if (iframe && poster) {
+    iframe.addEventListener('load', function() {
+      setTimeout(() => {
+        poster.style.opacity = '0';
+        setTimeout(() => {
+          poster.style.display = 'none';
+        }, 500);
+      }, 800);
+    });
+  }
+});
+
 // Image Modal Functions
 function openImageModal(imageSrc) {
   const modal = document.getElementById('imageModal');
