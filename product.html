@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1" name="viewport">
-  <title>Game Art - Sci-Fi Heavy Infantry | Ivan Veremchuk</title>
-  <meta name="description" content="Technical breakdown of Sci-Fi Heavy Infantry game-ready 3D asset by Ivan Veremchuk. Wireframe topology, texture maps, and 360° turntable.">
+  <title>Automotive Visualization & Technical Rigging | Ivan Veremchuk</title>
+  <meta name="description" content="Automotive visualization and technical rigging project by Ivan Veremchuk. Custom rig for steering, suspension, and wheel rotation. High-fidelity surface continuity and studio lighting in 3ds Max/V-Ray.">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Sci-Fi Heavy Infantry - Game Art Portfolio | Ivan Veremchuk">
-  <meta property="og:description" content="Technical breakdown: wireframe topology, texture maps, and 360° turntable of game-ready 3D asset.">
-  <meta property="og:url" content="https://ivanveremchuk.com/game-art">
-  <meta property="og:image" content="https://ivanveremchuk.com/images/Top_6.1.2.jpg">
+  <meta property="og:title" content="Automotive Visualization & Technical Rigging - Portfolio | Ivan Veremchuk">
+  <meta property="og:description" content="Technical study focused on automotive animation pipelines. Custom rigging, complex shaders, and professional studio lighting.">
+  <meta property="og:url" content="https://ivanveremchuk.com/product">
+  <meta property="og:image" content="https://ivanveremchuk.com/images/tesla_hero.jpg">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
@@ -112,7 +112,7 @@
     .hero-image-container {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 1 / 1;
       overflow: hidden;
     }
 
@@ -165,7 +165,26 @@
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    /* Turntable Block - using inline styles in HTML */
+    .content-block h3 {
+      color: #2d3748;
+      font-size: 24px;
+      margin-bottom: 15px;
+      margin-top: 30px;
+    }
+
+    .content-block p {
+      color: #4a5568;
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .project-role {
+      color: #4299e1;
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
 
     /* Technical Proof Block */
     .technical-grid {
@@ -206,38 +225,6 @@
       font-size: 18px;
       color: #4a5568;
       font-weight: 500;
-      line-height: 1.6;
-    }
-
-    /* Details Block */
-    .details-image-container {
-      position: relative;
-      width: 100%;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      background: #f7fafc;
-    }
-
-    .details-image-container:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .details-image-container img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .details-caption {
-      margin-top: 20px;
-      font-size: 18px;
-      color: #4a5568;
-      font-weight: 500;
-      text-align: center;
       line-height: 1.6;
     }
 
@@ -348,12 +335,15 @@
         margin-bottom: 20px;
       }
 
+      .content-block h3 {
+        font-size: 20px;
+      }
+
       .technical-grid {
         gap: 30px;
       }
 
-      .technical-caption,
-      .details-caption {
+      .technical-caption {
         font-size: 16px;
         margin-top: 15px;
       }
@@ -534,8 +524,8 @@
   <ul>
     <li><a href="index.html">Home</a></li>
     <li><a href="index.html#projects">Projects</a></li>
-    <li><a href="game-art.html" class="active">Game Art</a></li>
-    <li><a href="product.html">Product</a></li>
+    <li><a href="game-art.html">Game Art</a></li>
+    <li><a href="product.html" class="active">Product</a></li>
     <li><a href="index.html#contact-form">Contact</a></li>
   </ul>
 </nav>
@@ -544,63 +534,69 @@
 
   <!-- Block 1: Hero Shot -->
   <section class="hero-block">
-    <div class="hero-image-container" onclick="openImageModal('./images/Top_6.1.2.jpg')">
-      <img src="./images/Top_6.1.2.jpg" alt="Sci-Fi Heavy Infantry - Game Ready Asset">
+    <div class="hero-image-container" onclick="openImageModal('./images/tesla_hero.jpg')">
+      <img src="./images/tesla_hero.jpg" alt="Automotive Visualization & Technical Rigging">
       <div class="hero-overlay">
-        <h1>Sci-Fi Heavy Infantry - Game Ready Asset</h1>
+        <h1>Automotive Visualization & Technical Rigging</h1>
       </div>
     </div>
   </section>
 
   <!-- Block 2: 360 Turntable -->
   <section>
-    <div style="padding:62.5% 0 0 0;position:relative;border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.3);margin:30px 0;">
-      <!-- Poster/thumbnail placeholder -->
-      <img src="./images/Top_6.1.2.jpg" alt="360° Turntable Preview" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity 0.5s;z-index:1;pointer-events:none;" id="turntablePoster">
-      <iframe 
-        src="https://player.vimeo.com/video/1146669872?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;background=1&amp;dnt=1" 
-        frameborder="0" 
-        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
-        referrerpolicy="strict-origin-when-cross-origin" 
-        style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;" 
-        title="Turntable"
-        loading="eager"
-        allowfullscreen>
-      </iframe>
+    <div style="width:100%;margin:30px 0;position:relative;">
+      <div style="padding:100% 0 0 0;position:relative;border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.3);">
+        <!-- Poster/thumbnail placeholder -->
+        <img src="./images/tesla_hero.jpg" alt="360° Turntable Preview" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;opacity:1;transition:opacity 0.5s;z-index:1;pointer-events:none;" id="turntablePoster">
+        <iframe 
+          src="https://player.vimeo.com/video/1147930210?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;autoplay=1&amp;loop=1&amp;muted=1&amp;background=1&amp;dnt=1" 
+          frameborder="0" 
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin" 
+          style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;" 
+          title="Turntable"
+          loading="eager"
+          allowfullscreen>
+        </iframe>
+      </div>
     </div>
     <script src="https://player.vimeo.com/api/player.js" defer></script>
   </section>
 
-  <!-- Block 3: Technical Proof -->
+  <!-- Block 3: Project Details -->
+  <section class="content-block">
+    <h2>Project Overview</h2>
+    <p class="project-role">Role: Technical Artist (Rigging, Shading, Lighting, Animation)</p>
+    <p>
+      A study in technical modeling and lighting for automotive visualization. This project focuses on high-fidelity surface continuity, realistic material shaders, and studio lighting setups using 3ds Max and V-Ray.
+    </p>
+    <p>
+      A technical study focused on automotive animation pipelines. I developed a custom rig for this asset to handle steering, suspension, and wheel rotation. The project involved creating complex multi-layered shaders for automotive paint and setting up a professional studio lighting environment in 3ds Max/V-Ray.
+    </p>
+  </section>
+
+  <!-- Block 4: Technical Proof -->
   <section class="content-block">
     <div class="technical-grid">
       <div class="technical-item">
-        <div class="technical-image-container" onclick="openImageModal('./images/Wireframe.png')">
-          <img src="./images/Wireframe.png" alt="Wireframe Topology">
+        <div class="technical-image-container" onclick="openImageModal('./images/tesla_technical.jpg')">
+          <img src="./images/tesla_technical.jpg" alt="Clay/Wireframe Render - Technical Breakdown">
         </div>
-        <p class="technical-caption">Clean Quad Topology for Deformation.</p>
-      </div>
-      <div class="technical-item">
-        <div class="technical-image-container" onclick="openImageModal('./images/Texture-Map-D.png')">
-          <img src="./images/Texture-Map-D.png" alt="Albedo Map & UV Layout">
-        </div>
-        <p class="technical-caption">Albedo Map & UV Layout</p>
-      </div>
-      <div class="technical-item">
-        <div class="technical-image-container" onclick="openImageModal('./images/Texture-Map-R.png')">
-          <img src="./images/Texture-Map-R.png" alt="Roughness Map">
-        </div>
-        <p class="technical-caption">Roughness Map</p>
+        <p class="technical-caption">Clay/Wireframe Render - Technical Breakdown</p>
       </div>
     </div>
   </section>
 
-  <!-- Block 4: The Details -->
+  <!-- Block 5: Optional Render - Wet Road Environment -->
   <section class="content-block">
-    <div class="details-image-container" onclick="openImageModal('./images/The-Details.png')">
-      <img src="./images/The-Details.png" alt="Detail Close-ups - Texture Quality">
+    <div class="technical-grid">
+      <div class="technical-item">
+        <div class="technical-image-container" onclick="openImageModal('./images/tesla_hero_wet_road.jpg')">
+          <img src="./images/tesla_hero_wet_road.jpg" alt="Wet Road Environment - Optional Render">
+        </div>
+        <p class="technical-caption">Wet Road Environment - Optional Render</p>
+      </div>
     </div>
-    <p class="details-caption">Detail Close-ups - Texture Quality</p>
   </section>
 
 </div>
