@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 170, 255, 0.6) transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Removed scroll-snap-type: y mandatory; - was too aggressive */
+  scroll-padding-top: 80px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  scroll-behavior: smooth;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Professional Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px; /* Thinner, more modern */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 170, 255, 0.4) 0%,
+    rgba(0, 136, 255, 0.6) 100%
+  );
+  border-radius: 10px;
+  border: 1px solid rgba(0, 170, 255, 0.2);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 170, 255, 0.6) 0%,
+    rgba(0, 136, 255, 0.8) 100%
+  );
+  border-color: rgba(0, 170, 255, 0.4);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 170, 255, 0.8) 0%,
+    rgba(0, 136, 255, 1) 100%
+  );
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.8s ease;
+}
+
+.animate-zoomIn {
+  animation: zoomIn 0.3s ease;
+}
+
+/* Scroll Snap Utilities - Made optional/proximity instead of mandatory */
+.scroll-snap-container {
+  scroll-snap-type: y proximity; /* Changed from mandatory to proximity */
+  scroll-behavior: smooth;
+  will-change: scroll-position;
+}
+
+.scroll-snap-section {
+  scroll-snap-align: start;
+  scroll-margin-top: 80px;
+  scroll-snap-stop: normal; /* Changed from always to normal */
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  opacity: 1;
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Professional scroll animations */
+@keyframes fadeInScroll {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-section-enter {
+  animation: fadeInScroll 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-snap-section {
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
