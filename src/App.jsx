@@ -1,29 +1,43 @@
-import { Routes, Route } from 'react-router-dom'
-import LevaControls from './components/LevaControls'
+import { useState } from 'react'
 import Navigation from './components/Navigation'
-import ScrollToTop from './components/ScrollToTop'
-import Home from './components/Home'
-import Renders from './pages/Renders'
-import GameArt from './pages/GameArt'
-import Product from './pages/Product'
-import Work from './pages/Work'
-import Heraldic from './pages/Heraldic'
+import ThumbZoneNav from './components/ThumbZoneNav'
+import ImageModal from './components/ImageModal'
+import Footer from './components/Footer'
+import LevaControls from './components/LevaControls'
+import AllSections from './sections/AllSections'
 
 function App() {
+  const [selectedImage, setSelectedImage] = useState(null)
+
+  const handleImageClick = (imageSrc) => {
+    setSelectedImage(imageSrc)
+  }
+
+  const handleCloseModal = () => {
+    setSelectedImage(null)
+  }
+
   return (
-    <div className="min-h-screen bg-dark text-white">
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
       <LevaControls />
-      <ScrollToTop />
       <Navigation />
+      <ThumbZoneNav />
       
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/renders" element={<Renders />} />
-        <Route path="/game-art" element={<GameArt />} />
-        <Route path="/product" element={<Product />} />
-        <Route path="/work" element={<Work />} />
-        <Route path="/heraldic" element={<Heraldic />} />
-      </Routes>
+      <div className="cinematic-scroll-container">
+        <AllSections onImageClick={handleImageClick} />
+
+        {/* Footer/Contact */}
+        <section id="contact" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section">
+          <Footer />
+        </section>
+      </div>
+
+      {/* Global Image Modal */}
+      <ImageModal
+        imageSrc={selectedImage}
+        isOpen={!!selectedImage}
+        onClose={handleCloseModal}
+      />
     </div>
   )
 }

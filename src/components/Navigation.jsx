@@ -1,10 +1,45 @@
 import { useEffect, useState } from 'react'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 function Navigation() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const location = useLocation()
-  const navigate = useNavigate()
+  const [activeSection, setActiveSection] = useState('heraldic')
+
+  const navLinks = [
+    { id: 'heraldic', label: 'Business Card' },
+    { id: 'kitchen', label: 'Kitchen' },
+    { id: 'product', label: 'Tesla' },
+    { id: 'work', label: 'Construction' },
+    { id: 'game-art', label: 'Character' },
+    { id: 'renders', label: 'Renders' },
+  ]
+
+  // Handle active section detection on scroll
+  useEffect(() => {
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
+          setActiveSection(entry.target.id)
+        }
+      })
+    }
+
+    const observerOptions = {
+      threshold: 0.4,
+      rootMargin: '-10% 0px -40% 0px'
+    }
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+
+    navLinks.forEach(link => {
+      const element = document.getElementById(link.id)
+      if (element) observer.observe(element)
+    })
+
+    // Also observe contact section
+    const contactElement = document.getElementById('contact')
+    if (contactElement) observer.observe(contactElement)
+
+    return () => observer.disconnect()
+  }, [])
 
   // Handle anchor links on mount (for links from HTML pages)
   useEffect(() => {
@@ -19,97 +54,33 @@ function Navigation() {
     }
   }, [])
 
-  const scrollToTop = () => {
-    if (location.pathname !== '/') {
-      navigate('/')
-      setIsMobileMenuOpen(false)
-      return
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId)
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      window.history.pushState(null, '', `#${sectionId}`)
+      setActiveSection(sectionId)
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-    setIsMobileMenuOpen(false)
   }
 
-  const navLinks = [
-    { to: '/', label: 'Home', onClick: scrollToTop },
-    { to: '/renders', label: 'Renders' },
-    { to: '/game-art', label: 'Game Art' },
-    { to: '/product', label: 'Product' },
-    { to: '/work', label: 'Work' },
-    { to: '/heraldic', label: 'Heraldic' },
-  ]
-
   return (
-    <nav className="sticky top-0 z-50 bg-[rgba(10,10,10,0.95)] backdrop-blur-md border-b-2 border-blue-500 shadow-lg">
+    <nav className="sticky top-0 z-50 bg-[rgba(10,10,10,0.95)] backdrop-blur-md border-b-2 border-blue-500 shadow-lg hidden md:block">
       <div className="max-w-7xl mx-auto">
-        {/* Desktop Navigation */}
-        <ul className="hidden md:flex justify-center items-center gap-10 py-4 px-4">
+        {/* Desktop Navigation - Always visible */}
+        <ul className="flex justify-center items-center gap-10 py-4 px-4">
           {navLinks.map((link) => (
             <li key={link.label}>
-              <NavLink
-                to={link.to}
-                onClick={link.onClick}
-                className={({ isActive }) =>
-                  `text-white hover:text-blue-400 transition-colors duration-300 font-medium text-base relative after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-0.5 after:bg-blue-400 after:transition-all after:duration-300 hover:after:w-full ${
-                    isActive ? 'text-blue-400 after:w-full' : ''
-                  }`
-                }
+              <button
+                onClick={() => scrollToSection(link.id)}
+                className={`text-white hover:text-blue-400 transition-colors duration-300 font-medium text-base relative after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-0.5 after:bg-blue-400 after:transition-all after:duration-300 hover:after:w-full ${
+                  activeSection === link.id ? 'text-blue-400 after:w-full' : ''
+                }`}
               >
                 {link.label}
-              </NavLink>
+              </button>
             </li>
           ))}
         </ul>
-
-        {/* Mobile Navigation */}
-        <div className="md:hidden flex items-center justify-between px-4 py-4">
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="text-white hover:text-blue-400 transition-colors p-2"
-            aria-label="Toggle menu"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {isMobileMenuOpen ? (
-                <path d="M6 18L18 6M6 6l12 12"></path>
-              ) : (
-                <path d="M4 6h16M4 12h16M4 18h16"></path>
-              )}
-            </svg>
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-700 bg-[rgba(10,10,10,0.98)] backdrop-blur-md">
-            <ul className="flex flex-col py-4">
-              {navLinks.map((link) => (
-                <li key={link.label}>
-                  <NavLink
-                    to={link.to}
-                    onClick={() => {
-                      link.onClick?.()
-                      setIsMobileMenuOpen(false)
-                    }}
-                    className={({ isActive }) =>
-                      `block px-6 py-3 text-white hover:text-blue-400 hover:bg-gray-800 transition-colors duration-300 font-medium ${
-                        isActive ? 'text-blue-400 bg-gray-800' : ''
-                      }`
-                    }
-                  >
-                    {link.label}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     </nav>
   )

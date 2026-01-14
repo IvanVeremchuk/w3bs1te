@@ -9,20 +9,20 @@ import { useControls } from './LevaControls'
 // Cap pixel ratio to 1.5 for better performance on high-end displays
 function SetPixelRatio() {
   const { gl } = useThree()
-  
+
   useEffect(() => {
     // Cap pixel ratio to maximum of 1.5
     const cappedPixelRatio = Math.min(window.devicePixelRatio, 1.5)
     gl.setPixelRatio(cappedPixelRatio)
   }, [gl])
-  
+
   return null
 }
 
 // Pause rendering when tab is hidden or use demand mode when not auto-rotating
 function PauseWhenHidden() {
   const { gl, set } = useThree()
-  
+
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
@@ -34,18 +34,38 @@ function PauseWhenHidden() {
         })
       }
     }
-    
+
     document.addEventListener('visibilitychange', handleVisibilityChange)
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
   }, [gl, set])
-  
+
   return null
 }
 
-function Scene() {
+function Scene({ canvasRef }) {
   const levaControls = useControls()
   const [isInteracting, setIsInteracting] = useState(false)
   const controlsRef = useRef()
+
+  // Reset camera when section leaves viewport
+  useEffect(() => {
+    if (!canvasRef?.current || !controlsRef.current) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0].isIntersecting && controlsRef.current) {
+          // Reset camera to initial position
+          if (controlsRef.current.reset) {
+            controlsRef.current.reset()
+          }
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    observer.observe(canvasRef.current)
+    return () => observer.disconnect()
+  }, [canvasRef])
 
   return (
     <>
@@ -94,15 +114,15 @@ function Scene() {
       {/* Camera Controls - auto-rotate with user interaction */}
       <OrbitControls
         ref={controlsRef}
-        enableZoom={true}
+        enableZoom={false}
         enablePan={false}
         enableRotate={true}
         autoRotate={!isInteracting}
         autoRotateSpeed={0.5}
         enableDamping={true}
         dampingFactor={0.05}
-        minDistance={3.2}
-        maxDistance={8}
+        minDistance={5}
+        maxDistance={12}
         onStart={() => setIsInteracting(true)}
         onEnd={() => {
           setTimeout(() => setIsInteracting(false), 2000)
@@ -120,10 +140,10 @@ function Scene() {
           mipmapBlur={true}
         />
       </EffectComposer>
-      
+
       {/* Cap pixel ratio to 1.5 */}
       <SetPixelRatio />
-      
+
       {/* Pause rendering when tab is hidden */}
       <PauseWhenHidden />
     </>
@@ -131,15 +151,18 @@ function Scene() {
 }
 
 function Hero3D() {
+  const canvasRef = useRef()
+
   return (
-    <div 
-      className="w-full h-full" 
+    <div
+      ref={canvasRef}
+      className="w-full h-full relative"
       style={{ willChange: 'transform', transform: 'translateZ(0)' }}
     >
       <Canvas
         frameloop="demand"
-        gl={{ 
-          antialias: false, 
+        gl={{
+          antialias: false,
           alpha: false,
           toneMapping: THREE.ACESFilmicToneMapping,
           outputColorSpace: THREE.SRGBColorSpace,
@@ -149,12 +172,12 @@ function Hero3D() {
           logarithmicDepthBuffer: false,
         }}
         dpr={[0.75, 1.25]}
-        camera={{ position: [0, 0, 4.5], fov: 50 }}
+        camera={{ position: [0, 0, 7], fov: 50 }}
         performance={{ min: 0.5 }}
         shadows={false}
       >
-        <PerspectiveCamera makeDefault position={[0, 0, 4.5]} fov={50} />
-        <Scene />
+        <PerspectiveCamera makeDefault position={[0, 0, 7]} fov={50} />
+        <Scene canvasRef={canvasRef} />
       </Canvas>
     </div>
   )

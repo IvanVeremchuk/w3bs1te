@@ -119,10 +119,30 @@ body {
   will-change: scroll-position;
 }
 
+/* Cinematic Scroll Container - Allow container to grow with content */
+.cinematic-scroll-container {
+  min-height: 100vh;
+  height: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  will-change: scroll-position;
+  display: flex;
+  flex-direction: column;
+}
+
 .scroll-snap-section {
   scroll-snap-align: start;
-  scroll-margin-top: 80px;
-  scroll-snap-stop: normal; /* Changed from always to normal */
+  scroll-snap-stop: always;
+  min-height: 100vh;
+  height: auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  background-color: #0a0a0a;
+  overflow: visible;
+  flex-shrink: 0;
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
@@ -153,3 +173,12 @@ body {
   }
 }
 
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

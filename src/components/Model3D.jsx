@@ -1,10 +1,13 @@
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, forwardRef, useImperativeHandle } from 'react'
 import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 
-function Model3D({ url }) {
+const Model3D = forwardRef(function Model3D({ url }, ref) {
   const { scene } = useGLTF(url)
   const modelRef = useRef()
+
+  // Expose ref to parent
+  useImperativeHandle(ref, () => modelRef.current, [])
 
   // Memoize scene cloning and material processing to prevent recalculation on every render
   const clonedScene = useMemo(() => {
@@ -68,7 +71,7 @@ function Model3D({ url }) {
   }, [scene])
 
   return <primitive ref={modelRef} object={clonedScene} scale={1} position={[0, 0, 0]} />
-}
+})
 
 export default Model3D
 
