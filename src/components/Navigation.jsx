@@ -31,8 +31,11 @@ function Navigation() {
 
   const navLinks = [
     { to: '/', label: 'Home', onClick: scrollToTop },
+    { to: '/renders', label: 'Renders' },
     { to: '/game-art', label: 'Game Art' },
     { to: '/product', label: 'Product' },
+    { to: '/work', label: 'Work' },
+    { to: '/heraldic', label: 'Heraldic' },
   ]
 
   return (

@@ -1,11 +1,10 @@
 import { Suspense } from 'react'
 import Hero3D from './Hero3D'
-import RenderGrid from './RenderGrid'
 import Footer from './Footer'
 import SectionNavigation from './SectionNavigation'
 
 function Home() {
-  const sections = ['hero', 'projects', 'contact']
+  const sections = ['hero', 'contact']
 
   return (
     <div className="scroll-snap-container">
@@ -21,11 +20,6 @@ function Home() {
         }>
           <Hero3D />
         </Suspense>
-      </section>
-
-      {/* Render Grid Section */}
-      <section id="projects" className="py-20 px-4 md:px-8 lg:px-16 scroll-snap-section">
-        <RenderGrid />
       </section>
 
       {/* Footer/About Section */}

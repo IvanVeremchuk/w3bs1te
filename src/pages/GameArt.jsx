@@ -29,30 +29,34 @@ function GameArt() {
       {/* Section Navigation */}
       <SectionNavigation sections={sections} />
 
-      <div className="max-w-6xl mx-auto px-5 md:px-8 lg:px-16">
-        {/* Block 1: 360 Turntable */}
-        <section id="turntable" className="my-8 scroll-snap-section">
-          <div className="relative rounded-xl overflow-hidden shadow-xl" style={{ paddingBottom: '62.5%' }}>
+      {/* Block 1: 360 Turntable - Wider container */}
+      <section id="turntable" className="my-8 scroll-snap-section">
+        <div className="max-w-7xl mx-auto px-5 md:px-8 lg:px-16">
+          <div className="relative rounded-xl overflow-hidden shadow-xl" style={{ paddingBottom: '100%' }}>
             <img
               ref={posterRef}
-              src="/images/Top_6.1.2.jpg"
+              src="/images/The-Details.jpg"
               alt="360° Turntable Preview"
-              className="absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-500 pointer-events-none z-[1]"
+              className="absolute top-0 left-0 w-full h-full object-cover object-center transition-opacity duration-500 pointer-events-none z-[1]"
               style={{ opacity: posterOpacity }}
             />
-            <iframe
-              src="https://player.vimeo.com/video/1146669872?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1"
-              className="absolute top-0 left-0 w-full h-full z-[2]"
-              frameBorder="0"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              title="Turntable"
-              loading="eager"
-              allowFullScreen
-            />
+            <div className="absolute top-0 left-0 w-full h-full z-[2] overflow-hidden">
+              <iframe
+                src="https://player.vimeo.com/video/1153730375?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1"
+                className="absolute top-0 left-0 w-full h-full"
+                frameBorder="0"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                title="Turntable"
+                loading="eager"
+                allowFullScreen
+              />
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
+      <div className="max-w-6xl mx-auto px-5 md:px-8 lg:px-16">
         {/* Block 2: Wireframe */}
         <section id="technical" className="my-12 md:my-14 lg:my-16 scroll-snap-section">
           <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
@@ -141,6 +145,7 @@ function GameArt() {
             </div>
           </div>
         </section>
+
       </div>
 
       {/* Footer */}

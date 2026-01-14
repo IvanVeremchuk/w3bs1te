@@ -62,11 +62,8 @@ function Product() {
             <p className="text-blue-400 font-semibold text-base lg:text-lg mb-3 lg:mb-4">
               Role: Technical Artist (Rigging, Shading, Lighting, Animation)
             </p>
-            <p className="text-gray-400 text-sm lg:text-base leading-relaxed mb-4 lg:mb-5">
-              A study in technical modeling and lighting for automotive visualization. This project focuses on high-fidelity surface continuity, realistic material shaders, and studio lighting setups using 3ds Max and V-Ray.
-            </p>
             <p className="text-gray-400 text-sm lg:text-base leading-relaxed">
-              A technical study focused on automotive animation pipelines. I developed a custom rig for this asset to handle steering, suspension, and wheel rotation. The project involved creating complex multi-layered shaders for automotive paint and setting up a professional studio lighting environment in 3ds Max/V-Ray.
+              A technical study focused on automotive animation pipelines. I developed a custom rig for this asset to handle steering, suspension, and wheel rotation.
             </p>
           </div>
         </section>
