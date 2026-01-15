@@ -7,14 +7,18 @@ import LevaControls from './components/LevaControls'
 import AllSections from './sections/AllSections'
 
 function App() {
-  const [selectedImage, setSelectedImage] = useState(null)
+  const [modalImages, setModalImages] = useState([])
+  const [modalIndex, setModalIndex] = useState(0)
 
-  const handleImageClick = (imageSrc) => {
-    setSelectedImage(imageSrc)
+  const handleImageClick = (imageSrc, images = [imageSrc]) => {
+    const nextIndex = images.indexOf(imageSrc)
+    setModalImages(images)
+    setModalIndex(nextIndex >= 0 ? nextIndex : 0)
   }
 
   const handleCloseModal = () => {
-    setSelectedImage(null)
+    setModalImages([])
+    setModalIndex(0)
   }
 
   return (
@@ -34,8 +38,9 @@ function App() {
 
       {/* Global Image Modal */}
       <ImageModal
-        imageSrc={selectedImage}
-        isOpen={!!selectedImage}
+        images={modalImages}
+        startIndex={modalIndex}
+        isOpen={modalImages.length > 0}
         onClose={handleCloseModal}
       />
     </div>

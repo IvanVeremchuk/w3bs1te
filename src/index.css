@@ -151,6 +151,16 @@ body {
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
+.motion-section {
+  min-height: auto;
+}
+
+@media (min-width: 768px) {
+  .motion-section {
+    min-height: auto;
+  }
+}
+
 @media (min-width: 768px) {
   .scroll-snap-section {
     min-height: 100vh;

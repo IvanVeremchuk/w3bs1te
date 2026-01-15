@@ -331,6 +331,7 @@ function BusinessCard({ onImageClick }) {
     normal: '/heraldic/5.webp',
     orm: '/heraldic/1-4-3.webp'
   }
+  const mapImageList = [mapImages.diffuse, mapImages.normal, mapImages.orm]
 
   return (
     <section id="heraldic" className="min-h-screen w-full relative bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
@@ -493,13 +494,13 @@ function BusinessCard({ onImageClick }) {
             {/* Map Image Display */}
             <div className="text-center">
               <div
-                className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                onClick={() => onImageClick(mapImages[selectedMap])}
+                className="relative w-full aspect-[2/1] rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                onClick={() => onImageClick(mapImages[selectedMap], mapImageList)}
               >
                 <img
                   src={mapImages[selectedMap]}
                   alt={`${selectedMap.charAt(0).toUpperCase() + selectedMap.slice(1)} Map`}
-                  className="w-full h-auto block"
+                  className="w-full h-full block object-cover object-top"
                 />
               </div>
               <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
@@ -630,7 +631,7 @@ function KitchenHero3D() {
   return (
     <div
       ref={canvasRef}
-      className="w-full h-full relative"
+      className="w-full h-full relative z-10"
       style={{ willChange: 'transform', transform: 'translateZ(0)' }}
     >
       {isInView ? (
@@ -638,7 +639,7 @@ function KitchenHero3D() {
           frameloop="demand"
           gl={{
             antialias: false,
-            alpha: false,
+            alpha: true,
             toneMapping: THREE.ACESFilmicToneMapping,
             outputColorSpace: THREE.SRGBColorSpace,
             powerPreference: "high-performance",
@@ -649,6 +650,7 @@ function KitchenHero3D() {
           camera={{ position: [0, 0, 7], fov: 50 }}
           performance={{ min: 0.5 }}
           shadows={false}
+          style={{ background: 'transparent' }}
         >
           <PerspectiveCamera makeDefault position={[0, 0, 7]} fov={50} />
           <KitchenScene canvasRef={canvasRef} />
@@ -699,11 +701,12 @@ function Kitchen() {
             </div>
           </div>
           <div className="w-full h-[70vh] min-h-[500px] relative rounded-xl overflow-hidden shadow-xl bg-[rgba(10,10,10,0.8)]">
-            <Suspense fallback={
-              <div className="w-full h-full flex items-center justify-center">
-                <div className="text-xl text-gray-400">Loading 3D Model...</div>
-              </div>
-            }>
+            <img
+              src="/images/genesis.gif"
+              alt="Loading background"
+              className="absolute inset-0 w-full h-full object-cover opacity-80 pointer-events-none"
+            />
+            <Suspense fallback={null}>
               <KitchenHero3D />
             </Suspense>
           </div>
@@ -717,11 +720,28 @@ function Kitchen() {
 
 function Tesla({ onImageClick }) {
   const [posterOpacity, setPosterOpacity] = useState(1)
+  const [teslaIndex, setTeslaIndex] = useState(0)
   const posterRef = useRef(null)
   const turntableWrapperRef = useRef(null)
   const turntableIframeRef = useRef(null)
   const drivingWrapperRef = useRef(null)
   const drivingIframeRef = useRef(null)
+  const teslaCarouselImages = [
+    '/images/tesla_technical.jpg',
+    '/images/tesla_hero_wet_road.jpg',
+  ]
+  const teslaSlides = [
+    {
+      id: 'technical',
+      title: 'Clay/Wireframe Render - Technical Breakdown',
+      src: '/images/tesla_technical.jpg',
+    },
+    {
+      id: 'wet-road',
+      title: 'Wet Road Environment - Optional Render',
+      src: '/images/tesla_hero_wet_road.jpg',
+    },
+  ]
 
   useVideoIntersectionObserver({
     targetRef: turntableWrapperRef,
@@ -793,14 +813,14 @@ function Tesla({ onImageClick }) {
         </section>
 
         <div className="relative">
-          <div className="flex md:block gap-6 md:gap-0 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none scroll-smooth scrollbar-hide px-3 md:px-0">
+          <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide px-3 md:px-0 md:hidden">
             {/* Block 3: Technical Proof */}
             <section id="technical" className="my-12 md:my-14 lg:my-16 w-[85vw] sm:w-[70vw] md:w-auto shrink-0 snap-start">
               <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
                 <div className="text-center">
                   <div
                     className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                    onClick={() => onImageClick('/images/tesla_technical.jpg')}
+                  onClick={() => onImageClick('/images/tesla_technical.jpg', teslaCarouselImages)}
                   >
                     <img
                       src="/images/tesla_technical.jpg"
@@ -821,7 +841,7 @@ function Tesla({ onImageClick }) {
                 <div className="text-center">
                   <div
                     className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                    onClick={() => onImageClick('/images/tesla_hero_wet_road.jpg')}
+                  onClick={() => onImageClick('/images/tesla_hero_wet_road.jpg', teslaCarouselImages)}
                   >
                     <img
                       src="/images/tesla_hero_wet_road.jpg"
@@ -837,6 +857,44 @@ function Tesla({ onImageClick }) {
               </div>
             </section>
           </div>
+          <div className="hidden md:flex items-center justify-center">
+            <div className="w-full">
+              <div className="relative bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-6 md:p-8 lg:p-10 shadow-xl border border-white/10 animate-fadeInUp">
+                <button
+                  type="button"
+                  onClick={() => setTeslaIndex((prev) => (prev - 1 + teslaSlides.length) % teslaSlides.length)}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white text-3xl font-bold cursor-pointer transition-all duration-300 w-12 h-12 flex items-center justify-center bg-white/10 rounded-full backdrop-blur-md hover:bg-white/20"
+                  aria-label="Previous Tesla render"
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTeslaIndex((prev) => (prev + 1) % teslaSlides.length)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white text-3xl font-bold cursor-pointer transition-all duration-300 w-12 h-12 flex items-center justify-center bg-white/10 rounded-full backdrop-blur-md hover:bg-white/20"
+                  aria-label="Next Tesla render"
+                >
+                  ›
+                </button>
+                <div className="text-center">
+                  <div
+                    className="relative z-0 w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    onClick={() => onImageClick(teslaSlides[teslaIndex].src, teslaCarouselImages)}
+                  >
+                    <img
+                      src={teslaSlides[teslaIndex].src}
+                      alt={teslaSlides[teslaIndex].title}
+                      className="w-full h-auto block"
+                      {...(teslaIndex > 0 ? { loading: 'lazy' } : {})}
+                    />
+                  </div>
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                    {teslaSlides[teslaIndex].title}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
         </div>
@@ -851,7 +909,7 @@ function Tesla({ onImageClick }) {
             >
               <iframe
                 ref={drivingIframeRef}
-                src="https://player.vimeo.com/video/1147960015?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1&playsinline=1&quality=720p"
+                src="https://player.vimeo.com/video/1147960015?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&dnt=1&playsinline=1&quality=540p&controls=1"
                 className="absolute top-0 left-0 w-full h-full z-[1]"
                 frameBorder="0"
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
@@ -874,6 +932,30 @@ function Tesla({ onImageClick }) {
 // ===== CONSTRUCTION SECTION =====
 
 function Construction({ onImageClick }) {
+  const constructionImages = [
+    {
+      src: '/images/IMG_20250220_085702286_HDR.webp',
+      alt: 'Exposed steel beam supporting original timber joists',
+      caption: 'Exposed steel beam supporting original timber joists after partial floor removal.'
+    },
+    {
+      src: '/images/IMG_20250219_103925097_HDR.webp',
+      alt: 'Traditional rafter roof system',
+      caption: 'Traditional rafter roof system with collar ties and metal gusset connections.'
+    },
+    {
+      src: '/images/IMG_20250204_161447576_HDR.webp',
+      alt: 'Exposed masonry wall',
+      caption: 'Exposed masonry wall showing layered plaster failure and long-term material decay.'
+    },
+    {
+      src: '/images/IMG_20250131_130444773_HDR.webp',
+      alt: 'Interior service corridor',
+      caption: 'Interior service corridor with raw stone, timber framing, and exposed electrical runs.'
+    }
+  ]
+  const constructionImageList = constructionImages.map((image) => image.src)
+
   return (
     <section id="work" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
       <div className="max-w-6xl mx-auto px-5 md:px-8 lg:px-16">
@@ -885,77 +967,26 @@ function Construction({ onImageClick }) {
             </h2>
             <div className="relative">
               <div className="flex md:grid md:grid-cols-2 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none scroll-smooth scrollbar-hide px-3 md:px-0">
-                <div className="text-center">
+              {constructionImages.map((image, index) => (
+                <div key={image.src} className="text-center">
                   <div
                     className="relative w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0 rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
                     style={{ paddingBottom: '75%' }}
-                    onClick={() => onImageClick('/images/IMG_20250220_085702286_HDR.webp')}
+                    onClick={() => onImageClick(image.src, constructionImageList)}
                   >
                     <img
-                      src="/images/IMG_20250220_085702286_HDR.webp"
-                      alt="Exposed steel beam supporting original timber joists"
+                      src={image.src}
+                      alt={image.alt}
                       className="absolute top-0 left-0 w-full h-full object-cover"
+                      {...(index > 0 ? { loading: 'lazy' } : {})}
                       decoding="async"
                     />
                   </div>
                   <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
-                    Exposed steel beam supporting original timber joists after partial floor removal.
+                    {image.caption}
                   </p>
                 </div>
-                <div className="text-center">
-                  <div
-                    className="relative w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0 rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                    style={{ paddingBottom: '75%' }}
-                    onClick={() => onImageClick('/images/IMG_20250219_103925097_HDR.webp')}
-                  >
-                    <img
-                      src="/images/IMG_20250219_103925097_HDR.webp"
-                      alt="Traditional rafter roof system"
-                      className="absolute top-0 left-0 w-full h-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
-                    Traditional rafter roof system with collar ties and metal gusset connections.
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div
-                    className="relative w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0 rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                    style={{ paddingBottom: '75%' }}
-                    onClick={() => onImageClick('/images/IMG_20250204_161447576_HDR.webp')}
-                  >
-                    <img
-                      src="/images/IMG_20250204_161447576_HDR.webp"
-                      alt="Exposed masonry wall"
-                      className="absolute top-0 left-0 w-full h-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
-                    Exposed masonry wall showing layered plaster failure and long-term material decay.
-                  </p>
-                </div>
-                <div className="text-center">
-                  <div
-                    className="relative w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0 rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                    style={{ paddingBottom: '75%' }}
-                    onClick={() => onImageClick('/images/IMG_20250131_130444773_HDR.webp')}
-                  >
-                    <img
-                      src="/images/IMG_20250131_130444773_HDR.webp"
-                      alt="Interior service corridor"
-                      className="absolute top-0 left-0 w-full h-full object-cover"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
-                    Interior service corridor with raw stone, timber framing, and exposed electrical runs.
-                  </p>
-                </div>
+              ))}
               </div>
               <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
               <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
@@ -993,6 +1024,14 @@ function Character({ onImageClick }) {
 
     return () => clearTimeout(timer)
   }, [])
+
+  const handleDetailsClick = () => {
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches
+    const src = isDesktop
+      ? '/images/The-Details.jpg'
+      : '/images/The-Details-mobi.webp'
+    onImageClick(src)
+  }
 
   return (
     <section id="game-art" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
@@ -1096,11 +1135,11 @@ function Character({ onImageClick }) {
             <div className="text-center">
               <div
                 className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                onClick={() => onImageClick('/images/The-Details.jpg')}
+                onClick={handleDetailsClick}
               >
                 {/* Mobile: Vertical image */}
                 <img
-                  src="/images/The-Details.jpg"
+                  src="/images/The-Details-mobi.webp"
                   alt="Detail Close-ups - Texture Quality"
                   className="w-full h-auto block md:hidden"
                 />
@@ -1126,15 +1165,18 @@ function Character({ onImageClick }) {
 
 // Portfolio render images - using images from your existing portfolio
 const renders = [
-  { id: 1, src: '/images/The-Beige-Living-Room-1.jpg', title: 'The Beige Living Room' },
-  { id: 2, src: '/images/The-Art-Room-2.jpg', title: 'The Art Room' },
-  { id: 3, src: '/images/The-Dark-Living-Room-3.jpg', title: 'The Dark Living Room' },
-  { id: 4, src: '/images/The-Kitchen-Top-Down-View-4.jpg', title: 'The Kitchen Top Down View' },
   { id: 5, src: '/images/The-Beige-Room-with-Steps-5.jpg', title: 'The Beige Room with Steps' },
+  { id: 2, src: '/images/The-Art-Room-2.jpg', title: 'The Art Room' },
+  { id: 4, src: '/images/The-Kitchen-Top-Down-View-4.jpg', title: 'The Kitchen Top Down View' },
+  { id: 3, src: '/images/The-Dark-Living-Room-3.jpg', title: 'The Dark Living Room' },
+  { id: 1, src: '/images/The-Beige-Living-Room-1.jpg', title: 'The Beige Living Room' },
   { id: 6, src: '/images/The-Dark-Dining-Room-6.jpg', title: 'The Dark Dining Room' },
 ]
 
 function Renders({ onImageClick }) {
+  const featuredRenderId = 5
+  const renderImageList = renders.map((render) => render.src)
+
   return (
     <section id="renders" className="min-h-screen md:min-h-0 w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
@@ -1144,28 +1186,111 @@ function Renders({ onImageClick }) {
 
         <div className="relative">
           <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none scroll-smooth scrollbar-hide px-3 md:px-0">
-            {renders.map((render, index) => (
-              <div
-                key={render.id}
-                className="relative group cursor-pointer overflow-hidden rounded-lg aspect-[4/3] bg-gray-900 w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0"
-                onClick={() => onImageClick(render.src)}
-              >
-                <img
-                  src={render.src}
-                  alt={render.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  {...(index > 0 ? { loading: 'lazy' } : {})}
-                  decoding="async"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black to-transparent">
-                  <h3 className="text-white font-semibold text-lg">{render.title}</h3>
+            {renders.map((render) => {
+              const isFeatured = render.id === featuredRenderId
+              const isMdHidden = render.id === 1 || render.id === 6
+              return (
+                <div
+                  key={render.id}
+                  className={`relative group cursor-pointer overflow-hidden rounded-lg aspect-[4/3] md:aspect-square bg-gray-900 w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0 ${
+                    isFeatured ? 'lg:col-span-2 lg:row-span-2' : ''
+                  } ${isMdHidden ? 'md:hidden lg:block' : ''}`}
+                  onClick={() => onImageClick(render.src, renderImageList)}
+                >
+                  <img
+                    src={render.src}
+                    alt={render.title}
+                    className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${
+                      isFeatured ? 'object-left' : 'object-center'
+                    }`}
+                    {...(!isFeatured ? { loading: 'lazy' } : {})}
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black to-transparent">
+                    <h3 className="text-white font-semibold text-lg">{render.title}</h3>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
           <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ===== MOTION/GIF CAROUSEL =====
+
+const motionTiles = [
+  {
+    id: 'cinematic',
+    src: '/images/cinematic.gif',
+    label: 'Motion Graphics\n& Cinematic FX',
+    href: 'https://player.vimeo.com/video/1118935515?playsinline=1'
+  },
+  {
+    id: 'illustration',
+    src: '/images/illustration.gif',
+    label: 'AI-Driven Illustrations\n& Graphic Design',
+    href: 'https://player.vimeo.com/video/1118935853?playsinline=1'
+  },
+  {
+    id: 'interior',
+    src: '/images/interior.gif',
+    label: 'Architecture & Interior',
+    href: 'https://player.vimeo.com/video/1143626088?playsinline=1'
+  },
+  {
+    id: 'modeling',
+    src: '/images/modeling.gif',
+    label: '3D Character Modeling',
+    href: 'https://player.vimeo.com/video/1134329057?playsinline=1'
+  },
+  {
+    id: 'product',
+    src: '/images/product.gif',
+    label: 'Automotive & Product',
+    href: 'https://player.vimeo.com/video/1143636359?playsinline=1'
+  }
+]
+
+function MotionCarousel() {
+  return (
+    <section id="motion-assets" className="motion-section w-full bg-[#0a0a0a] text-white scroll-snap-section md:scroll-snap-none md:scroll-snap-stop-normal md:min-h-0 py-4 md:py-8">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-center text-blue-400 font-['Oswald']">
+          Motion Design & 3D Assets
+        </h2>
+        <div className="relative">
+          <div
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 px-3 md:px-0"
+          >
+            {motionTiles.map((tile) => (
+              <a
+                key={tile.id}
+                href={tile.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group w-full"
+              >
+                <div className="rounded-lg overflow-hidden shadow-lg border border-white/10 bg-[rgba(20,20,20,0.7)] transition-transform duration-300 group-hover:-translate-y-1">
+                  <div className="w-full aspect-square">
+                    <img
+                      src={tile.src}
+                      alt={tile.label}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <p className="px-3 py-3 text-xs md:text-sm text-gray-200 leading-tight whitespace-pre-line">
+                    {tile.label}
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -1182,6 +1307,7 @@ function AllSections({ onImageClick }) {
       <Tesla onImageClick={onImageClick} />
       <Construction onImageClick={onImageClick} />
       <Character onImageClick={onImageClick} />
+      <MotionCarousel />
       <Renders onImageClick={onImageClick} />
     </>
   )

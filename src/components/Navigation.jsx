@@ -10,6 +10,7 @@ function Navigation() {
     { id: 'product', label: 'Tesla' },
     { id: 'work', label: 'Construction' },
     { id: 'game-art', label: 'Character' },
+    { id: 'motion-assets', label: 'Motion Assets' },
     { id: 'renders', label: 'Renders' },
   ]
 
