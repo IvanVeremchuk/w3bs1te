@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const sections = [
   { id: 'heraldic', label: 'Business Card', icon: 'M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2' },
@@ -12,37 +12,61 @@ const sections = [
 
 function ThumbZoneNav() {
   const [activeSection, setActiveSection] = useState('heraldic')
+  const activeSectionRef = useRef(activeSection)
 
-  // Detect active section using Intersection Observer
   useEffect(() => {
-    const observers = sections.map((section) => {
-      const element = document.getElementById(section.id)
-      if (!element) return null
+    activeSectionRef.current = activeSection
+  }, [activeSection])
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-              setActiveSection(section.id)
-            }
-          })
-        },
-        {
-          threshold: 0.5,
-          rootMargin: '-20% 0px -20% 0px',
-        }
-      )
+  useEffect(() => {
+    let rafId = null
+    const sectionIds = sections.map((section) => section.id)
 
-      observer.observe(element)
-      return { observer, element }
-    })
+    const getActiveSectionId = () => {
+      const anchor = window.innerHeight * 0.4
+      let closestId = null
+      let closestDistance = Number.POSITIVE_INFINITY
 
-    return () => {
-      observers.forEach((obs) => {
-        if (obs) {
-          obs.observer.unobserve(obs.element)
+      sectionIds.forEach((id) => {
+        const element = document.getElementById(id)
+        if (!element) return
+
+        const rect = element.getBoundingClientRect()
+        const isWithin = rect.top <= anchor && rect.bottom >= anchor
+        const distance = isWithin
+          ? 0
+          : Math.min(Math.abs(rect.top - anchor), Math.abs(rect.bottom - anchor))
+
+        if (distance < closestDistance) {
+          closestDistance = distance
+          closestId = id
         }
       })
+
+      return closestId
+    }
+
+    const updateActiveSection = () => {
+      if (rafId) return
+      rafId = window.requestAnimationFrame(() => {
+        const nextActive = getActiveSectionId()
+        if (nextActive && nextActive !== activeSectionRef.current) {
+          setActiveSection(nextActive)
+        }
+        rafId = null
+      })
+    }
+
+    updateActiveSection()
+    window.addEventListener('scroll', updateActiveSection, { passive: true })
+    window.addEventListener('resize', updateActiveSection)
+
+    return () => {
+      window.removeEventListener('scroll', updateActiveSection)
+      window.removeEventListener('resize', updateActiveSection)
+      if (rafId) {
+        window.cancelAnimationFrame(rafId)
+      }
     }
   }, [])
 

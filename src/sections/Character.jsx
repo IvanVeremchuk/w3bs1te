@@ -1,8 +1,16 @@
 import { useState, useEffect, useRef } from 'react'
+import useVideoIntersectionObserver from '../hooks/useVideoIntersectionObserver'
 
 function Character({ onImageClick }) {
   const [posterOpacity, setPosterOpacity] = useState(1)
   const posterRef = useRef(null)
+  const turntableWrapperRef = useRef(null)
+  const turntableIframeRef = useRef(null)
+
+  useVideoIntersectionObserver({
+    targetRef: turntableWrapperRef,
+    iframeRef: turntableIframeRef,
+  })
 
   useEffect(() => {
     // Hide poster when Vimeo iframe loads
@@ -23,7 +31,11 @@ function Character({ onImageClick }) {
       {/* Block 1: 360 Turntable - Wider container */}
       <section id="turntable" className="my-8">
         <div className="max-w-7xl mx-auto px-5 md:px-8 lg:px-16">
-          <div className="relative rounded-xl overflow-hidden shadow-xl" style={{ paddingBottom: '100%' }}>
+          <div
+            ref={turntableWrapperRef}
+            className="relative rounded-xl overflow-hidden shadow-xl"
+            style={{ paddingBottom: '100%' }}
+          >
             <img
               ref={posterRef}
               src="/images/The-Details.jpg"
@@ -33,7 +45,8 @@ function Character({ onImageClick }) {
             />
             <div className="absolute top-0 left-0 w-full h-full z-[2] overflow-hidden">
               <iframe
-                src="https://player.vimeo.com/video/1153730375?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1"
+                ref={turntableIframeRef}
+                src="https://player.vimeo.com/video/1153730375?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1&playsinline=1&quality=720p"
                 className="absolute top-0 left-0 w-full h-full"
                 frameBorder="0"
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"

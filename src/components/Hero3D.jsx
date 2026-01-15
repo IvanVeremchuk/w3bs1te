@@ -12,7 +12,7 @@ function SetPixelRatio() {
 
   useEffect(() => {
     // Cap pixel ratio to maximum of 1.5
-    const cappedPixelRatio = Math.min(window.devicePixelRatio, 1.5)
+    const cappedPixelRatio = Math.min(window.devicePixelRatio, 1.0)
     gl.setPixelRatio(cappedPixelRatio)
   }, [gl])
 
@@ -171,7 +171,6 @@ function Hero3D() {
           depth: true,
           logarithmicDepthBuffer: false,
         }}
-        dpr={[0.75, 1.25]}
         camera={{ position: [0, 0, 7], fov: 50 }}
         performance={{ min: 0.5 }}
         shadows={false}

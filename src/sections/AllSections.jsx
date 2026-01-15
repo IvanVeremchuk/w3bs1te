@@ -6,6 +6,7 @@ import * as THREE from 'three'
 import { Suspense } from 'react'
 import Model3D from '../components/Model3D'
 import { useControls } from '../components/LevaControls'
+import useVideoIntersectionObserver from '../hooks/useVideoIntersectionObserver'
 
 // ===== SHARED HELPER COMPONENTS =====
 
@@ -14,7 +15,7 @@ function SetPixelRatio() {
   const { gl } = useThree()
 
   useEffect(() => {
-    const cappedPixelRatio = Math.min(window.devicePixelRatio, 1.5)
+    const cappedPixelRatio = Math.min(window.devicePixelRatio, 1.0)
     gl.setPixelRatio(cappedPixelRatio)
   }, [gl])
 
@@ -43,62 +44,114 @@ function PauseWhenHidden() {
   return null
 }
 
+function useInView(targetRef, rootMargin = '200px') {
+  const [isInView, setIsInView] = useState(false)
+
+  useEffect(() => {
+    if (!targetRef?.current) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting)
+      },
+      { rootMargin, threshold: 0.1 }
+    )
+
+    observer.observe(targetRef.current)
+    return () => observer.disconnect()
+  }, [targetRef, rootMargin])
+
+  return isInView
+}
+
 // ParallaxCard component for dual-input 3D parallax effect
 function ParallaxCard({ children }) {
   const groupRef = useRef()
   const targetRotation = useRef({ x: 0, y: 0 })
   const currentRotation = useRef({ x: 0, y: 0 })
   const isMobile = useRef(false)
-  const maxRotation = 0.35 // ~20 degrees in radians
+  const maxRotation = 0.5 // Stronger tilt range for mobile
+  const gyroMultiplier = 1.6
+  const mouseMultiplier = 1.2
+  const springBackStrength = 0.08
+  const flatReturnStrength = 0.02
+  const flatThreshold = 0.03
+  const depthShift = 0.15
+  const hasPermission = useRef(false)
+  const hasListener = useRef(false)
+  const orientationHandlerRef = useRef(null)
 
   // Detect mobile device
   useEffect(() => {
     isMobile.current = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
   }, [])
 
-  // Handle device orientation for mobile
+  const setupOrientationListener = () => {
+    if (hasListener.current) return
+
+    const handleDeviceOrientation = (event) => {
+      if (event.beta == null || event.gamma == null) return
+
+      const betaNormalized = Math.max(-90, Math.min(90, event.beta)) / 90
+      const gammaNormalized = Math.max(-90, Math.min(90, event.gamma)) / 90
+
+      targetRotation.current.x = THREE.MathUtils.clamp(
+        betaNormalized * maxRotation * gyroMultiplier,
+        -maxRotation,
+        maxRotation
+      )
+      targetRotation.current.y = THREE.MathUtils.clamp(
+        gammaNormalized * maxRotation * gyroMultiplier,
+        -maxRotation,
+        maxRotation
+      )
+    }
+
+    orientationHandlerRef.current = handleDeviceOrientation
+    window.addEventListener('deviceorientation', handleDeviceOrientation)
+    hasListener.current = true
+  }
+
+  const requestOrientationPermission = async () => {
+    if (!isMobile.current || hasPermission.current) return
+
+    if (typeof DeviceOrientationEvent !== 'undefined' &&
+      typeof DeviceOrientationEvent.requestPermission === 'function') {
+      try {
+        const permission = await DeviceOrientationEvent.requestPermission()
+        if (permission !== 'granted') return
+        hasPermission.current = true
+      } catch (error) {
+        console.warn('Device orientation permission denied:', error)
+        return
+      }
+    } else {
+      hasPermission.current = true
+    }
+
+    setupOrientationListener()
+  }
+
+  // Handle device orientation for mobile (non-iOS permission flow)
   useEffect(() => {
     if (!isMobile.current) return
 
-    const handleOrientation = async () => {
-      // Request permission on iOS 13+
-      if (typeof DeviceOrientationEvent !== 'undefined' &&
-        typeof DeviceOrientationEvent.requestPermission === 'function') {
-        try {
-          const permission = await DeviceOrientationEvent.requestPermission()
-          if (permission !== 'granted') return
-        } catch (error) {
-          console.warn('Device orientation permission denied:', error)
-          return
+    if (typeof DeviceOrientationEvent !== 'undefined' &&
+      typeof DeviceOrientationEvent.requestPermission === 'function') {
+      return () => {
+        if (orientationHandlerRef.current) {
+          window.removeEventListener('deviceorientation', orientationHandlerRef.current)
         }
       }
-
-      const handleDeviceOrientation = (event) => {
-        if (!event.beta || !event.gamma) return
-
-        // Map beta (tilt front/back) to X rotation, gamma (tilt left/right) to Y rotation
-        // Normalize values: beta is -180 to 180, gamma is -90 to 90
-        const betaNormalized = Math.max(-90, Math.min(90, event.beta)) / 90 // -1 to 1
-        const gammaNormalized = Math.max(-90, Math.min(90, event.gamma)) / 90 // -1 to 1
-
-        // Apply to target rotation with constraints
-        targetRotation.current.x = THREE.MathUtils.clamp(
-          betaNormalized * maxRotation,
-          -maxRotation,
-          maxRotation
-        )
-        targetRotation.current.y = THREE.MathUtils.clamp(
-          gammaNormalized * maxRotation,
-          -maxRotation,
-          maxRotation
-        )
-      }
-
-      window.addEventListener('deviceorientation', handleDeviceOrientation)
-      return () => window.removeEventListener('deviceorientation', handleDeviceOrientation)
     }
 
-    handleOrientation()
+    setupOrientationListener()
+
+    return () => {
+      if (orientationHandlerRef.current) {
+        window.removeEventListener('deviceorientation', orientationHandlerRef.current)
+      }
+    }
   }, [])
 
   // Animation loop with lerp smoothing
@@ -108,35 +161,73 @@ function ParallaxCard({ children }) {
     // Desktop: use mouse input
     if (!isMobile.current) {
       targetRotation.current.x = THREE.MathUtils.clamp(
-        state.mouse.y * maxRotation,
+        state.mouse.y * maxRotation * mouseMultiplier,
         -maxRotation,
         maxRotation
       )
       targetRotation.current.y = THREE.MathUtils.clamp(
-        state.mouse.x * maxRotation,
+        state.mouse.x * maxRotation * mouseMultiplier,
         -maxRotation,
         maxRotation
       )
     }
 
-    // Lerp to target rotation for smooth movement
+    const isFlat =
+      isMobile.current &&
+      Math.abs(targetRotation.current.x) < flatThreshold &&
+      Math.abs(targetRotation.current.y) < flatThreshold
+
+    if (isFlat) {
+      targetRotation.current.x = THREE.MathUtils.lerp(
+        targetRotation.current.x,
+        0,
+        flatReturnStrength
+      )
+      targetRotation.current.y = THREE.MathUtils.lerp(
+        targetRotation.current.y,
+        0,
+        flatReturnStrength
+      )
+    }
+
+    const shouldSpringBack =
+      isFlat ||
+      (Math.abs(targetRotation.current.x) < 0.02 &&
+        Math.abs(targetRotation.current.y) < 0.02)
+
+    const lerpStrength = shouldSpringBack ? springBackStrength : 0.1
+
     currentRotation.current.x = THREE.MathUtils.lerp(
       currentRotation.current.x,
-      targetRotation.current.x,
-      0.1
+      shouldSpringBack ? 0 : targetRotation.current.x,
+      lerpStrength
     )
     currentRotation.current.y = THREE.MathUtils.lerp(
       currentRotation.current.y,
-      targetRotation.current.y,
-      0.1
+      shouldSpringBack ? 0 : targetRotation.current.y,
+      lerpStrength
     )
 
     // Apply rotation to group
     groupRef.current.rotation.x = currentRotation.current.x
     groupRef.current.rotation.y = currentRotation.current.y
+    groupRef.current.position.x = currentRotation.current.y * 0.6
+    groupRef.current.position.y = -currentRotation.current.x * 0.6
+    groupRef.current.position.z = -depthShift * (
+      Math.abs(currentRotation.current.x) +
+      Math.abs(currentRotation.current.y)
+    )
   })
 
-  return <group ref={groupRef}>{children}</group>
+  return (
+    <group
+      ref={groupRef}
+      onPointerDown={requestOrientationPermission}
+      onTouchStart={requestOrientationPermission}
+    >
+      {children}
+    </group>
+  )
 }
 
 // ===== BUSINESS CARD SECTION =====
@@ -203,34 +294,37 @@ function HeraldicScene({ canvasRef, onImageClick }) {
 
 function Heraldic3DViewer({ onImageClick }) {
   const canvasRef = useRef()
+  const isInView = useInView(canvasRef)
 
   return (
     <div ref={canvasRef} className="w-full h-[70vh] min-h-[500px] relative rounded-xl overflow-hidden shadow-xl bg-[rgba(10,10,10,0.8)]">
-      <Canvas
-        frameloop="always"
-        gl={{
-          antialias: true,
-          alpha: false,
-          toneMapping: THREE.ACESFilmicToneMapping,
-          outputColorSpace: THREE.SRGBColorSpace,
-          powerPreference: "high-performance",
-        }}
-        dpr={[0.75, 1.25]}
-        camera={{ position: [0, 0, 5.5], fov: 50 }}
-        performance={{ min: 0.5 }}
-        shadows={false}
-      >
-        <PerspectiveCamera makeDefault position={[0, 0, 5.5]} fov={50} />
-        <Suspense fallback={null}>
-          <HeraldicScene canvasRef={canvasRef} onImageClick={onImageClick} />
-        </Suspense>
-      </Canvas>
+      {isInView ? (
+        <Canvas
+          frameloop="always"
+          gl={{
+            antialias: true,
+            alpha: false,
+            toneMapping: THREE.ACESFilmicToneMapping,
+            outputColorSpace: THREE.SRGBColorSpace,
+            powerPreference: "high-performance",
+          }}
+          camera={{ position: [0, 0, 5.5], fov: 50 }}
+          performance={{ min: 0.5 }}
+          shadows={false}
+        >
+          <PerspectiveCamera makeDefault position={[0, 0, 5.5]} fov={50} />
+          <Suspense fallback={null}>
+            <HeraldicScene canvasRef={canvasRef} onImageClick={onImageClick} />
+          </Suspense>
+        </Canvas>
+      ) : null}
     </div>
   )
 }
 
 function BusinessCard({ onImageClick }) {
   const [selectedMap, setSelectedMap] = useState('diffuse') // 'diffuse', 'normal', 'orm'
+  const [isOverviewOpen, setIsOverviewOpen] = useState(false)
 
   const mapImages = {
     diffuse: '/heraldic/2.webp',
@@ -255,7 +349,12 @@ function BusinessCard({ onImageClick }) {
         {/* Block 2: Project Title & Overview with Specs Sidebar */}
         <section id="overview" className="my-12 md:my-14 lg:my-16">
           <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+            <div
+              className={`transition-all duration-300 overflow-hidden ${
+                isOverviewOpen ? 'max-h-[2000px]' : 'max-h-72'
+              }`}
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
               {/* Main Content */}
               <div className="lg:col-span-2">
                 <h1 className="text-3xl md:text-4xl lg:text-[36px] text-blue-400 font-bold font-['Oswald'] mb-6 lg:mb-8 drop-shadow-md">
@@ -336,6 +435,16 @@ function BusinessCard({ onImageClick }) {
                   </dl>
                 </div>
               </div>
+              </div>
+            </div>
+            <div className="mt-6 flex justify-center">
+              <button
+                type="button"
+                onClick={() => setIsOverviewOpen((prev) => !prev)}
+                className="px-5 py-2 text-sm font-semibold rounded-full bg-[rgba(30,30,30,0.6)] text-gray-200 hover:bg-[rgba(45,45,45,0.8)] transition-colors"
+              >
+                {isOverviewOpen ? 'Show less' : 'Read more'}
+              </button>
             </div>
           </div>
         </section>
@@ -516,6 +625,7 @@ function KitchenScene({ canvasRef }) {
 
 function KitchenHero3D() {
   const canvasRef = useRef()
+  const isInView = useInView(canvasRef)
 
   return (
     <div
@@ -523,26 +633,27 @@ function KitchenHero3D() {
       className="w-full h-full relative"
       style={{ willChange: 'transform', transform: 'translateZ(0)' }}
     >
-      <Canvas
-        frameloop="demand"
-        gl={{
-          antialias: false,
-          alpha: false,
-          toneMapping: THREE.ACESFilmicToneMapping,
-          outputColorSpace: THREE.SRGBColorSpace,
-          powerPreference: "high-performance",
-          stencil: false,
-          depth: true,
-          logarithmicDepthBuffer: false,
-        }}
-        dpr={[0.75, 1.25]}
-        camera={{ position: [0, 0, 7], fov: 50 }}
-        performance={{ min: 0.5 }}
-        shadows={false}
-      >
-        <PerspectiveCamera makeDefault position={[0, 0, 7]} fov={50} />
-        <KitchenScene canvasRef={canvasRef} />
-      </Canvas>
+      {isInView ? (
+        <Canvas
+          frameloop="demand"
+          gl={{
+            antialias: false,
+            alpha: false,
+            toneMapping: THREE.ACESFilmicToneMapping,
+            outputColorSpace: THREE.SRGBColorSpace,
+            powerPreference: "high-performance",
+            stencil: false,
+            depth: true,
+            logarithmicDepthBuffer: false,
+          }}
+          camera={{ position: [0, 0, 7], fov: 50 }}
+          performance={{ min: 0.5 }}
+          shadows={false}
+        >
+          <PerspectiveCamera makeDefault position={[0, 0, 7]} fov={50} />
+          <KitchenScene canvasRef={canvasRef} />
+        </Canvas>
+      ) : null}
     </div>
   )
 }
@@ -553,12 +664,39 @@ function Kitchen() {
       <div className="w-full relative flex items-center justify-center px-5 md:px-8 lg:px-16 py-12 md:py-16">
         <div className="max-w-7xl mx-auto w-full">
           <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp mb-8">
-            <h2 className="text-3xl md:text-4xl lg:text-[36px] text-blue-400 font-bold font-['Oswald'] mb-6 lg:mb-8 text-center drop-shadow-md">
-              Kitchen Window | Environment & Lighting Study
-            </h2>
-            <p className="text-gray-300 text-base lg:text-lg leading-relaxed text-center mb-8">
-              A detailed study of natural lighting, material interaction, and environmental storytelling through architectural visualization.
-            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
+              <div>
+                <h2 className="text-3xl md:text-4xl lg:text-[36px] text-blue-400 font-bold font-['Oswald'] mb-6 lg:mb-8 drop-shadow-md">
+                  The Optimized Aperture | High-to-Low Poly Workflow
+                </h2>
+                <p className="text-gray-300 text-base lg:text-lg leading-relaxed mb-8 md:mb-0">
+                  A detailed study of natural lighting, material interaction, and environmental storytelling through architectural visualization.
+                </p>
+              </div>
+              <div className="bg-[rgba(30,30,30,0.6)] rounded-xl p-6 border border-white/5">
+                <h3 className="text-xl text-blue-400 font-bold font-['Oswald'] mb-4">
+                  Technical Specs
+                </h3>
+                <dl className="space-y-3">
+                  <div>
+                    <dt className="text-blue-300 font-semibold text-sm mb-1">Polycount</dt>
+                    <dd className="text-gray-400 text-sm">18.3k Tris (Reduced from 800k)</dd>
+                  </div>
+                  <div>
+                    <dt className="text-blue-300 font-semibold text-sm mb-1">Baking</dt>
+                    <dd className="text-gray-400 text-sm">Blender (4K Normal Map downscaled to 1K)</dd>
+                  </div>
+                  <div>
+                    <dt className="text-blue-300 font-semibold text-sm mb-1">Optimization</dt>
+                    <dd className="text-gray-400 text-sm">Custom LODs for mobile browsers</dd>
+                  </div>
+                  <div>
+                    <dt className="text-blue-300 font-semibold text-sm mb-1">Textures</dt>
+                    <dd className="text-gray-400 text-sm">PBR Metallic/Roughness workflow (WebP compressed)</dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
           </div>
           <div className="w-full h-[70vh] min-h-[500px] relative rounded-xl overflow-hidden shadow-xl bg-[rgba(10,10,10,0.8)]">
             <Suspense fallback={
@@ -580,6 +718,19 @@ function Kitchen() {
 function Tesla({ onImageClick }) {
   const [posterOpacity, setPosterOpacity] = useState(1)
   const posterRef = useRef(null)
+  const turntableWrapperRef = useRef(null)
+  const turntableIframeRef = useRef(null)
+  const drivingWrapperRef = useRef(null)
+  const drivingIframeRef = useRef(null)
+
+  useVideoIntersectionObserver({
+    targetRef: turntableWrapperRef,
+    iframeRef: turntableIframeRef,
+  })
+  useVideoIntersectionObserver({
+    targetRef: drivingWrapperRef,
+    iframeRef: drivingIframeRef,
+  })
 
   useEffect(() => {
     // Hide poster when Vimeo iframe loads
@@ -600,7 +751,11 @@ function Tesla({ onImageClick }) {
       <div className="max-w-6xl mx-auto px-5 md:px-8 lg:px-16">
         {/* Block 1: 360 Turntable */}
         <section id="turntable" className="my-8">
-          <div className="relative rounded-xl overflow-hidden shadow-xl" style={{ paddingBottom: '100%' }}>
+          <div
+            ref={turntableWrapperRef}
+            className="relative rounded-xl overflow-hidden shadow-xl"
+            style={{ paddingBottom: '100%' }}
+          >
             <img
               ref={posterRef}
               src="/images/tesla_hero.jpg"
@@ -609,7 +764,8 @@ function Tesla({ onImageClick }) {
               style={{ opacity: posterOpacity }}
             />
             <iframe
-              src="https://player.vimeo.com/video/1147930210?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1"
+              ref={turntableIframeRef}
+              src="https://player.vimeo.com/video/1147930210?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1&playsinline=1&quality=720p"
               className="absolute top-0 left-0 w-full h-full z-[2]"
               frameBorder="0"
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
@@ -636,54 +792,66 @@ function Tesla({ onImageClick }) {
           </div>
         </section>
 
-        {/* Block 3: Technical Proof */}
-        <section id="technical" className="my-12 md:my-14 lg:my-16">
-          <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
-            <div className="text-center">
-              <div
-                className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                onClick={() => onImageClick('/images/tesla_technical.jpg')}
-              >
-                <img
-                  src="/images/tesla_technical.jpg"
-                  alt="Clay/Wireframe Render - Technical Breakdown"
-                  className="w-full h-auto block"
-                />
+        <div className="relative">
+          <div className="flex md:block gap-6 md:gap-0 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none scroll-smooth scrollbar-hide px-3 md:px-0">
+            {/* Block 3: Technical Proof */}
+            <section id="technical" className="my-12 md:my-14 lg:my-16 w-[85vw] sm:w-[70vw] md:w-auto shrink-0 snap-start">
+              <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
+                <div className="text-center">
+                  <div
+                    className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    onClick={() => onImageClick('/images/tesla_technical.jpg')}
+                  >
+                    <img
+                      src="/images/tesla_technical.jpg"
+                      alt="Clay/Wireframe Render - Technical Breakdown"
+                      className="w-full h-auto block"
+                    />
+                  </div>
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                    Clay/Wireframe Render - Technical Breakdown
+                  </p>
+                </div>
               </div>
-              <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
-                Clay/Wireframe Render - Technical Breakdown
-              </p>
-            </div>
-          </div>
-        </section>
+            </section>
 
-        {/* Block 4: Optional Render - Wet Road Environment */}
-        <section id="wet-road" className="my-12 md:my-14 lg:my-16">
-          <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
-            <div className="text-center">
-              <div
-                className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                onClick={() => onImageClick('/images/tesla_hero_wet_road.jpg')}
-              >
-                <img
-                  src="/images/tesla_hero_wet_road.jpg"
-                  alt="Wet Road Environment - Optional Render"
-                  className="w-full h-auto block"
-                />
+            {/* Block 4: Optional Render - Wet Road Environment */}
+            <section id="wet-road" className="my-12 md:my-14 lg:my-16 w-[85vw] sm:w-[70vw] md:w-auto shrink-0 snap-start">
+              <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
+                <div className="text-center">
+                  <div
+                    className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    onClick={() => onImageClick('/images/tesla_hero_wet_road.jpg')}
+                  >
+                    <img
+                      src="/images/tesla_hero_wet_road.jpg"
+                      alt="Wet Road Environment - Optional Render"
+                      className="w-full h-auto block"
+                      loading="lazy"
+                    />
+                  </div>
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                    Wet Road Environment - Optional Render
+                  </p>
+                </div>
               </div>
-              <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
-                Wet Road Environment - Optional Render
-              </p>
-            </div>
+            </section>
           </div>
-        </section>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
+        </div>
 
         {/* Block 5: Vertical Driving Video */}
         <section id="driving" className="my-12 md:my-14 lg:my-16">
           <div className="w-full max-w-[550px] lg:max-w-[600px] mx-auto">
-            <div className="relative rounded-xl overflow-hidden shadow-xl" style={{ paddingBottom: '177.78%' }}>
+            <div
+              ref={drivingWrapperRef}
+              className="relative rounded-xl overflow-hidden shadow-xl"
+              style={{ paddingBottom: '177.78%' }}
+            >
               <iframe
-                src="https://player.vimeo.com/video/1147960015?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&dnt=1"
+                ref={drivingIframeRef}
+                src="https://player.vimeo.com/video/1147960015?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1&playsinline=1&quality=720p"
                 className="absolute top-0 left-0 w-full h-full z-[1]"
                 frameBorder="0"
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
@@ -715,71 +883,82 @@ function Construction({ onImageClick }) {
             <h2 className="text-2xl md:text-3xl lg:text-[30px] text-blue-400 font-bold font-['Oswald'] mb-6 lg:mb-8 text-center drop-shadow-md">
               Construction
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-              <div className="text-center">
-                <div
-                  className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                  style={{ paddingBottom: '75%' }}
-                  onClick={() => onImageClick('/images/IMG_20250220_085702286_HDR.webp')}
-                >
-                  <img
-                    src="/images/IMG_20250220_085702286_HDR.webp"
-                    alt="Exposed steel beam supporting original timber joists"
-                    className="absolute top-0 left-0 w-full h-full object-cover"
-                  />
+            <div className="relative">
+              <div className="flex md:grid md:grid-cols-2 gap-4 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none scroll-smooth scrollbar-hide px-3 md:px-0">
+                <div className="text-center">
+                  <div
+                    className="relative w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0 rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    style={{ paddingBottom: '75%' }}
+                    onClick={() => onImageClick('/images/IMG_20250220_085702286_HDR.webp')}
+                  >
+                    <img
+                      src="/images/IMG_20250220_085702286_HDR.webp"
+                      alt="Exposed steel beam supporting original timber joists"
+                      className="absolute top-0 left-0 w-full h-full object-cover"
+                      decoding="async"
+                    />
+                  </div>
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                    Exposed steel beam supporting original timber joists after partial floor removal.
+                  </p>
                 </div>
-                <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
-                  Exposed steel beam supporting original timber joists after partial floor removal.
-                </p>
-              </div>
-              <div className="text-center">
-                <div
-                  className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                  style={{ paddingBottom: '75%' }}
-                  onClick={() => onImageClick('/images/IMG_20250219_103925097_HDR.webp')}
-                >
-                  <img
-                    src="/images/IMG_20250219_103925097_HDR.webp"
-                    alt="Traditional rafter roof system"
-                    className="absolute top-0 left-0 w-full h-full object-cover"
-                  />
+                <div className="text-center">
+                  <div
+                    className="relative w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0 rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    style={{ paddingBottom: '75%' }}
+                    onClick={() => onImageClick('/images/IMG_20250219_103925097_HDR.webp')}
+                  >
+                    <img
+                      src="/images/IMG_20250219_103925097_HDR.webp"
+                      alt="Traditional rafter roof system"
+                      className="absolute top-0 left-0 w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                    Traditional rafter roof system with collar ties and metal gusset connections.
+                  </p>
                 </div>
-                <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
-                  Traditional rafter roof system with collar ties and metal gusset connections.
-                </p>
-              </div>
-              <div className="text-center">
-                <div
-                  className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                  style={{ paddingBottom: '75%' }}
-                  onClick={() => onImageClick('/images/IMG_20250204_161447576_HDR.webp')}
-                >
-                  <img
-                    src="/images/IMG_20250204_161447576_HDR.webp"
-                    alt="Exposed masonry wall"
-                    className="absolute top-0 left-0 w-full h-full object-cover"
-                  />
+                <div className="text-center">
+                  <div
+                    className="relative w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0 rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    style={{ paddingBottom: '75%' }}
+                    onClick={() => onImageClick('/images/IMG_20250204_161447576_HDR.webp')}
+                  >
+                    <img
+                      src="/images/IMG_20250204_161447576_HDR.webp"
+                      alt="Exposed masonry wall"
+                      className="absolute top-0 left-0 w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                    Exposed masonry wall showing layered plaster failure and long-term material decay.
+                  </p>
                 </div>
-                <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
-                  Exposed masonry wall showing layered plaster failure and long-term material decay.
-                </p>
-              </div>
-              <div className="text-center">
-                <div
-                  className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                  style={{ paddingBottom: '75%' }}
-                  onClick={() => onImageClick('/images/IMG_20250131_130444773_HDR.webp')}
-                >
-                  <img
-                    src="/images/IMG_20250131_130444773_HDR.webp"
-                    alt="Interior service corridor"
-                    className="absolute top-0 left-0 w-full h-full object-cover"
-                  />
+                <div className="text-center">
+                  <div
+                    className="relative w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0 rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    style={{ paddingBottom: '75%' }}
+                    onClick={() => onImageClick('/images/IMG_20250131_130444773_HDR.webp')}
+                  >
+                    <img
+                      src="/images/IMG_20250131_130444773_HDR.webp"
+                      alt="Interior service corridor"
+                      className="absolute top-0 left-0 w-full h-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                    Interior service corridor with raw stone, timber framing, and exposed electrical runs.
+                  </p>
                 </div>
-                <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
-                  Interior service corridor with raw stone, timber framing, and exposed electrical runs.
-                </p>
               </div>
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
             </div>
           </div>
         </section>
@@ -793,6 +972,13 @@ function Construction({ onImageClick }) {
 function Character({ onImageClick }) {
   const [posterOpacity, setPosterOpacity] = useState(1)
   const posterRef = useRef(null)
+  const turntableWrapperRef = useRef(null)
+  const turntableIframeRef = useRef(null)
+
+  useVideoIntersectionObserver({
+    targetRef: turntableWrapperRef,
+    iframeRef: turntableIframeRef,
+  })
 
   useEffect(() => {
     // Hide poster when Vimeo iframe loads
@@ -813,7 +999,11 @@ function Character({ onImageClick }) {
       {/* Block 1: 360 Turntable - Wider container */}
       <section id="turntable" className="my-8">
         <div className="max-w-7xl mx-auto px-5 md:px-8 lg:px-16">
-          <div className="relative rounded-xl overflow-hidden shadow-xl" style={{ paddingBottom: '100%' }}>
+          <div
+            ref={turntableWrapperRef}
+            className="relative rounded-xl overflow-hidden shadow-xl"
+            style={{ paddingBottom: '100%' }}
+          >
             <img
               ref={posterRef}
               src="/images/The-Details.jpg"
@@ -823,7 +1013,8 @@ function Character({ onImageClick }) {
             />
             <div className="absolute top-0 left-0 w-full h-full z-[2] overflow-hidden">
               <iframe
-                src="https://player.vimeo.com/video/1153730375?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1"
+                ref={turntableIframeRef}
+                src="https://player.vimeo.com/video/1153730375?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1&playsinline=1&quality=720p"
                 className="absolute top-0 left-0 w-full h-full"
                 frameBorder="0"
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
@@ -849,10 +1040,10 @@ function Character({ onImageClick }) {
               <div className="text-center">
                 <div
                   className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
-                  onClick={() => onImageClick('/images/Wireframe.png')}
+                  onClick={() => onImageClick('/images/Wireframe.webp')}
                 >
                   <img
-                    src="/images/Wireframe.png"
+                    src="/images/Wireframe.webp"
                     alt="Wireframe Topology"
                     className="w-full h-auto block"
                   />
@@ -863,7 +1054,7 @@ function Character({ onImageClick }) {
               </div>
 
               {/* Albedo & Roughness - Side by Side */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-4 md:gap-8">
                 <div className="text-center">
                   <div
                     className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
@@ -909,7 +1100,7 @@ function Character({ onImageClick }) {
               >
                 {/* Mobile: Vertical image */}
                 <img
-                  src="/images/The-Details-vertical.jpg"
+                  src="/images/The-Details.jpg"
                   alt="Detail Close-ups - Texture Quality"
                   className="w-full h-auto block md:hidden"
                 />
@@ -951,25 +1142,30 @@ function Renders({ onImageClick }) {
           Portfolio Renders
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {renders.map((render) => (
-            <div
-              key={render.id}
-              className="relative group cursor-pointer overflow-hidden rounded-lg aspect-[4/3] bg-gray-900"
-              onClick={() => onImageClick(render.src)}
-            >
-              <img
-                src={render.src}
-                alt={render.title}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300" />
-              <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black to-transparent">
-                <h3 className="text-white font-semibold text-lg">{render.title}</h3>
+        <div className="relative">
+          <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none scroll-smooth scrollbar-hide px-3 md:px-0">
+            {renders.map((render, index) => (
+              <div
+                key={render.id}
+                className="relative group cursor-pointer overflow-hidden rounded-lg aspect-[4/3] bg-gray-900 w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0"
+                onClick={() => onImageClick(render.src)}
+              >
+                <img
+                  src={render.src}
+                  alt={render.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  {...(index > 0 ? { loading: 'lazy' } : {})}
+                  decoding="async"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black to-transparent">
+                  <h3 className="text-white font-semibold text-lg">{render.title}</h3>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
         </div>
       </div>
     </section>

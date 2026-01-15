@@ -10,7 +10,7 @@ function SetPixelRatio() {
   const { gl } = useThree()
 
   useEffect(() => {
-    const cappedPixelRatio = Math.min(window.devicePixelRatio, 1.5)
+    const cappedPixelRatio = Math.min(window.devicePixelRatio, 1.0)
     gl.setPixelRatio(cappedPixelRatio)
   }, [gl])
 
@@ -209,7 +209,6 @@ function Heraldic3DViewer({ onImageClick }) {
           outputColorSpace: THREE.SRGBColorSpace,
           powerPreference: "high-performance",
         }}
-        dpr={[0.75, 1.25]}
         camera={{ position: [0, 0, 5.5], fov: 50 }}
         performance={{ min: 0.5 }}
         shadows={false}

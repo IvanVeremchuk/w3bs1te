@@ -1,8 +1,22 @@
 import { useState, useEffect, useRef } from 'react'
+import useVideoIntersectionObserver from '../hooks/useVideoIntersectionObserver'
 
 function Tesla({ onImageClick }) {
   const [posterOpacity, setPosterOpacity] = useState(1)
   const posterRef = useRef(null)
+  const turntableWrapperRef = useRef(null)
+  const turntableIframeRef = useRef(null)
+  const drivingWrapperRef = useRef(null)
+  const drivingIframeRef = useRef(null)
+
+  useVideoIntersectionObserver({
+    targetRef: turntableWrapperRef,
+    iframeRef: turntableIframeRef,
+  })
+  useVideoIntersectionObserver({
+    targetRef: drivingWrapperRef,
+    iframeRef: drivingIframeRef,
+  })
 
   useEffect(() => {
     // Hide poster when Vimeo iframe loads
@@ -23,7 +37,11 @@ function Tesla({ onImageClick }) {
       <div className="max-w-6xl mx-auto px-5 md:px-8 lg:px-16">
         {/* Block 1: 360 Turntable */}
         <section id="turntable" className="my-8">
-          <div className="relative rounded-xl overflow-hidden shadow-xl" style={{ paddingBottom: '100%' }}>
+          <div
+            ref={turntableWrapperRef}
+            className="relative rounded-xl overflow-hidden shadow-xl"
+            style={{ paddingBottom: '100%' }}
+          >
             <img
               ref={posterRef}
               src="/images/tesla_hero.jpg"
@@ -32,7 +50,8 @@ function Tesla({ onImageClick }) {
               style={{ opacity: posterOpacity }}
             />
             <iframe
-              src="https://player.vimeo.com/video/1147930210?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1"
+              ref={turntableIframeRef}
+              src="https://player.vimeo.com/video/1147930210?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1&playsinline=1&quality=720p"
               className="absolute top-0 left-0 w-full h-full z-[2]"
               frameBorder="0"
               allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
@@ -104,9 +123,14 @@ function Tesla({ onImageClick }) {
         {/* Block 5: Vertical Driving Video */}
         <section id="driving" className="my-12 md:my-14 lg:my-16">
           <div className="w-full max-w-[550px] lg:max-w-[600px] mx-auto">
-            <div className="relative rounded-xl overflow-hidden shadow-xl" style={{ paddingBottom: '177.78%' }}>
+            <div
+              ref={drivingWrapperRef}
+              className="relative rounded-xl overflow-hidden shadow-xl"
+              style={{ paddingBottom: '177.78%' }}
+            >
               <iframe
-                src="https://player.vimeo.com/video/1147960015?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&dnt=1"
+                ref={drivingIframeRef}
+                src="https://player.vimeo.com/video/1147960015?title=0&byline=0&portrait=0&badge=0&autopause=0&autoplay=1&loop=1&muted=1&background=1&dnt=1&playsinline=1&quality=720p"
                 className="absolute top-0 left-0 w-full h-full z-[1]"
                 frameBorder="0"
                 allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"

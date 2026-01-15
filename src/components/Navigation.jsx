@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 function Navigation() {
   const [activeSection, setActiveSection] = useState('heraldic')
+  const activeSectionRef = useRef(activeSection)
 
   const navLinks = [
     { id: 'heraldic', label: 'Business Card' },
@@ -12,33 +13,61 @@ function Navigation() {
     { id: 'renders', label: 'Renders' },
   ]
 
+  useEffect(() => {
+    activeSectionRef.current = activeSection
+  }, [activeSection])
+
   // Handle active section detection on scroll
   useEffect(() => {
-    const observerCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
-          setActiveSection(entry.target.id)
+    let rafId = null
+    const sectionIds = navLinks.map((link) => link.id)
+
+    const getActiveSectionId = () => {
+      const anchor = window.innerHeight * 0.4
+      let closestId = null
+      let closestDistance = Number.POSITIVE_INFINITY
+
+      sectionIds.forEach((id) => {
+        const element = document.getElementById(id)
+        if (!element) return
+
+        const rect = element.getBoundingClientRect()
+        const isWithin = rect.top <= anchor && rect.bottom >= anchor
+        const distance = isWithin
+          ? 0
+          : Math.min(Math.abs(rect.top - anchor), Math.abs(rect.bottom - anchor))
+
+        if (distance < closestDistance) {
+          closestDistance = distance
+          closestId = id
         }
+      })
+
+      return closestId
+    }
+
+    const updateActiveSection = () => {
+      if (rafId) return
+      rafId = window.requestAnimationFrame(() => {
+        const nextActive = getActiveSectionId()
+        if (nextActive && nextActive !== activeSectionRef.current) {
+          setActiveSection(nextActive)
+        }
+        rafId = null
       })
     }
 
-    const observerOptions = {
-      threshold: 0.4,
-      rootMargin: '-10% 0px -40% 0px'
+    updateActiveSection()
+    window.addEventListener('scroll', updateActiveSection, { passive: true })
+    window.addEventListener('resize', updateActiveSection)
+
+    return () => {
+      window.removeEventListener('scroll', updateActiveSection)
+      window.removeEventListener('resize', updateActiveSection)
+      if (rafId) {
+        window.cancelAnimationFrame(rafId)
+      }
     }
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions)
-
-    navLinks.forEach(link => {
-      const element = document.getElementById(link.id)
-      if (element) observer.observe(element)
-    })
-
-    // Also observe contact section
-    const contactElement = document.getElementById('contact')
-    if (contactElement) observer.observe(contactElement)
-
-    return () => observer.disconnect()
   }, [])
 
   // Handle anchor links on mount (for links from HTML pages)
