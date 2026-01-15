@@ -27,7 +27,7 @@ function App() {
         <AllSections onImageClick={handleImageClick} />
 
         {/* Footer/Contact */}
-        <section id="contact" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section">
+        <section id="contact" className="min-h-screen md:min-h-0 w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-12">
           <Footer />
         </section>
       </div>

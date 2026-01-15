@@ -27,12 +27,12 @@ function Footer() {
   }
 
   return (
-    <footer className="bg-dark border-t border-gray-800 py-16 px-4 md:px-8 lg:px-16">
+    <footer className="bg-dark border-t border-gray-800 px-4 md:px-8 lg:px-16">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           {/* About Section with Photo */}
           <div>
-            <div className="flex flex-col md:flex-row gap-8 items-start mb-8">
+            <div className="flex flex-col md:flex-row gap-8 items-start mb-6 md:mb-6">
               <img
                 src="/images/IMG_2025.12.05.jpg"
                 alt="Ivan Veremchuk"
@@ -164,7 +164,7 @@ function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-400">
+        <div className="mt-8 pt-6 border-t border-gray-800 text-center text-gray-400">
           <p>© 2025 Ivan Veremchuk. All rights reserved.</p>
         </div>
       </div>

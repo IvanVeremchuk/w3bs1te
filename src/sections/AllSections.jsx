@@ -333,7 +333,7 @@ function BusinessCard({ onImageClick }) {
   }
 
   return (
-    <section id="heraldic" className="min-h-screen w-full relative bg-[#0a0a0a] text-white scroll-snap-section py-12 md:py-16">
+    <section id="heraldic" className="min-h-screen w-full relative bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
       <div className="max-w-7xl mx-auto px-5 md:px-8 lg:px-16 w-full">
         {/* Block 1: 3D Model Viewer - Full Width */}
         <section id="model" className="my-8">
@@ -661,7 +661,7 @@ function KitchenHero3D() {
 function Kitchen() {
   return (
     <section id="kitchen" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section">
-      <div className="w-full relative flex items-center justify-center px-5 md:px-8 lg:px-16 py-12 md:py-16">
+      <div className="w-full relative flex items-center justify-center px-5 md:px-8 lg:px-16 py-8 md:py-16">
         <div className="max-w-7xl mx-auto w-full">
           <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp mb-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
@@ -747,7 +747,7 @@ function Tesla({ onImageClick }) {
   }, [])
 
   return (
-    <section id="product" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section py-12 md:py-16">
+    <section id="product" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
       <div className="max-w-6xl mx-auto px-5 md:px-8 lg:px-16">
         {/* Block 1: 360 Turntable */}
         <section id="turntable" className="my-8">
@@ -875,7 +875,7 @@ function Tesla({ onImageClick }) {
 
 function Construction({ onImageClick }) {
   return (
-    <section id="work" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section py-12 md:py-16">
+    <section id="work" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
       <div className="max-w-6xl mx-auto px-5 md:px-8 lg:px-16">
         {/* Construction Section */}
         <section id="construction" className="my-12 md:my-14 lg:my-16">
@@ -995,7 +995,7 @@ function Character({ onImageClick }) {
   }, [])
 
   return (
-    <section id="game-art" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section py-12 md:py-16">
+    <section id="game-art" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
       {/* Block 1: 360 Turntable - Wider container */}
       <section id="turntable" className="my-8">
         <div className="max-w-7xl mx-auto px-5 md:px-8 lg:px-16">
@@ -1136,7 +1136,7 @@ const renders = [
 
 function Renders({ onImageClick }) {
   return (
-    <section id="renders" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section py-12 md:py-16">
+    <section id="renders" className="min-h-screen md:min-h-0 w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
         <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-blue-400 font-['Oswald']">
           Portfolio Renders
