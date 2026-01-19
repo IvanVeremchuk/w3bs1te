@@ -161,11 +161,7 @@ body {
   }
 }
 
-@media (min-width: 768px) {
-  .scroll-snap-section {
-    min-height: 100vh;
-  }
-}
+/* Keep scroll-snap sections content-sized on md+ */
 
 /* Professional scroll animations */
 @keyframes fadeInScroll {

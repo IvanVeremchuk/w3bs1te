@@ -297,7 +297,10 @@ function Heraldic3DViewer({ onImageClick }) {
   const isInView = useInView(canvasRef)
 
   return (
-    <div ref={canvasRef} className="w-full h-[70vh] min-h-[500px] relative rounded-xl overflow-hidden shadow-xl bg-[rgba(10,10,10,0.8)]">
+    <div
+      ref={canvasRef}
+      className="w-full aspect-square max-h-[70vh] relative rounded-xl overflow-hidden shadow-xl bg-[rgba(10,10,10,0.8)] border border-white/10"
+    >
       {isInView ? (
         <Canvas
           frameloop="always"
@@ -661,54 +664,81 @@ function KitchenHero3D() {
 }
 
 function Kitchen() {
+  const [isKitchenOpen, setIsKitchenOpen] = useState(false)
+
   return (
-    <section id="kitchen" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section">
+    <section id="kitchen" className="min-h-0 w-full bg-[#0a0a0a] text-white scroll-snap-section">
       <div className="w-full relative flex items-center justify-center px-5 md:px-8 lg:px-16 py-8 md:py-16">
         <div className="max-w-7xl mx-auto w-full">
-          <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp mb-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
-              <div>
-                <h2 className="text-3xl md:text-4xl lg:text-[36px] text-blue-400 font-bold font-['Oswald'] mb-6 lg:mb-8 drop-shadow-md">
+          <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
+            <button
+              type="button"
+              onClick={() => setIsKitchenOpen((prev) => !prev)}
+              className="w-full text-left"
+              aria-expanded={isKitchenOpen}
+            >
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <h2 className="text-3xl md:text-4xl lg:text-[36px] text-blue-400 font-bold font-['Oswald'] drop-shadow-md">
                   The Optimized Aperture | High-to-Low Poly Workflow
                 </h2>
-                <p className="text-gray-300 text-base lg:text-lg leading-relaxed mb-8 md:mb-0">
-                  A detailed study of natural lighting, material interaction, and environmental storytelling through architectural visualization.
-                </p>
+                <div className="flex items-center gap-2 text-sm text-gray-300">
+                  <span>Tap to expand</span>
+                  <svg
+                    className={`w-4 h-4 transition-transform duration-300 ${isKitchenOpen ? 'rotate-180' : ''}`}
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.936a.75.75 0 011.08 1.04l-4.24 4.5a.75.75 0 01-1.08 0l-4.24-4.5a.75.75 0 01.02-1.06z" />
+                  </svg>
+                </div>
               </div>
-              <div className="bg-[rgba(30,30,30,0.6)] rounded-xl p-6 border border-white/5">
-                <h3 className="text-xl text-blue-400 font-bold font-['Oswald'] mb-4">
-                  Technical Specs
-                </h3>
-                <dl className="space-y-3">
-                  <div>
-                    <dt className="text-blue-300 font-semibold text-sm mb-1">Polycount</dt>
-                    <dd className="text-gray-400 text-sm">18.3k Tris (Reduced from 800k)</dd>
-                  </div>
-                  <div>
-                    <dt className="text-blue-300 font-semibold text-sm mb-1">Baking</dt>
-                    <dd className="text-gray-400 text-sm">Blender (4K Normal Map downscaled to 1K)</dd>
-                  </div>
-                  <div>
-                    <dt className="text-blue-300 font-semibold text-sm mb-1">Optimization</dt>
-                    <dd className="text-gray-400 text-sm">Custom LODs for mobile browsers</dd>
-                  </div>
-                  <div>
-                    <dt className="text-blue-300 font-semibold text-sm mb-1">Textures</dt>
-                    <dd className="text-gray-400 text-sm">PBR Metallic/Roughness workflow (WebP compressed)</dd>
-                  </div>
-                </dl>
+            </button>
+            <div
+              className={`transition-all duration-300 overflow-hidden ${
+                isKitchenOpen ? 'max-h-[2000px] mt-6' : 'max-h-0'
+              }`}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
+                <div>
+                  <p className="text-gray-300 text-base lg:text-lg leading-relaxed">
+                    A detailed study of natural lighting, material interaction, and environmental storytelling through architectural visualization.
+                  </p>
+                </div>
+                <div className="bg-[rgba(30,30,30,0.6)] rounded-xl p-6 border border-white/5">
+                  <h3 className="text-xl text-blue-400 font-bold font-['Oswald'] mb-4">
+                    Technical Specs
+                  </h3>
+                  <dl className="space-y-3">
+                    <div>
+                      <dt className="text-blue-300 font-semibold text-sm mb-1">Polycount</dt>
+                      <dd className="text-gray-400 text-sm">18.3k Tris (Reduced from 800k)</dd>
+                    </div>
+                    <div>
+                      <dt className="text-blue-300 font-semibold text-sm mb-1">Baking</dt>
+                      <dd className="text-gray-400 text-sm">Blender (4K Normal Map downscaled to 1K)</dd>
+                    </div>
+                    <div>
+                      <dt className="text-blue-300 font-semibold text-sm mb-1">Optimization</dt>
+                      <dd className="text-gray-400 text-sm">Custom LODs for mobile browsers</dd>
+                    </div>
+                    <div>
+                      <dt className="text-blue-300 font-semibold text-sm mb-1">Textures</dt>
+                      <dd className="text-gray-400 text-sm">PBR Metallic/Roughness workflow (WebP compressed)</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+              <div className="w-full h-[70vh] min-h-[500px] relative rounded-xl overflow-hidden shadow-xl bg-[rgba(10,10,10,0.8)] mt-8">
+                <img
+                  src="/images/genesis.gif"
+                  alt="Loading background"
+                  className="absolute inset-0 w-full h-full object-cover opacity-80 pointer-events-none"
+                />
+                <Suspense fallback={null}>
+                  <KitchenHero3D />
+                </Suspense>
               </div>
             </div>
-          </div>
-          <div className="w-full h-[70vh] min-h-[500px] relative rounded-xl overflow-hidden shadow-xl bg-[rgba(10,10,10,0.8)]">
-            <img
-              src="/images/genesis.gif"
-              alt="Loading background"
-              className="absolute inset-0 w-full h-full object-cover opacity-80 pointer-events-none"
-            />
-            <Suspense fallback={null}>
-              <KitchenHero3D />
-            </Suspense>
           </div>
         </div>
       </div>
@@ -902,6 +932,9 @@ function Tesla({ onImageClick }) {
         {/* Block 5: Vertical Driving Video */}
         <section id="driving" className="my-12 md:my-14 lg:my-16">
           <div className="w-full max-w-[550px] lg:max-w-[600px] mx-auto">
+            <h2 className="text-2xl md:text-3xl lg:text-[30px] text-blue-400 font-bold font-['Oswald'] mb-6 text-center drop-shadow-md">
+              My automotive physics study — watch the clip
+            </h2>
             <div
               ref={drivingWrapperRef}
               className="relative rounded-xl overflow-hidden shadow-xl"
