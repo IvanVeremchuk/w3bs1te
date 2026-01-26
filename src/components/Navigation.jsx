@@ -5,13 +5,14 @@ function Navigation() {
   const activeSectionRef = useRef(activeSection)
 
   const navLinks = [
+    { id: 'renders', label: 'Renders' },
     { id: 'heraldic', label: 'Business Card' },
     { id: 'kitchen', label: 'Kitchen' },
     { id: 'product', label: 'Tesla' },
     { id: 'work', label: 'Construction' },
     { id: 'game-art', label: 'Character' },
     { id: 'motion-assets', label: 'Motion Assets' },
-    { id: 'renders', label: 'Renders' },
+    { id: 'contact', label: 'Contact' },
   ]
 
   useEffect(() => {

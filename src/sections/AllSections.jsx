@@ -1163,7 +1163,7 @@ function Character({ onImageClick }) {
         </section>
 
         {/* Block 3: The Details */}
-        <section id="details" className="my-12 md:my-14 lg:my-16">
+        <section id="details" className="mt-12 md:mt-14 lg:mt-16">
           <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
             <div className="text-center">
               <div
@@ -1335,13 +1335,13 @@ function MotionCarousel() {
 function AllSections({ onImageClick }) {
   return (
     <>
+      <Renders onImageClick={onImageClick} />
       <BusinessCard onImageClick={onImageClick} />
       <Kitchen />
       <Tesla onImageClick={onImageClick} />
       <Construction onImageClick={onImageClick} />
       <Character onImageClick={onImageClick} />
       <MotionCarousel />
-      <Renders onImageClick={onImageClick} />
     </>
   )
 }
