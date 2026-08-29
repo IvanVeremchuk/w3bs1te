@@ -1,6 +1,5 @@
 import BookingForm from './BookingForm'
-
-const EMAIL = 'contact@ivanveremchuk.com'
+import { EMAIL, PHONE, PHONE_DISPLAY } from '../../constants/contact'
 
 function ContactSection() {
   return (
@@ -22,6 +21,15 @@ function ContactSection() {
                   className="text-lg text-white hover:text-blue-400 transition-colors font-mono"
                 >
                   {EMAIL}
+                </a>
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 mb-1">Phone</p>
+                <a
+                  href={`tel:${PHONE}`}
+                  className="text-lg text-white hover:text-blue-400 transition-colors"
+                >
+                  {PHONE_DISPLAY}
                 </a>
               </div>
               <div>
