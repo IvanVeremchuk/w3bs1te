@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 function Navigation() {
   const [activeSection, setActiveSection] = useState('heraldic')
@@ -89,7 +90,7 @@ function Navigation() {
     const section = document.getElementById(sectionId)
     if (section) {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      window.history.pushState(null, '', `#${sectionId}`)
+      window.history.pushState(null, '', `${window.location.pathname}#${sectionId}`)
       setActiveSection(sectionId)
     }
   }
@@ -97,8 +98,16 @@ function Navigation() {
   return (
     <nav className="sticky top-0 z-50 bg-[rgba(10,10,10,0.95)] backdrop-blur-md border-b-2 border-blue-500 shadow-lg hidden md:block">
       <div className="max-w-7xl mx-auto">
-        {/* Desktop Navigation - Always visible */}
         <ul className="flex justify-center items-center gap-10 py-4 px-4">
+          <li className="mr-2 pr-4 border-r border-gray-700">
+            <Link
+              to="/"
+              className="text-xs text-gray-500 hover:text-gray-300 transition-colors font-normal"
+              title="Back to windows installation site"
+            >
+              &larr; Home
+            </Link>
+          </li>
           {navLinks.map((link) => (
             <li key={link.label}>
               <button
