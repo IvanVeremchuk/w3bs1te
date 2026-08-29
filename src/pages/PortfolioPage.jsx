@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Navigation from '../components/Navigation'
 import ThumbZoneNav from '../components/ThumbZoneNav'
 import ImageModal from '../components/ImageModal'
@@ -24,6 +25,17 @@ function PortfolioPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <LevaControls />
+      <div className="bg-cyan-500/10 border-b border-cyan-500/30 px-4 py-2.5">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          <p className="text-sm text-gray-400">Viewing 3D Portfolio</p>
+          <Link
+            to="/"
+            className="text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors whitespace-nowrap"
+          >
+            &larr; Back to Window Installation
+          </Link>
+        </div>
+      </div>
       <Navigation />
       <ThumbZoneNav />
 

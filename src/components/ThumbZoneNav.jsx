@@ -86,13 +86,17 @@ function ThumbZoneNav() {
       <div className="flex items-center justify-around px-2 py-2 overflow-x-auto scrollbar-hide">
         <Link
           to="/"
-          className="flex flex-col items-center justify-center gap-1 px-2 py-2 rounded-lg min-w-[52px] text-gray-600 hover:text-gray-400 transition-colors border-r border-gray-800 mr-1 pr-3"
-          title="Back to home"
+          className="flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-lg min-w-[52px] text-cyan-400 border border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20 transition-colors mr-1"
+          title="Back to Window Installation"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z M8 9h8M8 13h5"
+            />
           </svg>
-          <span className="text-[10px] font-normal">Home</span>
+          <span className="text-[10px] font-medium">Install</span>
         </Link>
         {sections.map((section) => {
           const isActive = activeSection === section.id

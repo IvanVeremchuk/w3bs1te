@@ -102,10 +102,17 @@ function Navigation() {
           <li className="mr-2 pr-4 border-r border-gray-700">
             <Link
               to="/"
-              className="text-xs text-gray-500 hover:text-gray-300 transition-colors font-normal"
+              className="inline-flex items-center gap-1.5 border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
               title="Back to windows installation site"
             >
-              &larr; Home
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z M8 9h8M8 13h5"
+                />
+              </svg>
+              &larr; Window Installation
             </Link>
           </li>
           {navLinks.map((link) => (
