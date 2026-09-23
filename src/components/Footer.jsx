@@ -66,14 +66,14 @@ function Footer() {
               <div>
                 <h2 className="text-3xl font-bold mb-4">About</h2>
                 <p className="text-gray-400 mb-6 leading-relaxed">
-                  I now work as a <strong>window installation subcontractor</strong> in{' '}
-                  <strong>Mississauga</strong> and the Greater Toronto Area, taking on installation
-                  jobs and growing my skills on the job. This page is an archive of 3D work I made
-                  as a personal hobby — I am not taking 3D commissions at this time.
+                  I work as a <strong>window installation subcontractor</strong> in{' '}
+                  <strong>Mississauga</strong> and the Greater Toronto Area. I take on installation
+                  jobs and keep developing my skills on site. The 3D work on this page is from a
+                  personal hobby — I am not taking 3D commissions.
                 </p>
                 <p className="text-gray-400 mb-6">
-                  For window installation, window purchase, or hire, please email me from the
-                  main site or use the contact details here.
+                  For installation, windows purchase, or hire, email me using the contact details
+                  here or on the main site.
                 </p>
               </div>
             </div>

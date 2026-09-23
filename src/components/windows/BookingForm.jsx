@@ -44,8 +44,8 @@ function BookingForm({ compact = false, showHeading = !compact }) {
   }
 
   const infoItems = [
-    'Just the property address',
-    'or additional window or door type',
+    'Property address',
+    'Window or door type (optional)',
     'Quantity',
     'Measurements / size',
     'Preferred dates (optional)',
@@ -57,7 +57,7 @@ function BookingForm({ compact = false, showHeading = !compact }) {
         <h3 className="text-xl font-semibold mb-2 text-gray-100">Get in Touch</h3>
       )}
       <p className="text-gray-400 text-sm mb-6">
-        For installation, windows purchase, or hire — email me.
+        For install, windows, or hire — email us.
       </p>
 
       <div className="space-y-4 mb-6">
@@ -86,7 +86,9 @@ function BookingForm({ compact = false, showHeading = !compact }) {
       </div>
 
       <div className="mb-6">
-        <p className="text-sm text-gray-500 mb-2">For installation requests, please include:</p>
+        <p className="text-sm text-gray-500 mb-2">
+          For installation requests, please include at least the property address:
+        </p>
         <ul className="text-sm text-gray-400 space-y-1">
           {infoItems.map((item) => (
             <li key={item} className="flex items-start gap-2">
@@ -100,7 +102,7 @@ function BookingForm({ compact = false, showHeading = !compact }) {
       <button
         onClick={handleMailtoClick}
         type="button"
-        className="w-full px-8 py-4 bg-gradient-to-br from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg shadow-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/50 hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-3"
+        className="w-full px-6 py-3 bg-white/10 hover:bg-white/15 border border-gray-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-3"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path

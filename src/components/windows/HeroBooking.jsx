@@ -1,39 +1,18 @@
-import BookingForm from './BookingForm'
-
 function HeroBooking() {
   return (
-    <section id="book" className="scroll-snap-section min-h-screen flex items-center py-24 md:py-32 px-4 md:px-8 lg:px-16">
-      <div className="max-w-7xl mx-auto w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          <div>
-            <p className="text-blue-400 font-medium tracking-wide uppercase text-sm mb-4">
-              Mississauga &amp; Greater Toronto Area
-            </p>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Professional Window &amp; Door Installation
-            </h1>
-            <p className="text-gray-400 text-lg leading-relaxed mb-8 max-w-xl">
-              Precision installation backed by real construction experience. From new builds to
-              replacements, we fit every window and door with care, accuracy, and clean finishes.
-            </p>
-            <ul className="space-y-3 text-gray-300">
-              <li className="flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0" />
-                Free on-site consultation
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0" />
-                Vinyl and aluminium
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0" />
-                Clean, professional workmanship
-              </li>
-            </ul>
-          </div>
-
-          <BookingForm compact showHeading={false} />
-        </div>
+    <section id="home" className="scroll-snap-section py-16 md:py-24 px-4 md:px-8 lg:px-16">
+      <div className="max-w-2xl mx-auto">
+        <p className="text-gray-500 text-sm mb-4">Mississauga &amp; GTA</p>
+        <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-6">
+          Window and door install
+        </h1>
+        <p className="text-gray-400 text-lg leading-relaxed mb-4">
+          We&apos;re Ivan and Artur — two of us, working full time, taking jobs as we go.
+          Not a big company. Just trying to grow, job by job.
+        </p>
+        <p className="text-gray-500 leading-relaxed">
+          Vinyl and aluminium. New installs, replacements, or extra hands on a crew.
+        </p>
       </div>
     </section>
   )

@@ -2,15 +2,14 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const navLinks = [
-  { id: 'book', label: 'Book' },
-  { id: 'services', label: 'Services' },
-  { id: 'about', label: 'About' },
-  { id: 'gallery', label: 'Gallery' },
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'Us' },
+  { id: 'work', label: 'Work' },
   { id: 'contact', label: 'Contact' },
 ]
 
 function WindowsNavigation() {
-  const [activeSection, setActiveSection] = useState('book')
+  const [activeSection, setActiveSection] = useState('home')
   const activeSectionRef = useRef(activeSection)
 
   useEffect(() => {
@@ -87,7 +86,7 @@ function WindowsNavigation() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 bg-[rgba(10,10,10,0.95)] backdrop-blur-md border-b-2 border-blue-500 shadow-lg hidden md:block">
+    <nav className="sticky top-0 z-50 bg-[rgba(10,10,10,0.95)] backdrop-blur-md border-b border-gray-800 hidden md:block">
       <div className="max-w-7xl mx-auto">
         <ul className="flex justify-center items-center gap-8 py-4 px-4">
           {navLinks.map((link) => (

@@ -3,7 +3,6 @@ import WindowsNavigation from '../components/WindowsNavigation'
 import WindowsThumbNav from '../components/WindowsThumbNav'
 import ImageModal from '../components/ImageModal'
 import HeroBooking from '../components/windows/HeroBooking'
-import Services from '../components/windows/Services'
 import AboutBusiness from '../components/windows/AboutBusiness'
 import Gallery from '../components/windows/Gallery'
 import ContactSection from '../components/windows/ContactSection'
@@ -30,7 +29,6 @@ function WindowsSite() {
 
       <div className="cinematic-scroll-container pb-20 md:pb-0">
         <HeroBooking />
-        <Services />
         <AboutBusiness />
         <Gallery onImageClick={handleImageClick} />
         <ContactSection />
