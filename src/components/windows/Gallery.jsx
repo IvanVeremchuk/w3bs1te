@@ -9,7 +9,7 @@ const examples = [
 
 function Gallery() {
   return (
-    <div className="mt-10 pt-6 border-t border-gray-800">
+    <div className="mt-8 pt-5 border-t border-gray-800">
       <p className="text-sm text-gray-500 mb-3">Window and door work</p>
       <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
         {examples.map((example) => (
@@ -22,7 +22,7 @@ function Gallery() {
           />
         ))}
       </div>
-      <p className="mt-8 text-center text-gray-600 text-xs">
+      <p className="mt-6 text-center text-gray-600 text-xs">
         &copy; {new Date().getFullYear()} Ivan Veremchuk
       </p>
     </div>

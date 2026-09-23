@@ -1,12 +1,9 @@
 function HeroBooking() {
   return (
-    <section
-      id="home"
-      className="min-h-[calc(100svh-3.5rem)] md:min-h-[calc(100svh-4rem)] flex items-center px-4 md:px-8 lg:px-16 py-12"
-    >
+    <section id="home" className="px-4 md:px-8 lg:px-16 pt-10 md:pt-14 pb-8">
       <div className="max-w-2xl mx-auto w-full">
         <p className="text-gray-500 text-sm mb-4">Mississauga &amp; GTA</p>
-        <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-6">
+        <h1 className="text-3xl md:text-4xl font-bold leading-tight mb-4">
           Window and door install
         </h1>
         <p className="text-gray-400 text-lg leading-relaxed mb-4">

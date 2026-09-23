@@ -1,12 +1,9 @@
 function AboutBusiness() {
   return (
-    <section
-      id="about"
-      className="min-h-[calc(100svh-3.5rem)] md:min-h-[calc(100svh-4rem)] flex items-center px-4 md:px-8 lg:px-16 py-12"
-    >
+    <section id="about" className="px-4 md:px-8 lg:px-16 py-8">
       <div className="max-w-2xl mx-auto w-full">
-        <h2 className="text-2xl md:text-3xl font-semibold mb-6">About</h2>
-        <div className="flex flex-col sm:flex-row gap-8 sm:items-start">
+        <h2 className="text-2xl font-semibold mb-4">About</h2>
+        <div className="flex flex-col sm:flex-row gap-6 sm:items-start">
           <img
             src="/images/6~2.jpg"
             alt="Ivan Veremchuk"
