@@ -56,11 +56,11 @@ function BookingForm({ compact = false, showHeading = !compact }) {
       {showHeading && (
         <h3 className="text-xl font-semibold mb-2 text-gray-100">Get in Touch</h3>
       )}
-      <p className="text-gray-400 text-sm mb-6">
-        For install, windows, or hire — email us.
+      <p className="text-gray-400 text-sm mb-4">
+        For install work, windows, crew hire, or framing — email me.
       </p>
 
-      <div className="space-y-4 mb-6">
+      <div className="space-y-3 mb-4">
         <div>
           <p className="text-sm text-gray-500 mb-1">Email</p>
           <div className="flex items-center gap-2">
@@ -85,7 +85,7 @@ function BookingForm({ compact = false, showHeading = !compact }) {
         </div>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-4">
         <p className="text-sm text-gray-500 mb-2">
           For installation requests, please include at least the property address:
         </p>

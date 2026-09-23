@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom'
 
 const navLinks = [
   { id: 'home', label: 'Home' },
-  { id: 'about', label: 'Us' },
-  { id: 'work', label: 'Work' },
+  { id: 'about', label: 'About' },
   { id: 'contact', label: 'Contact' },
 ]
 

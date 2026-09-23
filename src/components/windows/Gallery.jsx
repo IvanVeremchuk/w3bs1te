@@ -1,41 +1,31 @@
-const projects = [
-  { src: '/images/gallery-01.jpg', title: 'Install 1' },
-  { src: '/images/gallery-02.jpg', title: 'Install 2' },
-  { src: '/images/gallery-03.jpg', title: 'Install 3' },
-  { src: '/images/gallery-04.jpg', title: 'Install 4' },
-  { src: '/images/gallery-05.jpg', title: 'Install 5' },
-  { src: '/images/gallery-06.jpg', title: 'Install 6' },
+const examples = [
+  { src: '/images/gallery-01.jpg', alt: 'Window installation' },
+  { src: '/images/gallery-02.jpg', alt: 'Door installation' },
+  { src: '/images/gallery-03.jpg', alt: 'Window fitting' },
+  { src: '/images/gallery-04.jpg', alt: 'Entry door' },
+  { src: '/images/gallery-05.jpg', alt: 'Patio door' },
+  { src: '/images/gallery-06.jpg', alt: 'Commercial windows' },
 ]
 
-const galleryImages = projects.map((project) => project.src)
-
-function Gallery({ onImageClick }) {
+function Gallery() {
   return (
-    <section id="work" className="scroll-snap-section py-12 md:py-16 px-4 md:px-8 lg:px-16">
-      <div className="max-w-2xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-3">Work</h2>
-        <p className="text-gray-500 text-sm mb-8">A few jobs from around the GTA.</p>
-
-        <div className="grid grid-cols-2 gap-3">
-          {projects.map((project) => (
-            <button
-              key={project.src}
-              type="button"
-              className="rounded-xl overflow-hidden border border-gray-800 text-left"
-              onClick={() => onImageClick?.(project.src, galleryImages)}
-              aria-label={`View ${project.title}`}
-            >
-              <img
-                src={project.src}
-                alt={project.title}
-                className="w-full aspect-[4/3] object-cover"
-                loading="lazy"
-              />
-            </button>
-          ))}
-        </div>
+    <div className="mt-10 pt-6 border-t border-gray-800">
+      <p className="text-sm text-gray-500 mb-3">Window and door work</p>
+      <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
+        {examples.map((example) => (
+          <img
+            key={example.src}
+            src={example.src}
+            alt={example.alt}
+            className="h-20 w-28 shrink-0 rounded object-cover border border-gray-800 opacity-80"
+            loading="lazy"
+          />
+        ))}
       </div>
-    </section>
+      <p className="mt-8 text-center text-gray-600 text-xs">
+        &copy; {new Date().getFullYear()} Ivan Veremchuk
+      </p>
+    </div>
   )
 }
 
