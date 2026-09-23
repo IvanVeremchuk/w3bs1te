@@ -52,12 +52,6 @@ function CopyButton({ value, label }) {
 }
 
 function Footer() {
-  const infoItems = [
-    'Project type or role',
-    'Timeline or deadline',
-    'Brief description of what you need',
-  ]
-
   return (
     <footer className="bg-dark border-t border-gray-800 px-4 md:px-8 lg:px-16">
       <div className="max-w-7xl mx-auto">
@@ -72,23 +66,15 @@ function Footer() {
               <div>
                 <h2 className="text-3xl font-bold mb-4">About</h2>
                 <p className="text-gray-400 mb-6 leading-relaxed">
-                  I am a <strong>3D Environment & Architecture Artist</strong> with a background in{' '}
-                  <strong>physical construction</strong>, working across <strong>games</strong> and{' '}
-                  <strong>architectural visualization</strong>. I focus on creating structurally
-                  grounded, technically accurate, and believable spaces.
+                  I now work as a <strong>window installation subcontractor</strong> in{' '}
+                  <strong>Mississauga</strong> and the Greater Toronto Area, taking on installation
+                  jobs and growing my skills on the job. This page is an archive of 3D work I made
+                  as a personal hobby — I am not taking 3D commissions at this time.
                 </p>
                 <p className="text-gray-400 mb-6">
-                  My workflow includes <strong>3ds Max, Corona, and V-Ray</strong>. Based in
-                  Bucharest and available for studio or freelance collaborations.
+                  For window installation, window purchase, or hire, please email me from the
+                  main site or use the contact details here.
                 </p>
-                <a
-                  href="https://contra.com/ivan_veremchuk_1jcxkjzk"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
-                >
-                  View on Contra →
-                </a>
               </div>
             </div>
           </div>
@@ -124,17 +110,9 @@ function Footer() {
               </div>
             </div>
 
-            <div className="mb-6">
-              <p className="text-sm text-gray-500 mb-2">Please include when you reach out:</p>
-              <ul className="text-sm text-gray-400 space-y-1">
-                {infoItems.map((item) => (
-                  <li key={item} className="flex items-start gap-2">
-                    <span className="text-blue-400 mt-0.5">•</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <p className="text-sm text-gray-400 mb-6">
+              For installation, windows purchase, or hire — email me.
+            </p>
 
             <a
               href={`mailto:${EMAIL}`}

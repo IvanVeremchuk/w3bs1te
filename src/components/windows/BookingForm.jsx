@@ -36,7 +36,7 @@ function CopyButton({ value, label }) {
   )
 }
 
-function BookingForm({ compact = false }) {
+function BookingForm({ compact = false, showHeading = !compact }) {
   const handleMailtoClick = () => {
     const params = new URLSearchParams()
     params.set('subject', WINDOWS_SUBJECT)
@@ -44,8 +44,8 @@ function BookingForm({ compact = false }) {
   }
 
   const infoItems = [
-    'Property address',
-    'Window or door type',
+    'Just the property address',
+    'or additional window or door type',
     'Quantity',
     'Measurements / size',
     'Preferred dates (optional)',
@@ -53,14 +53,12 @@ function BookingForm({ compact = false }) {
 
   return (
     <div className={compact ? '' : 'bg-white/5 border border-gray-800 rounded-2xl p-6 md:p-8'}>
-      {!compact && (
-        <h3 className="text-xl font-semibold mb-2 text-gray-100">Request Installation</h3>
+      {showHeading && (
+        <h3 className="text-xl font-semibold mb-2 text-gray-100">Get in Touch</h3>
       )}
-      {!compact && (
-        <p className="text-gray-400 text-sm mb-6">
-          Email or call us with the details below. We respond promptly.
-        </p>
-      )}
+      <p className="text-gray-400 text-sm mb-6">
+        For installation, windows purchase, or hire — email me.
+      </p>
 
       <div className="space-y-4 mb-6">
         <div>
@@ -88,7 +86,7 @@ function BookingForm({ compact = false }) {
       </div>
 
       <div className="mb-6">
-        <p className="text-sm text-gray-500 mb-2">Please include when you contact us:</p>
+        <p className="text-sm text-gray-500 mb-2">For installation requests, please include:</p>
         <ul className="text-sm text-gray-400 space-y-1">
           {infoItems.map((item) => (
             <li key={item} className="flex items-start gap-2">

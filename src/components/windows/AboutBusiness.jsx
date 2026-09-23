@@ -19,9 +19,9 @@ function AboutBusiness() {
           <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Built on Real Construction Experience</h2>
             <p className="text-gray-400 leading-relaxed mb-6">
-              With a background in physical construction and architectural visualization, every
-              installation is approached with structural understanding — not just fitting a frame,
-              but ensuring it sits right, seals properly, and performs for years.
+              With a background in physical construction, every installation is approached with
+              structural understanding — not just fitting a frame, but ensuring it sits right,
+              seals properly, and performs for years.
             </p>
             <p className="text-gray-400 leading-relaxed mb-8">
               Based in Mississauga and serving the Greater Toronto Area (GTA) — including Brampton,

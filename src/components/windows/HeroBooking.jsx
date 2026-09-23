@@ -23,7 +23,7 @@ function HeroBooking() {
               </li>
               <li className="flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0" />
-                PVC, aluminum &amp; wood systems
+                Vinyl and aluminium
               </li>
               <li className="flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 shrink-0" />
@@ -32,7 +32,7 @@ function HeroBooking() {
             </ul>
           </div>
 
-          <BookingForm />
+          <BookingForm compact showHeading={false} />
         </div>
       </div>
     </section>
