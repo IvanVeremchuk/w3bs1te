@@ -116,6 +116,16 @@ function WindowsNavigation() {
               3D Work
             </Link>
           </li>
+          <li>
+            <a
+              href="https://www.pulsedispatchai.com/?utm_source=ivanveremchuk.com&utm_medium=referral"
+              target="_blank"
+              rel="noopener"
+              className="text-xs text-gray-500 hover:text-gray-300 transition-colors font-normal"
+            >
+              Pulse Dispatch ↗
+            </a>
+          </li>
         </ul>
       </div>
     </nav>

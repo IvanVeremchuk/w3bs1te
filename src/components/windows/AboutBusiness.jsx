@@ -1,3 +1,5 @@
+import PulseDispatchCard from './PulseDispatchCard'
+
 function AboutBusiness() {
   return (
     <section id="about" className="px-4 md:px-8 lg:px-16 py-8">
@@ -20,6 +22,7 @@ function AboutBusiness() {
             <p className="mt-4 text-sm text-gray-300">Ivan Veremchuk</p>
           </div>
         </div>
+        <PulseDispatchCard />
       </div>
     </section>
   )
