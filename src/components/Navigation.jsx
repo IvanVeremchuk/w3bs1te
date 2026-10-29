@@ -96,13 +96,13 @@ function Navigation() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 bg-[rgba(10,10,10,0.95)] backdrop-blur-md border-b-2 border-blue-500 shadow-lg hidden md:block">
+    <nav className="sticky top-0 z-50 bg-page/95 backdrop-blur-md border-b border-line transition-colors hidden md:block">
       <div className="max-w-7xl mx-auto">
         <ul className="flex justify-center items-center gap-10 py-4 px-4">
-          <li className="mr-2 pr-4 border-r border-gray-700">
+          <li className="mr-2 pr-4 border-r border-line">
             <Link
               to="/"
-              className="inline-flex items-center gap-1.5 border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
+              className="inline-flex items-center gap-1.5 border border-line text-accent hover:bg-surface px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
               title="Back to windows installation site"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -119,8 +119,8 @@ function Navigation() {
             <li key={link.label}>
               <button
                 onClick={() => scrollToSection(link.id)}
-                className={`text-white hover:text-blue-400 transition-colors duration-300 font-medium text-base relative after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-0.5 after:bg-blue-400 after:transition-all after:duration-300 hover:after:w-full ${
-                  activeSection === link.id ? 'text-blue-400 after:w-full' : ''
+                className={`text-ink hover:text-accent transition-colors duration-300 font-medium text-base relative after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-0.5 after:bg-accent after:transition-all after:duration-300 hover:after:w-full ${
+                  activeSection === link.id ? 'text-accent after:w-full' : ''
                 }`}
               >
                 {link.label}

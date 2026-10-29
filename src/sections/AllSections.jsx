@@ -337,13 +337,13 @@ function BusinessCard({ onImageClick }) {
   const mapImageList = [mapImages.diffuse, mapImages.normal, mapImages.orm]
 
   return (
-    <section id="heraldic" className="min-h-screen w-full relative bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
+    <section id="heraldic" className="min-h-screen w-full relative bg-page text-ink scroll-snap-section py-8 md:py-16">
       <div className="max-w-7xl mx-auto px-5 md:px-8 lg:px-16 w-full">
         {/* Block 1: 3D Model Viewer - Full Width */}
         <section id="model" className="my-8">
           <Suspense fallback={
             <div className="w-full h-[70vh] min-h-[500px] flex items-center justify-center bg-[rgba(10,10,10,0.8)] rounded-xl">
-              <div className="text-xl text-gray-400">Loading 3D Model...</div>
+              <div className="text-xl text-gray-300">Loading 3D Model...</div>
             </div>
           }>
             <Heraldic3DViewer onImageClick={onImageClick} />
@@ -352,7 +352,7 @@ function BusinessCard({ onImageClick }) {
 
         {/* Block 2: Project Title & Overview with Specs Sidebar */}
         <section id="overview" className="my-12 md:my-14 lg:my-16">
-          <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
+          <div className="bg-surface rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-line animate-fadeInUp">
             <div
               className={`transition-all duration-300 overflow-hidden ${
                 isOverviewOpen ? 'max-h-[2000px]' : 'max-h-72'
@@ -361,51 +361,51 @@ function BusinessCard({ onImageClick }) {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
               {/* Main Content */}
               <div className="lg:col-span-2">
-                <h1 className="text-3xl md:text-4xl lg:text-[36px] text-blue-400 font-bold font-['Oswald'] mb-6 lg:mb-8 drop-shadow-md">
+                <h1 className="text-3xl md:text-4xl lg:text-[36px] text-accent font-bold mb-6 lg:mb-8 dark:drop-shadow-md">
                   Heraldic Identity | Real-Time Material Study
                 </h1>
-                <div className="prose prose-invert max-w-none">
-                  <p className="text-gray-300 text-base lg:text-lg leading-relaxed mb-4">
+                <div className="prose dark:prose-invert max-w-none">
+                  <p className="text-ink text-base lg:text-lg leading-relaxed mb-4">
                     A high-fidelity digital translation of traditional luxury print techniques. This project focuses on the intersection of Micro-Surface Relief and Physically Based Rendering (PBR), optimized for seamless web performance.
                   </p>
 
-                  <h2 className="text-xl md:text-2xl lg:text-[24px] text-blue-400 font-bold font-['Oswald'] mt-8 mb-4">
+                  <h2 className="text-xl md:text-2xl lg:text-[24px] text-accent font-bold mt-8 mb-4">
                     Technical Breakdown
                   </h2>
 
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-lg md:text-xl text-blue-300 font-semibold mb-2">
+                      <h3 className="text-lg md:text-xl text-accent font-semibold mb-2">
                         Surface Mastery (The Paper)
                       </h3>
-                      <p className="text-gray-400 text-sm lg:text-base leading-relaxed">
+                      <p className="text-muted text-sm lg:text-base leading-relaxed">
                         Utilizes a high-frequency Roughness Map to simulate premium 300gsm matte cardstock, creating a distinct light absorption contrast against the reflective foil elements.
                       </p>
                     </div>
 
                     <div>
-                      <h3 className="text-lg md:text-xl text-blue-300 font-semibold mb-2">
+                      <h3 className="text-lg md:text-xl text-accent font-semibold mb-2">
                         Tactile Relief (The Heraldry)
                       </h3>
-                      <p className="text-gray-400 text-sm lg:text-base leading-relaxed">
+                      <p className="text-muted text-sm lg:text-base leading-relaxed">
                         The central heraldic icon features custom Normal Mapping to simulate a physical "Debossed" effect, providing convincing depth and shadow-play without increasing geometric complexity.
                       </p>
                     </div>
 
                     <div>
-                      <h3 className="text-lg md:text-xl text-blue-300 font-semibold mb-2">
+                      <h3 className="text-lg md:text-xl text-accent font-semibold mb-2">
                         Metallurgical Accuracy (The Foil)
                       </h3>
-                      <p className="text-gray-400 text-sm lg:text-base leading-relaxed">
+                      <p className="text-muted text-sm lg:text-base leading-relaxed">
                         Engineered with a specific Metallic/Roughness workflow to replicate 24k gold leaf. The "Gilded Edges" (Perimeter) utilize mirrored UV coordinates to ensure a continuous metallic sheen across the card's thickness.
                       </p>
                     </div>
 
                     <div>
-                      <h3 className="text-lg md:text-xl text-blue-300 font-semibold mb-2">
+                      <h3 className="text-lg md:text-xl text-accent font-semibold mb-2">
                         Performance Optimization
                       </h3>
-                      <p className="text-gray-400 text-sm lg:text-base leading-relaxed">
+                      <p className="text-muted text-sm lg:text-base leading-relaxed">
                         The entire asset is powered by a single 2K Texture Atlas and a low-poly mesh (76 triangles), achieving AAA-quality visuals while maintaining a 60FPS refresh rate on mobile and desktop browsers.
                       </p>
                     </div>
@@ -415,26 +415,26 @@ function BusinessCard({ onImageClick }) {
 
               {/* Specs Sidebar */}
               <div className="lg:col-span-1">
-                <div className="bg-[rgba(30,30,30,0.6)] rounded-xl p-6 border border-white/5 sticky top-24">
-                  <h3 className="text-xl text-blue-400 font-bold font-['Oswald'] mb-4">
+                <div className="bg-page rounded-xl p-6 border border-line sticky top-24">
+                  <h3 className="text-xl text-accent font-bold mb-4">
                     Specs
                   </h3>
                   <dl className="space-y-3">
                     <div>
-                      <dt className="text-blue-300 font-semibold text-sm mb-1">Format</dt>
-                      <dd className="text-gray-400 text-sm">WebGL / Three.js</dd>
+                      <dt className="text-accent font-semibold text-sm mb-1">Format</dt>
+                      <dd className="text-muted text-sm">WebGL / Three.js</dd>
                     </div>
                     <div>
-                      <dt className="text-blue-300 font-semibold text-sm mb-1">Geometry</dt>
-                      <dd className="text-gray-400 text-sm">124 Triangles</dd>
+                      <dt className="text-accent font-semibold text-sm mb-1">Geometry</dt>
+                      <dd className="text-muted text-sm">124 Triangles</dd>
                     </div>
                     <div>
-                      <dt className="text-blue-300 font-semibold text-sm mb-1">Textures</dt>
-                      <dd className="text-gray-400 text-sm">4x 2048px (Diffuse, Normal, ORM)</dd>
+                      <dt className="text-accent font-semibold text-sm mb-1">Textures</dt>
+                      <dd className="text-muted text-sm">4x 2048px (Diffuse, Normal, ORM)</dd>
                     </div>
                     <div>
-                      <dt className="text-blue-300 font-semibold text-sm mb-1">Workflow</dt>
-                      <dd className="text-gray-400 text-sm">SubD to Low-Poly Baking</dd>
+                      <dt className="text-accent font-semibold text-sm mb-1">Workflow</dt>
+                      <dd className="text-muted text-sm">SubD to Low-Poly Baking</dd>
                     </div>
                   </dl>
                 </div>
@@ -445,7 +445,7 @@ function BusinessCard({ onImageClick }) {
               <button
                 type="button"
                 onClick={() => setIsOverviewOpen((prev) => !prev)}
-                className="px-5 py-2 text-sm font-semibold rounded-full bg-[rgba(30,30,30,0.6)] text-gray-200 hover:bg-[rgba(45,45,45,0.8)] transition-colors"
+                className="px-5 py-2 text-sm font-semibold rounded-full bg-page text-ink ring-1 ring-line hover:ring-muted transition-colors"
               >
                 {isOverviewOpen ? 'Show less' : 'Read more'}
               </button>
@@ -455,8 +455,8 @@ function BusinessCard({ onImageClick }) {
 
         {/* Block 3: View Maps Section */}
         <section id="maps" className="my-12 md:my-14 lg:my-16">
-          <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
-            <h2 className="text-2xl md:text-3xl lg:text-[30px] text-blue-400 font-bold font-['Oswald'] mb-6 lg:mb-8 text-center drop-shadow-md">
+          <div className="bg-surface rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-line animate-fadeInUp">
+            <h2 className="text-2xl md:text-3xl lg:text-[30px] text-accent font-bold mb-6 lg:mb-8 text-center dark:drop-shadow-md">
               View Maps
             </h2>
 
@@ -466,8 +466,8 @@ function BusinessCard({ onImageClick }) {
                 onClick={() => setSelectedMap('diffuse')}
                 className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
                   selectedMap === 'diffuse'
-                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/50'
-                    : 'bg-[rgba(30,30,30,0.6)] text-gray-300 hover:bg-[rgba(40,40,40,0.8)] hover:text-white'
+                    ? 'bg-accent text-accent-ink shadow-lg shadow-accent/30'
+                    : 'bg-page text-ink ring-1 ring-line hover:ring-muted'
                 }`}
               >
                 Diffuse
@@ -476,8 +476,8 @@ function BusinessCard({ onImageClick }) {
                 onClick={() => setSelectedMap('normal')}
                 className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
                   selectedMap === 'normal'
-                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/50'
-                    : 'bg-[rgba(30,30,30,0.6)] text-gray-300 hover:bg-[rgba(40,40,40,0.8)] hover:text-white'
+                    ? 'bg-accent text-accent-ink shadow-lg shadow-accent/30'
+                    : 'bg-page text-ink ring-1 ring-line hover:ring-muted'
                 }`}
               >
                 Normal
@@ -486,8 +486,8 @@ function BusinessCard({ onImageClick }) {
                 onClick={() => setSelectedMap('orm')}
                 className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
                   selectedMap === 'orm'
-                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/50'
-                    : 'bg-[rgba(30,30,30,0.6)] text-gray-300 hover:bg-[rgba(40,40,40,0.8)] hover:text-white'
+                    ? 'bg-accent text-accent-ink shadow-lg shadow-accent/30'
+                    : 'bg-page text-ink ring-1 ring-line hover:ring-muted'
                 }`}
               >
                 ORM
@@ -497,7 +497,7 @@ function BusinessCard({ onImageClick }) {
             {/* Map Image Display */}
             <div className="text-center">
               <div
-                className="relative w-full aspect-[2/1] rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                className="relative w-full aspect-[2/1] rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-page hover:-translate-y-1 hover:shadow-2xl"
                 onClick={() => onImageClick(mapImages[selectedMap], mapImageList)}
               >
                 <img
@@ -506,7 +506,7 @@ function BusinessCard({ onImageClick }) {
                   className="w-full h-full block object-cover object-top"
                 />
               </div>
-              <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+              <p className="mt-4 lg:mt-5 text-base lg:text-lg text-muted font-medium leading-relaxed">
                 {selectedMap.charAt(0).toUpperCase() + selectedMap.slice(1)} Map
               </p>
             </div>
@@ -667,10 +667,10 @@ function Kitchen() {
   const [isKitchenOpen, setIsKitchenOpen] = useState(false)
 
   return (
-    <section id="kitchen" className="min-h-0 w-full bg-[#0a0a0a] text-white scroll-snap-section">
+    <section id="kitchen" className="min-h-0 w-full bg-page text-ink scroll-snap-section">
       <div className="w-full relative flex items-center justify-center px-5 md:px-8 lg:px-16 py-8 md:py-16">
         <div className="max-w-7xl mx-auto w-full">
-          <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
+          <div className="bg-surface rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-line animate-fadeInUp">
             <button
               type="button"
               onClick={() => setIsKitchenOpen((prev) => !prev)}
@@ -678,10 +678,10 @@ function Kitchen() {
               aria-expanded={isKitchenOpen}
             >
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <h2 className="text-3xl md:text-4xl lg:text-[36px] text-blue-400 font-bold font-['Oswald'] drop-shadow-md">
+                <h2 className="text-3xl md:text-4xl lg:text-[36px] text-accent font-bold dark:drop-shadow-md">
                   The Optimized Aperture | High-to-Low Poly Workflow
                 </h2>
-                <div className="flex items-center gap-2 text-sm text-gray-300">
+                <div className="flex items-center gap-2 text-sm text-ink">
                   <span>Tap to expand</span>
                   <svg
                     className={`w-4 h-4 transition-transform duration-300 ${isKitchenOpen ? 'rotate-180' : ''}`}
@@ -700,30 +700,30 @@ function Kitchen() {
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
                 <div>
-                  <p className="text-gray-300 text-base lg:text-lg leading-relaxed">
+                  <p className="text-ink text-base lg:text-lg leading-relaxed">
                     A detailed study of natural lighting, material interaction, and environmental storytelling through architectural visualization.
                   </p>
                 </div>
-                <div className="bg-[rgba(30,30,30,0.6)] rounded-xl p-6 border border-white/5">
-                  <h3 className="text-xl text-blue-400 font-bold font-['Oswald'] mb-4">
+                <div className="bg-page rounded-xl p-6 border border-line">
+                  <h3 className="text-xl text-accent font-bold mb-4">
                     Technical Specs
                   </h3>
                   <dl className="space-y-3">
                     <div>
-                      <dt className="text-blue-300 font-semibold text-sm mb-1">Polycount</dt>
-                      <dd className="text-gray-400 text-sm">18.3k Tris (Reduced from 800k)</dd>
+                      <dt className="text-accent font-semibold text-sm mb-1">Polycount</dt>
+                      <dd className="text-muted text-sm">18.3k Tris (Reduced from 800k)</dd>
                     </div>
                     <div>
-                      <dt className="text-blue-300 font-semibold text-sm mb-1">Baking</dt>
-                      <dd className="text-gray-400 text-sm">Blender (4K Normal Map downscaled to 1K)</dd>
+                      <dt className="text-accent font-semibold text-sm mb-1">Baking</dt>
+                      <dd className="text-muted text-sm">Blender (4K Normal Map downscaled to 1K)</dd>
                     </div>
                     <div>
-                      <dt className="text-blue-300 font-semibold text-sm mb-1">Optimization</dt>
-                      <dd className="text-gray-400 text-sm">Custom LODs for mobile browsers</dd>
+                      <dt className="text-accent font-semibold text-sm mb-1">Optimization</dt>
+                      <dd className="text-muted text-sm">Custom LODs for mobile browsers</dd>
                     </div>
                     <div>
-                      <dt className="text-blue-300 font-semibold text-sm mb-1">Textures</dt>
-                      <dd className="text-gray-400 text-sm">PBR Metallic/Roughness workflow (WebP compressed)</dd>
+                      <dt className="text-accent font-semibold text-sm mb-1">Textures</dt>
+                      <dd className="text-muted text-sm">PBR Metallic/Roughness workflow (WebP compressed)</dd>
                     </div>
                   </dl>
                 </div>
@@ -797,7 +797,7 @@ function Tesla({ onImageClick }) {
   }, [])
 
   return (
-    <section id="product" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
+    <section id="product" className="min-h-screen w-full bg-page text-ink scroll-snap-section py-8 md:py-16">
       <div className="max-w-6xl mx-auto px-5 md:px-8 lg:px-16">
         {/* Block 1: 360 Turntable */}
         <section id="turntable" className="my-8">
@@ -829,14 +829,14 @@ function Tesla({ onImageClick }) {
 
         {/* Block 2: Project Details */}
         <section id="overview" className="my-12 md:my-14 lg:my-16">
-          <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
-            <h2 className="text-2xl md:text-3xl lg:text-[30px] text-blue-400 font-bold font-['Oswald'] mb-6 lg:mb-8 text-center drop-shadow-md">
+          <div className="bg-surface rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-line animate-fadeInUp">
+            <h2 className="text-2xl md:text-3xl lg:text-[30px] text-accent font-bold mb-6 lg:mb-8 text-center dark:drop-shadow-md">
               Project Overview
             </h2>
-            <p className="text-blue-400 font-semibold text-base lg:text-lg mb-3 lg:mb-4">
+            <p className="text-accent font-semibold text-base lg:text-lg mb-3 lg:mb-4">
               Role: Technical Artist (Rigging, Shading, Lighting, Animation)
             </p>
-            <p className="text-gray-400 text-sm lg:text-base leading-relaxed">
+            <p className="text-muted text-sm lg:text-base leading-relaxed">
               A technical study focused on automotive animation pipelines. I developed a custom rig for this asset to handle steering, suspension, and wheel rotation.
             </p>
           </div>
@@ -846,10 +846,10 @@ function Tesla({ onImageClick }) {
           <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide px-3 md:px-0 md:hidden">
             {/* Block 3: Technical Proof */}
             <section id="technical" className="my-12 md:my-14 lg:my-16 w-[85vw] sm:w-[70vw] md:w-auto shrink-0 snap-start">
-              <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
+              <div className="bg-surface rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-line animate-fadeInUp">
                 <div className="text-center">
                   <div
-                    className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-page hover:-translate-y-1 hover:shadow-2xl"
                   onClick={() => onImageClick('/images/tesla_technical.jpg', teslaCarouselImages)}
                   >
                     <img
@@ -858,7 +858,7 @@ function Tesla({ onImageClick }) {
                       className="w-full h-auto block"
                     />
                   </div>
-                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-muted font-medium leading-relaxed">
                     Clay/Wireframe Render - Technical Breakdown
                   </p>
                 </div>
@@ -867,10 +867,10 @@ function Tesla({ onImageClick }) {
 
             {/* Block 4: Optional Render - Wet Road Environment */}
             <section id="wet-road" className="my-12 md:my-14 lg:my-16 w-[85vw] sm:w-[70vw] md:w-auto shrink-0 snap-start">
-              <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
+              <div className="bg-surface rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-line animate-fadeInUp">
                 <div className="text-center">
                   <div
-                    className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-page hover:-translate-y-1 hover:shadow-2xl"
                   onClick={() => onImageClick('/images/tesla_hero_wet_road.jpg', teslaCarouselImages)}
                   >
                     <img
@@ -880,7 +880,7 @@ function Tesla({ onImageClick }) {
                       loading="lazy"
                     />
                   </div>
-                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-muted font-medium leading-relaxed">
                     Wet Road Environment - Optional Render
                   </p>
                 </div>
@@ -889,11 +889,11 @@ function Tesla({ onImageClick }) {
           </div>
           <div className="hidden md:flex items-center justify-center">
             <div className="w-full">
-              <div className="relative bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-6 md:p-8 lg:p-10 shadow-xl border border-white/10 animate-fadeInUp">
+              <div className="relative bg-surface rounded-2xl p-6 md:p-8 lg:p-10 shadow-xl border border-line animate-fadeInUp">
                 <button
                   type="button"
                   onClick={() => setTeslaIndex((prev) => (prev - 1 + teslaSlides.length) % teslaSlides.length)}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white text-3xl font-bold cursor-pointer transition-all duration-300 w-12 h-12 flex items-center justify-center bg-white/10 rounded-full backdrop-blur-md hover:bg-white/20"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white text-3xl font-bold cursor-pointer transition-all duration-300 w-12 h-12 flex items-center justify-center bg-black/70 rounded-full backdrop-blur-md hover:bg-black/85"
                   aria-label="Previous Tesla render"
                 >
                   ‹
@@ -901,14 +901,14 @@ function Tesla({ onImageClick }) {
                 <button
                   type="button"
                   onClick={() => setTeslaIndex((prev) => (prev + 1) % teslaSlides.length)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white text-3xl font-bold cursor-pointer transition-all duration-300 w-12 h-12 flex items-center justify-center bg-white/10 rounded-full backdrop-blur-md hover:bg-white/20"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white text-3xl font-bold cursor-pointer transition-all duration-300 w-12 h-12 flex items-center justify-center bg-black/70 rounded-full backdrop-blur-md hover:bg-black/85"
                   aria-label="Next Tesla render"
                 >
                   ›
                 </button>
                 <div className="text-center">
                   <div
-                    className="relative z-0 w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    className="relative z-0 w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-page hover:-translate-y-1 hover:shadow-2xl"
                     onClick={() => onImageClick(teslaSlides[teslaIndex].src, teslaCarouselImages)}
                   >
                     <img
@@ -918,21 +918,21 @@ function Tesla({ onImageClick }) {
                       {...(teslaIndex > 0 ? { loading: 'lazy' } : {})}
                     />
                   </div>
-                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-muted font-medium leading-relaxed">
                     {teslaSlides[teslaIndex].title}
                   </p>
                 </div>
               </div>
             </div>
           </div>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-page/90 to-transparent md:hidden" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-page/90 to-transparent md:hidden" />
         </div>
 
         {/* Block 5: Vertical Driving Video */}
         <section id="driving" className="my-12 md:my-14 lg:my-16">
           <div className="w-full max-w-[550px] lg:max-w-[600px] mx-auto">
-            <h2 className="text-2xl md:text-3xl lg:text-[30px] text-blue-400 font-bold font-['Oswald'] mb-6 text-center drop-shadow-md">
+            <h2 className="text-2xl md:text-3xl lg:text-[30px] text-accent font-bold mb-6 text-center dark:drop-shadow-md">
               My automotive physics study — watch the clip
             </h2>
             <div
@@ -952,7 +952,7 @@ function Tesla({ onImageClick }) {
                 allowFullScreen
               />
             </div>
-            <p className="text-center mt-4 lg:mt-5 text-sm lg:text-base text-gray-400 leading-relaxed max-w-[500px] lg:max-w-[550px] mx-auto">
+            <p className="text-center mt-4 lg:mt-5 text-sm lg:text-base text-muted leading-relaxed max-w-[500px] lg:max-w-[550px] mx-auto">
               Automotive Physics & Environment Study: Testing suspension rigging, wheel-ground contact, and motion-blur integration in a dynamic environment.
             </p>
           </div>
@@ -990,12 +990,12 @@ function Construction({ onImageClick }) {
   const constructionImageList = constructionImages.map((image) => image.src)
 
   return (
-    <section id="work" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
+    <section id="work" className="min-h-screen w-full bg-page text-ink scroll-snap-section py-8 md:py-16">
       <div className="max-w-6xl mx-auto px-5 md:px-8 lg:px-16">
         {/* Construction Section */}
         <section id="construction" className="my-12 md:my-14 lg:my-16">
-          <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
-            <h2 className="text-2xl md:text-3xl lg:text-[30px] text-blue-400 font-bold font-['Oswald'] mb-6 lg:mb-8 text-center drop-shadow-md">
+          <div className="bg-surface rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-line animate-fadeInUp">
+            <h2 className="text-2xl md:text-3xl lg:text-[30px] text-accent font-bold mb-6 lg:mb-8 text-center dark:drop-shadow-md">
               Construction
             </h2>
             <div className="relative">
@@ -1003,7 +1003,7 @@ function Construction({ onImageClick }) {
               {constructionImages.map((image, index) => (
                 <div key={image.src} className="text-center">
                   <div
-                    className="relative w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0 rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    className="relative w-[85vw] sm:w-[70vw] md:w-full snap-start shrink-0 rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-page hover:-translate-y-1 hover:shadow-2xl"
                     style={{ paddingBottom: '75%' }}
                     onClick={() => onImageClick(image.src, constructionImageList)}
                   >
@@ -1015,14 +1015,14 @@ function Construction({ onImageClick }) {
                       decoding="async"
                     />
                   </div>
-                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-muted font-medium leading-relaxed">
                     {image.caption}
                   </p>
                 </div>
               ))}
               </div>
-              <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-page/90 to-transparent md:hidden" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-page/90 to-transparent md:hidden" />
             </div>
           </div>
         </section>
@@ -1067,7 +1067,7 @@ function Character({ onImageClick }) {
   }
 
   return (
-    <section id="game-art" className="min-h-screen w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
+    <section id="game-art" className="min-h-screen w-full bg-page text-ink scroll-snap-section py-8 md:py-16">
       {/* Block 1: 360 Turntable - Wider container */}
       <section id="turntable" className="my-8">
         <div className="max-w-7xl mx-auto px-5 md:px-8 lg:px-16">
@@ -1103,15 +1103,15 @@ function Character({ onImageClick }) {
       <div className="max-w-6xl mx-auto px-5 md:px-8 lg:px-16">
         {/* Block 2: Wireframe */}
         <section id="technical" className="my-12 md:my-14 lg:my-16">
-          <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
-            <h2 className="text-2xl md:text-3xl lg:text-[30px] text-blue-400 font-bold font-['Oswald'] mb-6 lg:mb-8 text-center drop-shadow-md">
+          <div className="bg-surface rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-line animate-fadeInUp">
+            <h2 className="text-2xl md:text-3xl lg:text-[30px] text-accent font-bold mb-6 lg:mb-8 text-center dark:drop-shadow-md">
               Wireframe
             </h2>
             <div className="space-y-8 md:space-y-10">
               {/* Wireframe - Full Width */}
               <div className="text-center">
                 <div
-                  className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                  className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-page hover:-translate-y-1 hover:shadow-2xl"
                   onClick={() => onImageClick('/images/Wireframe.webp')}
                 >
                   <img
@@ -1120,7 +1120,7 @@ function Character({ onImageClick }) {
                     className="w-full h-auto block"
                   />
                 </div>
-                <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                <p className="mt-4 lg:mt-5 text-base lg:text-lg text-muted font-medium leading-relaxed">
                   Clean Quad Topology for Deformation.
                 </p>
               </div>
@@ -1129,7 +1129,7 @@ function Character({ onImageClick }) {
               <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-4 md:gap-8">
                 <div className="text-center">
                   <div
-                    className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-page hover:-translate-y-1 hover:shadow-2xl"
                     onClick={() => onImageClick('/images/Texture-Map-D.webp')}
                   >
                     <img
@@ -1138,13 +1138,13 @@ function Character({ onImageClick }) {
                       className="w-full h-auto block"
                     />
                   </div>
-                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-muted font-medium leading-relaxed">
                     Albedo Map & UV Layout
                   </p>
                 </div>
                 <div className="text-center">
                   <div
-                    className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                    className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-page hover:-translate-y-1 hover:shadow-2xl"
                     onClick={() => onImageClick('/images/Texture-Map-R.webp')}
                   >
                     <img
@@ -1153,7 +1153,7 @@ function Character({ onImageClick }) {
                       className="w-full h-auto block"
                     />
                   </div>
-                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed">
+                  <p className="mt-4 lg:mt-5 text-base lg:text-lg text-muted font-medium leading-relaxed">
                     Roughness Map
                   </p>
                 </div>
@@ -1164,10 +1164,10 @@ function Character({ onImageClick }) {
 
         {/* Block 3: The Details */}
         <section id="details" className="mt-12 md:mt-14 lg:mt-16">
-          <div className="bg-[rgba(20,20,20,0.8)] backdrop-blur-sm rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-white/10 animate-fadeInUp">
+          <div className="bg-surface rounded-2xl p-8 md:p-10 lg:p-12 shadow-xl border border-line animate-fadeInUp">
             <div className="text-center">
               <div
-                className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-[rgba(30,30,30,0.5)] hover:-translate-y-1 hover:shadow-2xl"
+                className="relative w-full rounded-xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 bg-page hover:-translate-y-1 hover:shadow-2xl"
                 onClick={handleDetailsClick}
               >
                 {/* Mobile: Vertical image */}
@@ -1183,7 +1183,7 @@ function Character({ onImageClick }) {
                   className="w-full h-auto hidden md:block"
                 />
               </div>
-              <p className="mt-4 lg:mt-5 text-base lg:text-lg text-gray-400 font-medium leading-relaxed text-center">
+              <p className="mt-4 lg:mt-5 text-base lg:text-lg text-muted font-medium leading-relaxed text-center">
                 Detail Close-ups - Texture Quality
               </p>
             </div>
@@ -1211,9 +1211,9 @@ function Renders({ onImageClick }) {
   const renderImageList = renders.map((render) => render.src)
 
   return (
-    <section id="renders" className="min-h-screen md:min-h-0 w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-16">
+    <section id="renders" className="min-h-screen md:min-h-0 w-full bg-page text-ink scroll-snap-section py-8 md:py-16">
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
-        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-blue-400 font-['Oswald']">
+        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-accent">
           Portfolio Renders
         </h2>
 
@@ -1247,8 +1247,8 @@ function Renders({ onImageClick }) {
               )
             })}
           </div>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[rgba(10,10,10,0.9)] to-transparent md:hidden" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-page/90 to-transparent md:hidden" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-page/90 to-transparent md:hidden" />
         </div>
       </div>
     </section>
@@ -1292,9 +1292,9 @@ const motionTiles = [
 
 function MotionCarousel() {
   return (
-    <section id="motion-assets" className="motion-section w-full bg-[#0a0a0a] text-white scroll-snap-section md:scroll-snap-none md:scroll-snap-stop-normal md:min-h-0 py-4 md:py-8">
+    <section id="motion-assets" className="motion-section w-full bg-page text-ink scroll-snap-section md:scroll-snap-none md:scroll-snap-stop-normal md:min-h-0 py-4 md:py-8">
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-center text-blue-400 font-['Oswald']">
+        <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-center text-accent">
           Motion Design & 3D Assets
         </h2>
         <div className="relative">
@@ -1309,7 +1309,7 @@ function MotionCarousel() {
                 rel="noopener noreferrer"
                 className="group w-full"
               >
-                <div className="rounded-lg overflow-hidden shadow-lg border border-white/10 bg-[rgba(20,20,20,0.7)] transition-transform duration-300 group-hover:-translate-y-1">
+                <div className="rounded-lg overflow-hidden shadow-lg border border-line bg-surface transition-transform duration-300 group-hover:-translate-y-1">
                   <div className="w-full aspect-square">
                     <img
                       src={tile.src}
@@ -1317,7 +1317,7 @@ function MotionCarousel() {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <p className="px-3 py-3 text-xs md:text-sm text-gray-200 leading-tight whitespace-pre-line">
+                  <p className="px-3 py-3 text-xs md:text-sm text-ink leading-tight whitespace-pre-line">
                     {tile.label}
                   </p>
                 </div>

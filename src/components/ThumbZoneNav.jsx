@@ -82,11 +82,11 @@ function ThumbZoneNav() {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-[rgba(10,10,10,0.95)] backdrop-blur-md border-t-2 border-blue-500 shadow-lg md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-page/95 backdrop-blur-md border-t border-line pb-[env(safe-area-inset-bottom)] transition-colors md:hidden">
       <div className="flex items-center justify-around px-2 py-2 overflow-x-auto scrollbar-hide">
         <Link
           to="/"
-          className="flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-lg min-w-[52px] text-cyan-400 border border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20 transition-colors mr-1"
+          className="flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-lg min-w-[52px] text-accent bg-surface ring-1 ring-line transition-colors mr-1"
           title="Back to Window Installation"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -96,7 +96,7 @@ function ThumbZoneNav() {
               d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z M8 9h8M8 13h5"
             />
           </svg>
-          <span className="text-[10px] font-medium">Install</span>
+          <span className="text-xs font-medium">Install</span>
         </Link>
         {sections.map((section) => {
           const isActive = activeSection === section.id
@@ -106,8 +106,8 @@ function ThumbZoneNav() {
               onClick={() => scrollToSection(section.id)}
               className={`flex flex-col items-center justify-center gap-1 px-3 py-2 rounded-lg transition-all duration-200 min-w-[60px] ${
                 isActive
-                  ? 'text-blue-400 bg-blue-500/20'
-                  : 'text-gray-400 hover:text-blue-300 hover:bg-white/5'
+                  ? 'bg-accent/15 text-accent'
+                  : 'text-muted hover:text-ink'
               }`}
               aria-label={`Go to ${section.label} section`}
             >

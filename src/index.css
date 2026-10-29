@@ -165,7 +165,7 @@ body {
   width: 100%;
   position: relative;
   z-index: 1;
-  background-color: #0a0a0a;
+  background-color: rgb(var(--page));
   overflow: visible;
   flex-shrink: 0;
   transform: translateZ(0);

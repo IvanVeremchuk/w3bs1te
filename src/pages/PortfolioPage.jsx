@@ -6,6 +6,7 @@ import ImageModal from '../components/ImageModal'
 import Footer from '../components/Footer'
 import LevaControls from '../components/LevaControls'
 import AllSections from '../sections/AllSections'
+import ThemeToggle from '../components/ThemeToggle'
 
 function PortfolioPage() {
   const [modalImages, setModalImages] = useState([])
@@ -23,17 +24,18 @@ function PortfolioPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white">
+    <div className="min-h-screen bg-page text-ink transition-colors">
       <LevaControls />
-      <div className="bg-cyan-500/10 border-b border-cyan-500/30 px-4 py-2.5">
+      <div className="bg-surface border-b border-line px-4 py-2 transition-colors">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <p className="text-sm text-gray-400">Viewing 3D Portfolio</p>
+          <p className="text-sm text-muted">Viewing 3D Portfolio</p>
           <Link
             to="/"
-            className="text-sm font-medium text-cyan-400 hover:text-cyan-300 transition-colors whitespace-nowrap"
+            className="ml-auto text-sm font-semibold text-accent transition-colors whitespace-nowrap"
           >
             &larr; Back to Window Installation
           </Link>
+          <ThemeToggle />
         </div>
       </div>
       <Navigation />
@@ -44,7 +46,7 @@ function PortfolioPage() {
 
         <section
           id="contact"
-          className="min-h-screen md:min-h-0 w-full bg-[#0a0a0a] text-white scroll-snap-section py-8 md:py-12"
+          className="min-h-screen md:min-h-0 w-full bg-page text-ink scroll-snap-section py-8 md:py-12"
         >
           <Footer />
         </section>
