@@ -4,8 +4,15 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f5f1" />
+    <script>
+      // Apply a saved dark theme before the first paint, so it never flashes light.
+      try {
+        if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark')
+      } catch (e) {}
+    </script>
     <title>Ivan Veremchuk | Window & Door Install — Mississauga & GTA</title>
-    <meta name="description" content="Ivan Veremchuk — window and door installer and house framing. Mississauga and GTA. Available for subcontract and crew work." />
+    <meta name="description" content="Ivan Veremchuk: window and door installer and house framer in Mississauga and the GTA, available for subcontract and crew work. Founder of Pulse Dispatch, an AI receptionist for trades." />
   </head>
   <body>
     <div id="root"></div>

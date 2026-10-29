@@ -12,6 +12,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@fontsource-variable/archivo": "^5.3.0",
     "@react-three/drei": "^9.88.13",
     "@react-three/fiber": "^8.15.11",
     "@react-three/postprocessing": "^2.15.9",

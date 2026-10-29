@@ -17,12 +17,12 @@ function CopyButton({ value, label }) {
   return (
     <button
       onClick={handleCopy}
-      className="p-1.5 text-gray-400 hover:text-blue-400 transition-colors"
-      aria-label={label}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full text-muted transition-colors hover:bg-page hover:text-accent"
+      aria-label={copied ? 'Copied' : label}
       title={label}
       type="button"
     >
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+      <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
         {copied ? (
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
         ) : (
@@ -36,87 +36,67 @@ function CopyButton({ value, label }) {
   )
 }
 
-function BookingForm({ compact = false, showHeading = !compact }) {
-  const handleMailtoClick = () => {
-    const params = new URLSearchParams()
-    params.set('subject', WINDOWS_SUBJECT)
-    window.location.href = `mailto:${EMAIL}?${params.toString()}`
-  }
+function BookingForm() {
+  const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(WINDOWS_SUBJECT)}`
 
   const infoItems = [
     'Property address',
     'Window or door type (optional)',
     'Quantity',
-    'Measurements / size',
+    'Measurements or size',
     'Preferred dates (optional)',
   ]
 
   return (
-    <div className={compact ? '' : 'bg-white/5 border border-gray-800 rounded-2xl p-6 md:p-8'}>
-      {showHeading && (
-        <h3 className="text-xl font-semibold mb-2 text-gray-100">Get in Touch</h3>
-      )}
-      <p className="text-gray-400 text-sm mb-4">
-        For install work, windows, crew hire, or framing — email me.
-      </p>
-
-      <div className="space-y-3 mb-4">
+    <div className="rounded-2xl bg-page p-5 ring-1 ring-line transition-colors md:p-7">
+      <dl className="grid gap-4">
         <div>
-          <p className="text-sm text-gray-500 mb-1">Email</p>
-          <div className="flex items-center gap-2">
-            <a
-              href={`mailto:${EMAIL}`}
-              className="text-white font-mono hover:text-blue-400 transition-colors"
-            >
-              {EMAIL}
-            </a>
-            <CopyButton value={EMAIL} label="Copy email address" />
-          </div>
-        </div>
-
-        <div>
-          <p className="text-sm text-gray-500 mb-1">Phone</p>
-          <div className="flex items-center gap-2">
-            <a href={`tel:${PHONE}`} className="text-white hover:text-blue-400 transition-colors">
+          <dt className="text-sm text-muted">Phone</dt>
+          <dd className="mt-1 flex items-center gap-1">
+            <a href={`tel:${PHONE}`} className="text-xl font-semibold text-ink hover:text-accent">
               {PHONE_DISPLAY}
             </a>
             <CopyButton value={PHONE} label="Copy phone number" />
-          </div>
+          </dd>
         </div>
-      </div>
+        <div>
+          <dt className="text-sm text-muted">Email</dt>
+          <dd className="mt-1 flex items-center gap-1">
+            <a href={`mailto:${EMAIL}`} className="break-all text-xl font-semibold text-ink hover:text-accent">
+              {EMAIL}
+            </a>
+            <CopyButton value={EMAIL} label="Copy email address" />
+          </dd>
+        </div>
+      </dl>
 
-      <div className="mb-4">
-        <p className="text-sm text-gray-500 mb-2">
-          For installation requests, please include at least the property address:
-        </p>
-        <ul className="text-sm text-gray-400 space-y-1">
+      <div className="mt-6">
+        <p className="text-sm text-muted">For an install quote, include at least the property address:</p>
+        <ul className="mt-2 space-y-1.5 text-ink">
           {infoItems.map((item) => (
             <li key={item} className="flex items-start gap-2">
-              <span className="text-cyan-400 mt-0.5">•</span>
+              <svg className="mt-1 h-4 w-4 shrink-0 text-accent" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M2 8.5 6 12l8-8.5" />
+              </svg>
               {item}
             </li>
           ))}
         </ul>
       </div>
 
-      <button
-        onClick={handleMailtoClick}
-        type="button"
-        className="w-full px-6 py-3 bg-white/10 hover:bg-white/15 border border-gray-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-3"
+      <a
+        href={mailto}
+        className="mt-6 inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-accent px-6 font-semibold text-accent-ink transition-transform duration-150 active:scale-[0.97]"
       >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
           />
         </svg>
-        <span>Open in Email Client</span>
-      </button>
-
-      <p className="mt-3 text-xs text-gray-500 text-center">
-        Opens your default email app (Gmail, Outlook, Apple Mail, etc.)
-      </p>
+        Email me about a job
+      </a>
     </div>
   )
 }

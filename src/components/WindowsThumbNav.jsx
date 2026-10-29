@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 const sections = [
   { id: 'home', label: 'Home', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
+  { id: 'work', label: 'Work', icon: 'M4 5h16v14H4zM4 15l4.5-4.5L13 15m-2-2 2.5-2.5L20 17' },
   { id: 'about', label: 'About', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
   { id: 'contact', label: 'Contact', icon: 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
 ]
@@ -75,7 +76,7 @@ function WindowsThumbNav() {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-[rgba(10,10,10,0.95)] backdrop-blur-md border-t border-gray-800 md:hidden">
+    <nav aria-label="Sections" className="fixed bottom-0 left-0 right-0 z-40 border-t border-line bg-page/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md transition-colors md:hidden">
       <div className="flex items-center justify-around px-1 py-2">
         {sections.map((section) => {
           const isActive = activeSection === section.id
@@ -85,8 +86,8 @@ function WindowsThumbNav() {
               onClick={() => scrollToSection(section.id)}
               className={`flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-lg transition-all duration-200 min-w-[52px] ${
                 isActive
-                  ? 'text-blue-400 bg-blue-500/20'
-                  : 'text-gray-400 hover:text-blue-300 hover:bg-white/5'
+                  ? 'bg-accent/15 text-accent'
+                  : 'text-muted hover:text-ink'
               }`}
               aria-label={`Go to ${section.label} section`}
             >
@@ -101,13 +102,13 @@ function WindowsThumbNav() {
               >
                 <path d={section.icon} />
               </svg>
-              <span className="text-[10px] font-medium">{section.label}</span>
+              <span className="text-xs font-medium">{section.label}</span>
             </button>
           )
         })}
         <Link
           to="/3d-work"
-          className="flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-lg min-w-[52px] text-gray-600 hover:text-gray-400 transition-colors border-l border-gray-800 ml-1 pl-3"
+          className="flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-lg min-w-[52px] text-muted hover:text-ink transition-colors"
           title="3D portfolio work"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -117,7 +118,7 @@ function WindowsThumbNav() {
               d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
             />
           </svg>
-          <span className="text-[10px] font-normal">3D</span>
+          <span className="text-xs font-medium">3D</span>
         </Link>
       </div>
     </nav>

@@ -2,27 +2,37 @@ import PulseDispatchCard from './PulseDispatchCard'
 
 function AboutBusiness() {
   return (
-    <section id="about" className="px-4 md:px-8 lg:px-16 py-8">
-      <div className="max-w-2xl mx-auto w-full">
-        <h2 className="text-2xl font-semibold mb-4">About</h2>
-        <div className="flex flex-col sm:flex-row gap-6 sm:items-start">
-          <img
-            src="/images/6~2.jpg"
-            alt="Ivan Veremchuk"
-            className="w-36 h-36 sm:w-44 sm:h-44 rounded-xl object-cover border border-gray-800 shrink-0"
-          />
-          <div>
-            <p className="text-gray-400 leading-relaxed mb-4">
+    <section id="about" className="px-4 py-14 md:px-8 md:py-24">
+      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[minmax(0,18rem)_1fr] md:gap-14">
+        <img
+          src="/images/6~2.jpg"
+          alt="Ivan Veremchuk"
+          width="484"
+          height="605"
+          loading="lazy"
+          className="aspect-[4/5] w-44 rounded-2xl object-cover ring-1 ring-line md:w-full"
+        />
+        <div>
+          <h2 className="text-3xl font-semibold tracking-tight text-ink md:text-4xl">About</h2>
+          <div className="mt-5 max-w-2xl space-y-4 text-lg leading-relaxed text-ink">
+            <p>
               I work full time in the trades. I show up on time, work clean, and I&apos;m easy to
-              have on a crew — I take direction and get the job done.
+              have on a crew: I take direction and get the job done.
             </p>
-            <p className="text-gray-500 leading-relaxed">
+            <p className="text-muted">
               Window and door install, house framing, and other on-site work as needed.
             </p>
-            <p className="mt-4 text-sm text-gray-300">Ivan Veremchuk</p>
+            <p>
+              I also run <strong className="font-semibold">Pulse Dispatch</strong>, an AI
+              receptionist for trades and small practices in the GTA. I built it because I know
+              what a missed call costs when your hands are full: it answers every call 24/7, texts
+              the owner the job, and books the customer.
+            </p>
+          </div>
+          <div className="max-w-2xl">
+            <PulseDispatchCard />
           </div>
         </div>
-        <PulseDispatchCard />
       </div>
     </section>
   )

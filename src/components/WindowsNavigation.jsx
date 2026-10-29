@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import ThemeToggle from './ThemeToggle'
+import { PHONE, PHONE_DISPLAY } from '../constants/contact'
+
+const PULSE_URL = 'https://www.pulsedispatchai.com/?utm_source=ivanveremchuk.com&utm_medium=referral'
 
 const navLinks = [
-  { id: 'home', label: 'Home' },
+  { id: 'work', label: 'Work' },
   { id: 'about', label: 'About' },
   { id: 'contact', label: 'Contact' },
 ]
@@ -17,7 +21,7 @@ function WindowsNavigation() {
 
   useEffect(() => {
     let rafId = null
-    const sectionIds = navLinks.map((link) => link.id)
+    const sectionIds = ['home', ...navLinks.map((link) => link.id)]
 
     const getActiveSectionId = () => {
       const anchor = window.innerHeight * 0.4
@@ -75,60 +79,69 @@ function WindowsNavigation() {
     }
   }, [])
 
-  const scrollToSection = (sectionId) => {
+  const scrollToSection = (event, sectionId) => {
     const section = document.getElementById(sectionId)
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      window.history.pushState(null, '', `#${sectionId}`)
-      setActiveSection(sectionId)
-    }
+    if (!section) return
+    event.preventDefault()
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    window.history.pushState(null, '', `#${sectionId}`)
+    setActiveSection(sectionId)
   }
 
   return (
-    <nav className="sticky top-0 z-50 bg-[rgba(10,10,10,0.95)] backdrop-blur-md border-b border-gray-800 hidden md:block">
-      <div className="max-w-7xl mx-auto">
-        <ul className="flex justify-center items-center gap-8 py-4 px-4">
+    <header className="sticky top-0 z-50 border-b border-line bg-page/90 backdrop-blur-md transition-colors">
+      <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4 md:px-8">
+        <a
+          href="#home"
+          onClick={(event) => scrollToSection(event, 'home')}
+          className="whitespace-nowrap text-lg font-semibold tracking-tight text-ink"
+        >
+          Ivan Veremchuk
+        </a>
+
+        <nav aria-label="Main" className="ml-auto hidden items-center gap-6 md:flex">
           {navLinks.map((link) => (
-            <li key={link.id}>
-              <button
-                onClick={() => scrollToSection(link.id)}
-                className={`text-white hover:text-blue-400 transition-colors duration-300 font-medium text-base relative after:content-[''] after:absolute after:bottom-[-5px] after:left-0 after:w-0 after:h-0.5 after:bg-blue-400 after:transition-all after:duration-300 hover:after:w-full ${
-                  activeSection === link.id ? 'text-blue-400 after:w-full' : ''
-                }`}
-              >
-                {link.label}
-              </button>
-            </li>
-          ))}
-          <li className="ml-2 pl-4 border-l border-gray-700">
-            <Link
-              to="/3d-work"
-              className="text-xs text-gray-500 hover:text-gray-300 transition-colors font-normal flex items-center gap-1.5"
-              title="3D portfolio work"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                />
-              </svg>
-              3D Work
-            </Link>
-          </li>
-          <li>
             <a
-              href="https://www.pulsedispatchai.com/?utm_source=ivanveremchuk.com&utm_medium=referral"
-              target="_blank"
-              rel="noopener"
-              className="text-xs text-gray-500 hover:text-gray-300 transition-colors font-normal"
+              key={link.id}
+              href={`#${link.id}`}
+              onClick={(event) => scrollToSection(event, link.id)}
+              aria-current={activeSection === link.id ? 'true' : undefined}
+              className={`text-[15px] font-medium transition-colors hover:text-accent ${
+                activeSection === link.id ? 'text-accent' : 'text-ink'
+              }`}
             >
-              Pulse Dispatch ↗
+              {link.label}
             </a>
-          </li>
-        </ul>
+          ))}
+          <Link to="/3d-work" className="text-[15px] text-muted transition-colors hover:text-ink">
+            3D work
+          </Link>
+          <a
+            href={PULSE_URL}
+            target="_blank"
+            rel="noopener"
+            className="text-[15px] text-muted transition-colors hover:text-ink"
+          >
+            Pulse Dispatch ↗
+          </a>
+        </nav>
+
+        <div className="ml-auto flex items-center gap-2 md:ml-2">
+          <ThemeToggle />
+          <a
+            href={`tel:${PHONE}`}
+            className="inline-flex h-11 items-center gap-2 whitespace-nowrap rounded-full bg-accent px-4 text-[15px] font-semibold text-accent-ink transition-transform duration-150 active:scale-95"
+            aria-label={`Call Ivan at ${PHONE_DISPLAY}`}
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinejoin="round" d="M6.5 3h-3v3c0 8.3 6.7 15 15 15h3v-3l-4.5-2-2.5 2.5A17 17 0 0 1 6 9.5L8.5 7 6.5 3Z" />
+            </svg>
+            <span className="hidden sm:inline">{PHONE_DISPLAY}</span>
+            <span className="sm:hidden">Call</span>
+          </a>
+        </div>
       </div>
-    </nav>
+    </header>
   )
 }
 
