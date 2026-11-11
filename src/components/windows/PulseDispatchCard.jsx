@@ -10,7 +10,7 @@ function PulseDispatchCard() {
     >
       <img
         src="/images/pulse-dispatch.png"
-        alt="Pulse Dispatch website: Say hello to your AI receptionist"
+        alt="Pulse Dispatch website: every call answered, every job texted to you"
         width="1200"
         height="630"
         loading="lazy"
@@ -19,7 +19,7 @@ function PulseDispatchCard() {
       <div className="flex min-w-0 flex-col justify-center">
         <p className="font-semibold text-ink">Pulse Dispatch</p>
         <p className="mt-1 text-sm leading-relaxed text-muted">
-          AI receptionist for GTA trades. From $129 a month.
+          AI receptionist for GTA trades: every call answered, every job texted to you. From $129 a month.
         </p>
         <p className="mt-2 text-sm font-semibold text-accent">pulsedispatchai.com ↗</p>
       </div>
